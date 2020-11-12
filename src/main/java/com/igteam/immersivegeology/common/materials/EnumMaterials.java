@@ -49,11 +49,8 @@ public enum EnumMaterials
 	Steel(new MaterialMetalSteel()),
 
 	//Crystals
-	Anthracite(new MaterialCrystalAnthracite()),
-	Bitumen(new MaterialCrystalBituminous()),
 	Diamond(new MaterialCrystalDiamond()),
 	Graphite(new MaterialCrystalGraphite()),
-	Lignite(new MaterialCrystalLignite()),
 	Phlebotinum(new MaterialCrystalPhlebotinum()),
 	Quartz(new MaterialCrystalQuartz()),
 
@@ -83,6 +80,11 @@ public enum EnumMaterials
 	Pyrite(new MaterialMineralPyrite()),
 	Wolframite(new MaterialMineralWolframite()),
 	Vanadinite(new MaterialMineralVanadinite()),
+
+	Lignite(new MaterialCrystalLignite()),
+	Anthracite(new MaterialCrystalAnthracite()),
+	Bitumen(new MaterialCrystalBituminous()),
+
 
 	//Minerals that spawn in such a large quantity that we don't need an 'orebearing' variant, this is where most clay types will end up!
 	Kaolinite(new MaterialMineralKaolinite()),

@@ -130,8 +130,8 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 
 		if(hasShiftDown()){
 			Material head_mat = getToolMaterial(stack, 0);
-			Material handle_mat = getToolMaterial(stack, 1);
-			Material binding_mat = getToolMaterial(stack, 2);
+			Material binding_mat = getToolMaterial(stack, 1);
+			Material handle_mat = getToolMaterial(stack, 2);
 			Material tip_mat = getToolMaterial(stack, 3);
 
 			text.appendText("Head Material: <hexcol=" + head_mat.getColor(0) +":" + head_mat.getName().substring(0,1).toUpperCase() + head_mat.getName().substring(1) +">");

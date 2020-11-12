@@ -82,4 +82,24 @@ public abstract class MaterialCrystalBase extends Material implements ITipMateri
         } else
             return super.getSpecialSubtypeModelName(useType);
     }
+
+    @Override
+    public int getTipAttackDamage() {
+        return 1;
+    }
+
+    @Override
+    public int getTipDurability() {
+        return 1;
+    }
+
+    @Override
+    public int getTipMiningLevel() {
+        return 1;
+    }
+
+    @Override
+    public int getTipMiningSpeed() {
+        return 1;
+    }
 }

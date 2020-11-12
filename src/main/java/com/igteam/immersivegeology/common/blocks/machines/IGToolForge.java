@@ -33,7 +33,7 @@ public class IGToolForge extends IGTileBlock {
            ToolForgeTileEntity tool_forge = ((ToolForgeTileEntity) entity);
            ItemStack heldItem = player.getHeldItem(Hand.MAIN_HAND);
 
-           if(!tool_forge.canForge()) {
+           if(!tool_forge.canForge() && !player.getHeldItemMainhand().isEmpty()) {
                boolean successful_input = false;
 
                if(!heldItem.isEmpty()) {
@@ -50,6 +50,9 @@ public class IGToolForge extends IGTileBlock {
                        }
                        if(useType == MaterialUseType.WIRE || useType == MaterialUseType.ROUGH_WIRE){
                            chosen_index = 2;
+                       }
+                       if(useType == MaterialUseType.CRYSTAL){
+                           chosen_index = 3;
                        }
 
                        tool_forge.setSlot(new ItemStack(ig_input_item, 1), chosen_index);

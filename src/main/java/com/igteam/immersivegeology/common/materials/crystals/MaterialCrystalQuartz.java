@@ -107,4 +107,24 @@ public class MaterialCrystalQuartz extends MaterialCrystalBase
 	{
 		return true;
 	}
+
+	@Override
+	public int getTipAttackDamage() {
+		return 5;
+	}
+
+	@Override
+	public int getTipDurability() {
+		return 30;
+	}
+
+	@Override
+	public int getTipMiningLevel() {
+		return 1;
+	}
+
+	@Override
+	public int getTipMiningSpeed() {
+		return 2;
+	}
 }

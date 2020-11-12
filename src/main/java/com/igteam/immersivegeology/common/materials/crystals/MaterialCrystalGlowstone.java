@@ -106,4 +106,24 @@ public class MaterialCrystalGlowstone extends MaterialCrystalBase
 	{
 		return false;
 	}
+
+	@Override
+	public int getTipAttackDamage() {
+		return 1;
+	}
+
+	@Override
+	public int getTipDurability() {
+		return 10;
+	}
+
+	@Override
+	public int getTipMiningLevel() {
+		return 1;
+	}
+
+	@Override
+	public int getTipMiningSpeed() {
+		return 6;
+	}
 }

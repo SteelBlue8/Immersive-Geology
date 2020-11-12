@@ -107,4 +107,24 @@ public class MaterialCrystalGraphite extends MaterialCrystalBase
 	{
 		return true;
 	}
+
+	@Override
+	public int getTipAttackDamage() {
+		return 1;
+	}
+
+	@Override
+	public int getTipDurability() {
+		return 80;
+	}
+
+	@Override
+	public int getTipMiningLevel() {
+		return 2;
+	}
+
+	@Override
+	public int getTipMiningSpeed() {
+		return 2;
+	}
 }

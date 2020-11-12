@@ -106,4 +106,24 @@ public class MaterialCrystalPhlebotinum extends MaterialCrystalBase
 	{
 		return false;
 	}
+
+	@Override
+	public int getTipAttackDamage() {
+		return 8;
+	}
+
+	@Override
+	public int getTipDurability() {
+		return 200;
+	}
+
+	@Override
+	public int getTipMiningLevel() {
+		return 8;
+	}
+
+	@Override
+	public int getTipMiningSpeed() {
+		return 10;
+	}
 }

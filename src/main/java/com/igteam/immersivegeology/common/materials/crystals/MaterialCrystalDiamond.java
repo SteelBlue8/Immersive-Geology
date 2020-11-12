@@ -106,4 +106,24 @@ public class MaterialCrystalDiamond extends MaterialCrystalBase
 	{
 		return true;
 	}
+
+	@Override
+	public int getTipAttackDamage() {
+		return 4;
+	}
+
+	@Override
+	public int getTipDurability() {
+		return 50;
+	}
+
+	@Override
+	public int getTipMiningLevel() {
+		return 3;
+	}
+
+	@Override
+	public int getTipMiningSpeed() {
+		return 4;
+	}
 }
