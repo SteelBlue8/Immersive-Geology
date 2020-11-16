@@ -395,25 +395,9 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 		}
 
 		makeBedrock(chunk, random);
-		//populate(chunk); Soft Locks the game when generating, can't be lazy need to use the proper decoration method
 	}
 
 	public static final BlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
-
-	private static final IWorldGenerator WATERFALL_POP = new WorldPopFalls(Blocks.WATER.getDefaultState(), 15);
-
-	public void populate(IChunk chunk){
-		int chunkX = chunk.getPos().x;
-		int chunkZ = chunk.getPos().z;
-
-		final int worldX = chunkX << 4;
-		final int worldZ = chunkZ << 4;
-		BlockPos pos = new BlockPos(worldX, 0, worldZ);
-		final Biome biome = world.getBiome(pos.add(16,0,16));
-		Random rand = new Random();
-		rand.setSeed(world.getSeed());
-		WATERFALL_POP.generate(rand, chunkX, chunkZ, world.getWorld(), this, world.getChunkProvider());
-	}
 
 	public void makeBedrock(IChunk chunk, Random random)
 	{

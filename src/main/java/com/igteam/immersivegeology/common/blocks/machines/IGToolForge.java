@@ -54,12 +54,10 @@ public class IGToolForge extends IGTileBlock {
                        if(useType == MaterialUseType.CRYSTAL){
                            chosen_index = 3;
                        }
-
                        tool_forge.setSlot(new ItemStack(ig_input_item, 1), chosen_index);
                        successful_input = true;
                    }
                }
-
 
                if(successful_input) {
                    player.setHeldItem(Hand.MAIN_HAND, new ItemStack(heldItem.getItem(), heldItem.getCount() - 1));
@@ -103,11 +101,18 @@ public class IGToolForge extends IGTileBlock {
             Material binding_material = binding_material_item.materials[0];
             MaterialUseType binding_type = binding_material_item.subtype;
 
+            ItemStack tip_stack = tool_forge.getItem(tip_index);
+            Item item_tip = tip_stack.getItem();
+
+            IGMaterialResourceItem tip_material_item = (IGMaterialResourceItem) item_tip;
+            Material tip_material = tip_material_item.materials[0];
+            MaterialUseType tip_type = tip_material_item.subtype;
 
             ItemStack pick = new ItemStack(IGContent.itemPickaxe);
             ItemNBTHelper.putString(pick, "head_material", head_material.getName());
             ItemNBTHelper.putString(pick, "handle_material", handle_material.getName());
             ItemNBTHelper.putString(pick, "binding_material", binding_material.getName());
+            ItemNBTHelper.putString(pick, "tip_material", tip_material.getName());
 
             world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), pick));
             tool_forge.clear();

@@ -25,6 +25,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -39,6 +40,8 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
         IIEInventory, IEBlockInterfaces.IInteractionObjectIE, IOBJModelCallback<BlockState> {
     //THIS IS REQUIRED FOR IT TO REGISTER,
     public static TileEntityType<CrudeForgeTileEntity> TYPE;
+
+    public CrudeForgeData guiData = new CrudeForgeData();
 
     public static final int SLOT_FUEL = 0;
     public static final int SLOT_INPUT = 1;
@@ -141,5 +144,47 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
 
     protected void sendSyncPacket(int type) {
 
+    }
+
+    public class CrudeForgeData implements IIntArray
+    {
+        public static final int MAX_BURN_TIME = 0;
+        public static final int BURN_TIME = 1;
+
+        @Override
+        public int get(int index)
+        {
+            switch(index)
+            {
+                case MAX_BURN_TIME:
+                    return 0;//processMax;
+                case BURN_TIME:
+                    return 0;//process;
+                default:
+                    throw new IllegalArgumentException("Unknown index "+index);
+            }
+        }
+
+        @Override
+        public void set(int index, int value)
+        {
+            switch(index)
+            {
+                case MAX_BURN_TIME:
+                    //processMax = value;
+                    break;
+                case BURN_TIME:
+                   // process = value;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown index "+index);
+            }
+        }
+
+        @Override
+        public int size()
+        {
+            return 2;
+        }
     }
 }
