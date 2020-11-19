@@ -3,12 +3,14 @@ package com.igteam.immersivegeology.common.items;
 import blusunrize.immersiveengineering.api.tool.ITool;
 import blusunrize.immersiveengineering.common.items.IEItemInterfaces.IColouredItem;
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
+import com.google.common.collect.Sets;
 import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.api.interfaces.IBindingMaterial;
 import com.igteam.immersivegeology.api.interfaces.IHandleMaterial;
 import com.igteam.immersivegeology.api.interfaces.IHeadMaterial;
 import com.igteam.immersivegeology.api.interfaces.ITipMaterial;
 import com.igteam.immersivegeology.api.materials.Material;
+import com.igteam.immersivegeology.api.toolsystem.Tooltypes;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.materials.MaterialEmpty;
 import net.minecraft.block.BlockState;
@@ -26,11 +28,17 @@ import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 import static com.igteam.immersivegeology.common.items.IGMaterialResourceItem.hasShiftDown;
 
 public abstract class IGModularToolItem extends IGBaseItem implements ITool, IColouredItem
 {
+	private static net.minecraft.block.material.Material Mat = null;
+	public static final Set<net.minecraft.block.material.Material> validPickMaterials = Sets.newHashSet(Mat.ANVIL, Mat.ICE, Mat.IRON, Mat.PACKED_ICE, Mat.PISTON, Mat.ROCK);
+	public static final Set<net.minecraft.block.material.Material> validHammerMaterials = Sets.newHashSet(Mat.ANVIL, Mat.ICE, Mat.IRON, Mat.PACKED_ICE, Mat.PISTON, Mat.ROCK);
+	public static final Set<net.minecraft.block.material.Material> validAxeMaterials = Sets.newHashSet(Mat.WOOD, Mat.PLANTS, Mat.IRON, Mat.TALL_PLANTS, Mat.BAMBOO);
+	public static final Set<net.minecraft.block.material.Material> validShovelMaterials = Sets.newHashSet(Mat.EARTH, Mat.SAND, Mat.SNOW, Mat.SNOW_BLOCK, Mat.CLAY);
 
 	protected static String[] StrMaterials = {"head_material", "binding_material", "handle_material", "tip_material"};
 	protected static String[] StrColors = {"head_color", "binding_color", "handle_color", "tip_color"};
@@ -65,10 +73,24 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 		}
 	}
 
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack)
+	{
+		return (double)getDamage(stack)/(double)getMaxDamage(stack);
+	}
+
+	@Override
+	public boolean showDurabilityBar(ItemStack stack)
+	{
+		return getDamage(stack) > 0;
+	}
+
 	public static Material getToolMaterial(ItemStack stack, int part)
 	{
 		return EnumMaterials.filterByName(ItemNBTHelper.getString(stack, StrMaterials[part])).material;
 	}
+
+
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack p_179218_1_, World p_179218_2_, BlockState p_179218_3_, BlockPos p_179218_4_, LivingEntity p_179218_5_) {
@@ -116,6 +138,19 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 		return ((IHeadMaterial)getToolMaterial(stack, 0)).getHeadMiningLevel();
 	}
 
+	public boolean isEffective(ItemStack tool, net.minecraft.block.material.Material mat)
+	{
+		if(tool.getToolTypes().contains(ToolType.PICKAXE))
+			return validPickMaterials.contains(mat);
+		else if(tool.getToolTypes().contains(Tooltypes.HAMMER_TOOL))
+			return validHammerMaterials.contains(mat);
+		else if(tool.getToolTypes().contains(ToolType.AXE))
+			return validAxeMaterials.contains(mat);
+		else if(tool.getToolTypes().contains(ToolType.SHOVEL))
+			return validShovelMaterials.contains(mat);
+		return false;
+	}
+
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
 		super.addInformation(stack, world, list, flag);
@@ -147,6 +182,11 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 			text.appendText("Hold Sneak for Info");
 		}
 		list.add(text);
+	}
+
+	@Override
+	public boolean canHarvestBlock(ItemStack stack, BlockState state) {
+		return isEffective(stack, state.getMaterial());
 	}
 
 	public float getDestroySpeed(ItemStack stack, BlockState state) {
