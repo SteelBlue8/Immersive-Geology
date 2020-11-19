@@ -8,6 +8,8 @@ import com.igteam.immersivegeology.common.world.noise.SimplexNoise2D;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 
 import javax.annotation.Nonnull;
 
@@ -27,6 +29,9 @@ public class DesertBiome extends IGBiome
 		this.maxHeight = maxHeight;
 		this.isCold = cold;
 
+
+
+
 		IGDefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.addStructures(this);
 
@@ -34,6 +39,7 @@ public class DesertBiome extends IGBiome
 		{
 			DefaultBiomeFeatures.addDeadBushes(this);
 			DefaultBiomeFeatures.addDesertFeatures(this);
+			this.addStructure(Feature.DESERT_PYRAMID, IFeatureConfig.NO_FEATURE_CONFIG);
 		}
 		else
 		{

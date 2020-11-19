@@ -3,6 +3,7 @@ package com.igteam.immersivegeology.common.world.gen.carver;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.gen.carver.controller.CaveCarverController;
+import com.igteam.immersivegeology.common.world.gen.carver.controller.RavineController;
 import com.igteam.immersivegeology.common.world.gen.carver.controller.WaterRegionController;
 import com.igteam.immersivegeology.common.world.gen.carver.util.ColPos;
 import net.minecraft.block.BlockState;
@@ -19,6 +20,7 @@ import java.util.Random;
 
 /*
  * This carver is a modified version of YungsBetterCaves BetterCavesCarver.java
+ * Thank you Yung for your permission to use it!
  * I've done my best to adhere to the GNU General Public License Version 3
  */
 
@@ -29,7 +31,7 @@ public class ImmersiveCarver {
     private CaveCarverController caveCarver;
     private WaterRegionController waterCarver;
     private WorleyCaveCarver worleyCaveCarver;
-   // private RavineController ravineController;
+    private RavineController ravineController;
     
     public void initialize(IWorld worldIn, int topY) {
     	this.world = worldIn;
@@ -47,13 +49,10 @@ public class ImmersiveCarver {
     	
     	this.caveCarver = new CaveCarverController(worldIn, topY);
         this.waterCarver = new WaterRegionController(worldIn);
-        this.worleyCaveCarver = new WorleyCaveCarver(seedGenerator);
+        this.worleyCaveCarver = new WorleyCaveCarver(worldIn, seedGenerator, (topY-20));
+        this.ravineController = new RavineController(worldIn);
     }
 
-    public void setHeightFadeThershold(int new_thershold){
-        this.worleyCaveCarver.HEIGHT_FADE_THRESHOLD = new_thershold;
-    }
-    
     public void carve(IChunk chunkIn, int chunkX, int chunkZ) {
         BitSet airCarvingMask = chunkIn.getCarvingMask(GenerationStage.Carving.AIR);
         BitSet liquidCarvingMask = chunkIn.getCarvingMask(GenerationStage.Carving.LIQUID);
@@ -85,7 +84,7 @@ public class ImmersiveCarver {
         // Carve chunk
         caveCarver.carveChunk(chunkIn, chunkX, chunkZ, surfaceAltitudes, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
         worleyCaveCarver.carve(chunkIn, chunkX << 4, chunkZ << 4, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
-       // ravineController.carveChunk(chunkIn, chunkX, chunkZ, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
+        ravineController.carveChunk(chunkIn, chunkX, chunkZ, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
 
         // Set carving masks for features to use 
         ((ChunkPrimer) chunkIn).setCarvingMask(GenerationStage.Carving.AIR, airCarvingMask);
@@ -97,7 +96,7 @@ public class ImmersiveCarver {
         this.caveCarver.setWorld(worldIn);
         this.waterCarver.setWorld(worldIn);
         this.worleyCaveCarver.setWorld(worldIn);
-       // this.ravineController.setWorld(worldIn);
+        this.ravineController.setWorld(worldIn);
     }
 
     public long getSeed() {

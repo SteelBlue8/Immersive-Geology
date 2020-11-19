@@ -22,6 +22,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunk;
 
+import static com.igteam.immersivegeology.common.world.gen.carver.util.CarverUtils.isPosInWorld;
+
 public class WorleyCaveCarver {
 	// number of vertical samples to take, noise sampled every 4 blocks, then
 	// interpolated
@@ -34,7 +36,9 @@ public class WorleyCaveCarver {
 	private static final float FEATURE_SIZE = 24;
 	private final INoise3D caveNoise;
 
-	public WorleyCaveCarver(Random seedGenerator) {
+	public WorleyCaveCarver(IWorld world, Random seedGenerator, int topY) {
+		HEIGHT_FADE_THRESHOLD = topY;
+		this.world = world;
 		OpenSimplexNoise caveNoiseWorley = new OpenSimplexNoise(seedGenerator.nextLong());
 
 		this.caveNoise = (x, y, z) -> {
@@ -107,25 +111,29 @@ public class WorleyCaveCarver {
 									int localX = startX + (x0 / 4);
 			                        int localZ = startZ + (z0 / 4);
 			                        
-			                        ColPos colPos = new ColPos(pos.getX(), pos.getZ());
+			                        ColPos colPos = ColPos.fromBlockPos(pos);
+
 			                        boolean flooded = biomeMap.get(colPos.toLong()).getCategory() == Biome.Category.OCEAN;
-			                        
-			                        if (flooded) {
-			                        	//TODO Error found with the isPosInWorld, suspect the colPos
-			                        	boolean east  = true;//isPosInWorld(mutablePos.setPos(colPos).move(Direction.EAST), chunkIn.getWorldForge());
-			                        	boolean west  = true;//isPosInWorld(mutablePos.setPos(colPos).move(Direction.WEST), world);
-			                        	boolean north = true; //isPosInWorld(mutablePos.setPos(colPos).move(Direction.NORTH), world);
-			                        	boolean south = true; //isPosInWorld(mutablePos.setPos(colPos).move(Direction.SOUTH), world);
-			                        	
-			                            if (
-			                                (east && biomeMap.get(mutablePos.setPos(colPos).move(Direction.EAST).toLong()).getCategory() != Biome.Category.OCEAN) ||
-			                                (west && biomeMap.get(mutablePos.setPos(colPos).move(Direction.WEST).toLong()).getCategory() != Biome.Category.OCEAN) ||
-			                                (north && biomeMap.get(mutablePos.setPos(colPos).move(Direction.NORTH).toLong()).getCategory() != Biome.Category.OCEAN) ||
-			                                (south && biomeMap.get(mutablePos.setPos(colPos).move(Direction.SOUTH).toLong()).getCategory() != Biome.Category.OCEAN)
-			                            ) {
-			                                continue;
-			                            }
-			                        }
+									float smoothAmpFloodFactor = CarverUtils.getDistFactor(world, biomeMap, colPos, 2, flooded ? CarverUtils.isNotOcean : CarverUtils.isOcean);
+									if (smoothAmpFloodFactor <= .25f) { // Wall between flooded and normal caves.
+										return;
+									}
+
+									if (flooded) {
+										boolean east  = isPosInWorld(mutablePos.setPos(colPos).move(Direction.EAST), world);
+										boolean west  = isPosInWorld(mutablePos.setPos(colPos).move(Direction.WEST), world);
+										boolean north = isPosInWorld(mutablePos.setPos(colPos).move(Direction.NORTH), world);
+										boolean south = isPosInWorld(mutablePos.setPos(colPos).move(Direction.SOUTH), world);
+
+										if (
+												(east && biomeMap.get(mutablePos.setPos(colPos).move(Direction.EAST).toLong()).getCategory() != Biome.Category.OCEAN) ||
+														(west && biomeMap.get(mutablePos.setPos(colPos).move(Direction.WEST).toLong()).getCategory() != Biome.Category.OCEAN) ||
+														(north && biomeMap.get(mutablePos.setPos(colPos).move(Direction.NORTH).toLong()).getCategory() != Biome.Category.OCEAN) ||
+														(south && biomeMap.get(mutablePos.setPos(colPos).move(Direction.SOUTH).toLong()).getCategory() != Biome.Category.OCEAN)
+										) {
+											continue;
+										}
+									}
 			                        
 			                        BlockState liquidBlock = liquidBlocks[localX][localZ];
 
@@ -143,9 +151,7 @@ public class WorleyCaveCarver {
 											 if (flooded) {
 												 CarverUtils.carveFloodedBlock(chunkIn, new Random(), pos, liquidBlock, 12, true, bitmask);
 											 } else {
-												 if (blockStateAbove.getMaterial() != Material.WATER && blockStateAbove.getMaterial() != Material.LAVA){
-												 	CarverUtils.carveBlock(chunkIn, pos, liquidBlock, 12, true, bitmask);
-												 }
+												 CarverUtils.carveBlock(chunkIn, pos, liquidBlock, 12, true, bitmask);
 											 }
 										}
 									}
@@ -159,8 +165,7 @@ public class WorleyCaveCarver {
 			prevSection = Arrays.copyOf(section, section.length);
 		}
 	}
-	
-	@SuppressWarnings("unused")
+
 	private IWorld world;
 	
 	public void setWorld(IWorld worldIn) {

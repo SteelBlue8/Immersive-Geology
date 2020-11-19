@@ -11,5 +11,4 @@ public class CrudeForgeContainer extends IEBaseContainer<CrudeForgeTileEntity> {
     public CrudeForgeContainer(int id, PlayerInventory inventoryPlayer, CrudeForgeTileEntity tile) {
         super(inventoryPlayer, tile, id);
     }
-
 }

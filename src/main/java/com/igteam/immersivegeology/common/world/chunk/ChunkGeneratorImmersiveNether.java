@@ -83,7 +83,6 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 		this.immersiveCarver = new ImmersiveCarver();
 		this.immersiveCarver.initialize(world, 255);
-		this.immersiveCarver.setHeightFadeThershold(255);
 
 		EnumMaterials.filterByUseType(MaterialUseType.GENERATED_CHUNKS).forEach((ore) -> {
 				WorleyOreCarver.INSTANCE.setupNewLayer(seedGenerator, ore);

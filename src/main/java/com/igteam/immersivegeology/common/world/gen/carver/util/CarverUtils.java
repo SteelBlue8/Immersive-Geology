@@ -42,7 +42,7 @@ public class CarverUtils {
         return world.chunkExists(pos.getX() >> 4, pos.getZ() >> 4);
     }
  	
-    public static void carveBlock(IChunk chunkIn, BlockPos blockPos, BlockState airBlockState, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask) {
+    public static void carveBlock(IChunk chunkIn, BlockPos blockPos, BlockState airBlockState, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask, boolean allowSurfaceDestruction) {
         // Mark block as processed - for use by features
         int bitIndex = (blockPos.getX() & 0xF) | ((blockPos.getZ() & 0xF) << 4) | (blockPos.getY() << 8);
         carvingMask.set(bitIndex);
@@ -58,7 +58,7 @@ public class CarverUtils {
         BlockState blockStateBelow = chunkIn.getBlockState(blockPosBelow);
 
         // Only continue if the block is replaceable
-        if (!canReplaceBlock(blockState, blockStateAbove) && blockState != biomeTopBlockState && blockState != biomeFillerBlockState) {
+        if (!canReplaceBlock(blockState, blockStateAbove) && (blockState != biomeTopBlockState && blockState != biomeFillerBlockState && !allowSurfaceDestruction)) {
             return;
         }
 
@@ -94,15 +94,17 @@ public class CarverUtils {
     }
     
     public static void carveBlock(IChunk chunkIn, BlockPos blockPos, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask) {
-        carveBlock(chunkIn, blockPos, Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask);
+        carveBlock(chunkIn, blockPos, Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask, false);
     }
-
+    public static void carveBlockRavine(IChunk chunkIn, BlockPos blockPos, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, boolean allowSurfaceDestruction, BitSet carvingMask){
+        carveBlock(chunkIn, blockPos, Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask, allowSurfaceDestruction);
+    }
     public static void carveBlock(IChunk chunkIn, int x, int y, int z, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask) {
-        carveBlock(chunkIn, new BlockPos(x, y, z), Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask);
+        carveBlock(chunkIn, new BlockPos(x, y, z), Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask, false);
     }
 
     public static void carveBlock(IChunk chunkIn, int x, int y, int z, BlockState airBlockState, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask) {
-        carveBlock(chunkIn, new BlockPos(x, y, z), airBlockState, liquidBlockState, liquidAltitude, replaceGravel, carvingMask);
+        carveBlock(chunkIn, new BlockPos(x, y, z), airBlockState, liquidBlockState, liquidAltitude, replaceGravel, carvingMask, false);
     }
     
     /**

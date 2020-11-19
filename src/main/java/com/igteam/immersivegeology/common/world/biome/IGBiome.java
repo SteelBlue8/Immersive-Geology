@@ -7,6 +7,7 @@ import com.igteam.immersivegeology.common.world.noise.INoise2D;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 
@@ -52,6 +53,7 @@ public abstract class IGBiome extends Biome
 		btemp = temperature;
 		brain = downfall;
 		IGDefaultBiomeFeatures.addCaveFeatures(this);
+
 	}
 
 	protected IGBiome(Builder builder, float temperature, float downfall)

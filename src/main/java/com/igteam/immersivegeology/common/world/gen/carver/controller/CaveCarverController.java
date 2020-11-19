@@ -54,7 +54,7 @@ public class CaveCarverController {
 
         // Configure cave region controller, which determines what type of cave should be
         // carved in any given region
-        float caveRegionSize = calcCaveRegionSize("Small", 0.008f);
+        float caveRegionSize = calcCaveRegionSize("Large", 0.008f);
         this.caveRegionController = new FastNoise();
         this.caveRegionController.SetSeed((int)worldIn.getSeed() + 222);
         this.caveRegionController.SetFrequency(caveRegionSize);
