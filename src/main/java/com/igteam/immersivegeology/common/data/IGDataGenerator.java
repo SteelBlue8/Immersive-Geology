@@ -32,6 +32,7 @@ public class IGDataGenerator
 			if (event.includeServer()) {
 				gen.addProvider(new IGItemTagsProvider(gen));
 				gen.addProvider(new IGRecipeProvider(gen));
+				gen.addProvider(new IGBlockTagProvider(gen));
 			}
 			if(event.includeClient())
 			{

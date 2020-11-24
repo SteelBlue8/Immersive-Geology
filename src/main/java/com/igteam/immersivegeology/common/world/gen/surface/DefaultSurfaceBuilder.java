@@ -1,14 +1,17 @@
 package com.igteam.immersivegeology.common.world.gen.surface;
 
+import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
 import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
+import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.world.biome.biomes.overworld.MountainsBiome;
 import com.igteam.immersivegeology.common.world.biome.biomes.helpers.BiomeHelper;
 import com.igteam.immersivegeology.common.world.biome.biomes.helpers.MountainType;
 import com.igteam.immersivegeology.common.world.gen.config.ImmersiveSurfaceBuilderConfig;
 import com.igteam.immersivegeology.common.world.gen.surface.util.SurfaceData;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SnowBlock;
@@ -63,7 +66,14 @@ public class DefaultSurfaceBuilder implements ISurfaceBuilder
 						surfaceFlag = getSoilLayers(y, random);
 						if(surfaceFlag > 0)
 						{
-							chunkIn.setBlockState(pos, topBlock, false);
+							Block found = chunkIn.getBlockState(pos).getBlock();
+							if(found instanceof IGMaterialBlock && topBlock.getBlock() instanceof IGMaterialBlock){
+								Material igMat = ((IGMaterialBlock) found).getMaterial();
+								chunkIn.setBlockState(pos, IGRegistryGrabber.grabBlock(((IGMaterialBlock)topBlock.getBlock()).getUseType(), igMat).getDefaultState(), false);
+							} else {
+								chunkIn.setBlockState(pos,topBlock,false);
+							}
+
 						}
 						else
 						{

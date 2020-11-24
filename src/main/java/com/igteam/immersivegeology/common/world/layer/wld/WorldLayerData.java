@@ -199,11 +199,17 @@ public class WorldLayerData
 									EnumMaterials.Chromite, 0.5f).build(),
 
 				//Flooded Mountains
-				BiomeLayerBuilder.create(IGBiomes.FLOODED_MOUNTAINS).addLayerData(RHYOLITE, RHYOLITE, GRANITE, MARBLE, BASALT)
-						.addLayerOreData(2, EnumMaterials.Gold, 0.4f,
+				BiomeLayerBuilder.create(IGBiomes.FLOODED_MOUNTAINS).addLayerData(RHYOLITE, RHYOLITE, RHYOLITE, GRANITE, MARBLE, MARBLE, BASALT)
+						.addLayerOreData(7, EnumMaterials.Gold, 0.2f,
 								EnumMaterials.Hematite, 0.3f,
 								EnumMaterials.Cuprite, 0.3f)
-						.addLayerOreData(2, EnumMaterials.Gold, 0.45f,
+						.addLayerOreData(6, EnumMaterials.Gold, 0.2f,
+								EnumMaterials.Hematite, 0.5f,
+								EnumMaterials.Cuprite, 0.4f)
+						.addLayerOreData(5, EnumMaterials.Gold, 0.25f,
+								EnumMaterials.Hematite, 0.45f,
+								EnumMaterials.Cuprite, 0.36f)
+						.addLayerOreData(4, EnumMaterials.Gold, 0.45f,
 								EnumMaterials.Hematite, 0.22f,
 								EnumMaterials.Cuprite, 0.32f,
 								EnumMaterials.Uraninite, 0.05f)

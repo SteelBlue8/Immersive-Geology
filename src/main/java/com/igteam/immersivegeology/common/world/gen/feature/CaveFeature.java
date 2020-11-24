@@ -32,34 +32,38 @@ public class CaveFeature extends Feature<NoFeatureConfig> {
     @Override
     public boolean place(IWorld iWorld, ChunkGenerator<? extends GenerationSettings> chunkGenerator, Random rand, BlockPos pos, NoFeatureConfig noFeatureConfig) {
         BlockState stateAt = iWorld.getBlockState(pos);
-        if(stateAt.getBlock() == Blocks.CAVE_AIR || (iWorld.getDimension().getType() == DimensionType.THE_NETHER && (stateAt.getBlock() == Blocks.CAVE_AIR || stateAt.getBlock() == Blocks.AIR))){
-            Direction dir = rand.nextBoolean() ? Direction.UP : Direction.DOWN;
-            BlockState wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
-            if(wall.getBlock() instanceof IGMaterialBlock){
-                IGMaterialBlock igBlock = (IGMaterialBlock) wall.getBlock();
-                if(igBlock.getUseType() == MaterialUseType.ROCK){
-                    place(iWorld, pos, wall, wall, dir, rand, igBlock.getMaterial());
+        if(pos.getY() <= 90) {
+            if (stateAt.getBlock() == Blocks.CAVE_AIR || (iWorld.getDimension().getType() == DimensionType.THE_NETHER && (stateAt.getBlock() == Blocks.CAVE_AIR || stateAt.getBlock() == Blocks.AIR))) {
+                Direction dir = rand.nextBoolean() ? Direction.UP : Direction.DOWN;
+                BlockState wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
+                if (wall.getBlock() instanceof IGMaterialBlock) {
+                    IGMaterialBlock igBlock = (IGMaterialBlock) wall.getBlock();
+                    if (igBlock.getUseType() == MaterialUseType.ROCK) {
+                        place(iWorld, pos, wall, wall, dir, rand, igBlock.getMaterial());
+                    } else {
+                        dir = dir.getOpposite();
+                        wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
+                        if (wall.getBlock() instanceof IGMaterialBlock) {
+                            igBlock = (IGMaterialBlock) wall.getBlock();
+                            if (igBlock.getUseType() == MaterialUseType.ROCK) {
+                                place(iWorld, pos, wall, wall, dir, rand, igBlock.getMaterial());
+                            }
+                        }
+                    }
                 } else {
                     dir = dir.getOpposite();
                     wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
-                    if(wall.getBlock() instanceof IGMaterialBlock) {
-                        igBlock = (IGMaterialBlock) wall.getBlock();
+                    if (wall.getBlock() instanceof IGMaterialBlock) {
+                        IGMaterialBlock igBlock = (IGMaterialBlock) wall.getBlock();
                         if (igBlock.getUseType() == MaterialUseType.ROCK) {
                             place(iWorld, pos, wall, wall, dir, rand, igBlock.getMaterial());
                         }
                     }
                 }
+                return true;
             } else {
-                dir = dir.getOpposite();
-                wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
-                if(wall.getBlock() instanceof IGMaterialBlock) {
-                    IGMaterialBlock igBlock = (IGMaterialBlock) wall.getBlock();
-                    if (igBlock.getUseType() == MaterialUseType.ROCK) {
-                        place(iWorld, pos, wall, wall, dir, rand, igBlock.getMaterial());
-                    }
-                }
+                return false;
             }
-            return true;
         } else {
             return false;
         }

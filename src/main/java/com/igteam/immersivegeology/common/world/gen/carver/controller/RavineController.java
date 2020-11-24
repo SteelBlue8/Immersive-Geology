@@ -23,7 +23,7 @@ public class RavineController {
     public RavineController(IWorld world){
         this.world = world;
         this.seed = world.getSeed();
-        this.ravineCarver = new ConfiguredCarver<>(new RavineCarver(world, ProbabilityConfig::deserialize), new ProbabilityConfig(0.02f));
+        this.ravineCarver = new ConfiguredCarver<>(new RavineCarver(world, ProbabilityConfig::deserialize), new ProbabilityConfig(0.01f));
     }
 
 

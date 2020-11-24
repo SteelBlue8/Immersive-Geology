@@ -5,6 +5,7 @@ import com.igteam.immersivegeology.common.world.biome.IGDefaultBiomeFeatures;
 import com.igteam.immersivegeology.common.world.biome.biomes.helpers.BiomeHelper;
 import com.igteam.immersivegeology.common.world.biome.biomes.helpers.ForestType;
 import com.igteam.immersivegeology.common.world.chunk.IGChunkCapability;
+import com.igteam.immersivegeology.common.world.gen.feature.IGFeatures;
 import com.igteam.immersivegeology.common.world.gen.surface.util.SurfaceBlockType;
 import com.igteam.immersivegeology.common.world.noise.INoise2D;
 import com.igteam.immersivegeology.common.world.noise.SimplexNoise2D;
@@ -61,16 +62,14 @@ public class ForestBiome extends IGBiome
 				IGDefaultBiomeFeatures.addCarvers(this);
 				DefaultBiomeFeatures.addMonsterRooms(this);
 				DefaultBiomeFeatures.addTaigaLargeFerns(this);
-				DefaultBiomeFeatures.addTaigaConifers(this);
-				DefaultBiomeFeatures.addTaigaConifers(this);
-				DefaultBiomeFeatures.addTaigaConifers(this);
+				IGDefaultBiomeFeatures.addEbonyTrees(this);
 				DefaultBiomeFeatures.addReedsAndPumpkins(this);
 				DefaultBiomeFeatures.addMushrooms(this);
 				DefaultBiomeFeatures.addBerryBushes(this);
 				IGDefaultBiomeFeatures.addMossLayers(this);
 
 				this.addSpawn(EntityClassification.CREATURE, new Biome.SpawnListEntry(EntityType.WOLF, 8, 4, 4));
-				this.addSpawn(EntityClassification.CREATURE, new Biome.SpawnListEntry(EntityType.RABBIT, 4, 2, 3));
+				this.addSpawn(EntityClassification.CREATURE, new Biome.SpawnListEntry(EntityType.RABBIT, 4, 2, 8));
 				this.addSpawn(EntityClassification.CREATURE, new Biome.SpawnListEntry(EntityType.FOX, 8, 2, 4));
 			break;
 		}

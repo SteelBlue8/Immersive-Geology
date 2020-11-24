@@ -7,6 +7,7 @@ import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.ItemTags.Wrapper;
 import net.minecraft.util.ResourceLocation;
 
@@ -65,12 +66,5 @@ public class IGItemTagsProvider extends net.minecraft.data.ItemTagsProvider
 //					}
 //				}
 //			}
-//
-//			if(!validItems.isEmpty())
-//				this.getBuilder(new Wrapper(forgeLoc("items/"+type.getName()+"s"))).add(validItems.toArray(new Item[]{}));
-////			if(!validBlocks.isEmpty())
-////				this.getBuilder(new Wrapper(forgeLoc("blocks/" + type.getName() + "s"))).add(validBlocks.toArray(new Item[]{})); //TODO block tags doesn't register properly
-//		}
-
 	}
 }

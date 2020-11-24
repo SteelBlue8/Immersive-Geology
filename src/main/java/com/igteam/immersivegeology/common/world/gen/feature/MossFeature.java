@@ -46,16 +46,10 @@ public class MossFeature extends Feature<NoFeatureConfig> {
 
                 BlockState lvt_14_1_ = worldIn.getBlockState(block_above);
                 BlockState state_under = worldIn.getBlockState(block_under);
-                Biome biome = worldIn.getBiome(block);
 
-                if(biome instanceof ForestBiome) {
-                    ForestBiome forest = (ForestBiome) biome;
-                    if(forest.getType() == ForestType.SWEDISH) {
-                        if (lvt_14_1_.getMaterial() == Material.AIR && state_under.getBlock() == Blocks.DIRT || state_under.getBlock() == Blocks.GRASS_BLOCK || state_under.getBlock() == Blocks.PODZOL) {
-                            if (rand.nextInt(8) != 0)
-                                worldIn.setBlockState(block, IGRegistryGrabber.grabBlock(MaterialUseType.LAYER, EnumMaterials.Moss.material).getDefaultState().with(IGLayerBase.LAYERS, 2 + rand.nextInt(4)), 2);
-                        }
-                    }
+                if (state_under.getBlock() == Blocks.PODZOL && lvt_14_1_.getMaterial() == Material.AIR) {
+                    if (rand.nextInt(8) != 0)
+                        worldIn.setBlockState(block, IGRegistryGrabber.grabBlock(MaterialUseType.LAYER, EnumMaterials.Moss.material).getDefaultState().with(IGLayerBase.LAYERS, 2 + rand.nextInt(4)), 2);
                 }
             }
         }

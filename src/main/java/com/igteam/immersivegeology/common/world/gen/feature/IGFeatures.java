@@ -14,6 +14,7 @@ public class IGFeatures<FC extends IFeatureConfig> extends ForgeRegistryEntry<Fe
     public static final Feature<NoFeatureConfig> MOSS_LAYER = new MossFeature(NoFeatureConfig::deserialize);
     public static final Feature<NoFeatureConfig> CAVE_FEATURES = new CaveFeature(NoFeatureConfig::deserialize);
     public static final Feature<NoFeatureConfig> NETHER_CAVE_FEATURES = new NetherCaveFeature(NoFeatureConfig::deserialize);
+    public static final Feature<NoFeatureConfig> EBONY_TREES = new EbonyTreeFeature(NoFeatureConfig::deserialize, true, true);
 
     public static final Structure<NoFeatureConfig> IMMERSIVE_NETHER_BRIDGE = (Structure)register("nether_bridge", new ImmersiveFortressStructure(NoFeatureConfig::deserialize));
 

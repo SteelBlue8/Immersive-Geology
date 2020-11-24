@@ -1,5 +1,6 @@
 package com.igteam.immersivegeology.common.world.chunk;
 
+import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
 import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
@@ -21,7 +22,6 @@ import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -442,15 +442,15 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 //			}
 //		}
 
-		makeBedrock(chunk, random, 0);
-		makeBedrock(chunk, random, 253);
-		makeBedrock(chunk, random, 254);
-		makeBedrock(chunk, random, 255);
+		makeBedrock(chunk, random, 0, BEDROCK);
+		makeBedrock(chunk, random, 253, BEDROCK);
+		makeBedrock(chunk, random, 254, BEDROCK);
+		makeBedrock(chunk, random, 255, BEDROCK);
 	}
 
 	public static final BlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
 
-	public void makeBedrock(IChunk chunk, Random random,int rockY)
+	public void makeBedrock(IChunk chunk, Random random,int rockY, BlockState blockState)
 	{
 		// should not reference ImersiveGenerationSettings directly, should use
 		// getSettings()
@@ -462,7 +462,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 		{
 			if(flatBedrock)
 			{
-				chunk.setBlockState(pos, BEDROCK, false);
+				chunk.setBlockState(pos, blockState, false);
 			}
 			else
 			{
@@ -471,7 +471,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 				{
 					if(y <= yMax)
 					{
-						chunk.setBlockState(posAt.setPos(pos.getX(), y, pos.getZ()), BEDROCK, false);
+						chunk.setBlockState(posAt.setPos(pos.getX(), y, pos.getZ()), blockState, false);
 					}
 				}
 			}
