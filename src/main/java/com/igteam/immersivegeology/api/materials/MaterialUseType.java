@@ -10,12 +10,14 @@ import com.igteam.immersivegeology.common.blocks.metal.IGStorageBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGMossLayer;
 import com.igteam.immersivegeology.common.blocks.plant.IGRockMossBlock;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
 import com.igteam.immersivegeology.common.items.IGBaseItem;
 import com.igteam.immersivegeology.common.items.IGMaterialItem;
 import com.igteam.immersivegeology.common.items.IGMaterialResourceItem;
 import com.igteam.immersivegeology.common.items.IGMaterialYieldItem;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nonnull;
@@ -401,6 +403,11 @@ public enum MaterialUseType implements IStringSerializable
 		return new IGMaterialBlock[]{new IGMaterialBlock(this, material)};
 	}
 
+	public IGFluid[] getFluids(com.igteam.immersivegeology.api.materials.Material material){
+
+		return new IGFluid[]{new IGFluid(this, material)};
+	}
+
 	/**
 	 * Defines use category, don't add new unless really needed
 	 */
@@ -419,6 +426,8 @@ public enum MaterialUseType implements IStringSerializable
 		//Used for material blocks
 		RESOURCE_BLOCK,
 		//Will be used for non material blocks
-		BLOCK
+		BLOCK,
+		//Used for creating a fluid
+		FLUID
 	}
 }

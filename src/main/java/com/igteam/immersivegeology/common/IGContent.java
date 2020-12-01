@@ -1,9 +1,13 @@
 package com.igteam.immersivegeology.common;
 
+import blusunrize.immersiveengineering.common.gui.GuiHandler;
+import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
 import com.igteam.immersivegeology.common.blocks.*;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
+import com.igteam.immersivegeology.common.gui.GuiAccessor;
 import com.igteam.immersivegeology.common.items.IGBaseItem;
 import com.igteam.immersivegeology.common.items.tools.IGToolHammer;
 import com.igteam.immersivegeology.common.items.tools.IGToolPickaxe;
@@ -13,6 +17,7 @@ import com.igteam.immersivegeology.common.util.IGLogger;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +40,7 @@ public class IGContent
 	public static Map<String, Block> registeredIGSlabBlocks = new HashMap<String, Block>();
 	public static Map<String, Item> registeredIGItems = new HashMap<String, Item>();
 	public static List<Class<? extends TileEntity>> registeredIGTiles = new ArrayList<>();
-	public static List<Fluid> registeredIGFluids = new ArrayList<>();
+	public static Map<String, IGFluid> registeredIGFluids = new HashMap<String, IGFluid>();
 	public static Map<Block, SlabBlock> toSlab = new IdentityHashMap<>();
 
 	public static IGBaseItem itemPickaxe = new IGToolPickaxe().setSubGroup(ItemSubGroup.tools);
@@ -63,6 +68,9 @@ public class IGContent
 							Arrays.stream(materialItem.getBlocks(material)).forEach(block -> {
 								registeredIGBlocks.put(block.name, block);
 							});
+							break;
+						case FLUID:
+							Arrays.stream(materialItem.getFluids(material)).forEach(fluid -> {registeredIGFluids.put(fluid.getName(), fluid);});
 							break;
 						default:
 							break;
@@ -133,9 +141,16 @@ public class IGContent
 	@SubscribeEvent
 	public static void registerFluids(RegistryEvent.Register<Fluid> event)
 	{
-		checkNonNullNames(registeredIGFluids);
-		for(Fluid fluid : registeredIGFluids)
+		for(Fluid fluid : registeredIGFluids.values())
 			event.getRegistry().register(fluid);
+	}
+
+	@SubscribeEvent
+	public static void registerContainerTypes(RegistryEvent.Register<ContainerType<?>> event){
+		GuiAccessor.commonInitialization();
+		GuiAccessor.CONTAINER_INFO.forEach((r, c) -> event.getRegistry().register(c.setRegistryName(r)));
+		GuiAccessor accessor = new GuiAccessor();
+		accessor.clientInitialize();
 	}
 
 	// Changed due to blocks being registered later on

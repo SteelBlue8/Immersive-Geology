@@ -7,6 +7,7 @@ import blusunrize.immersiveengineering.common.items.IEItemInterfaces;
 import com.igteam.immersivegeology.client.gui.CrudeForgeScreen;
 import com.igteam.immersivegeology.common.CommonProxy;
 import com.igteam.immersivegeology.common.IGContent;
+import com.igteam.immersivegeology.common.gui.GuiAccessor;
 import com.igteam.immersivegeology.common.gui.GuiLib;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -46,31 +47,26 @@ public class ClientProxy extends CommonProxy
 		super.init();
 		//Colour registration
 		for(Item item : IGContent.registeredIGItems.values())
+		{
 			if(item instanceof IEItemInterfaces.IColouredItem&&((IEItemInterfaces.IColouredItem)item).hasCustomItemColours())
+			{
 				mc().getItemColors().register(IEDefaultColourHandlers.INSTANCE, item);
+			}
+		}
+
 		for(Block block : IGContent.registeredIGBlocks.values())
-			if(block instanceof IEBlockInterfaces.IColouredBlock&&((IEBlockInterfaces.IColouredBlock)block).hasCustomBlockColours())
+		{
+			if (block instanceof IEBlockInterfaces.IColouredBlock && ((IEBlockInterfaces.IColouredBlock) block).hasCustomBlockColours())
+			{
 				mc().getBlockColors().register(IEDefaultColourHandlers.INSTANCE, block);
+			}
+		}
 	}
 
 
 	@Override
 	public void openTileScreen(ResourceLocation guiId, TileEntity tileEntity) {
 		super.openTileScreen(guiId, tileEntity);
-	}
-
-	@Override
-	public void registerContainersAndScreens()
-	{
-		super.registerContainersAndScreens();
-		registerScreen(GuiLib.CRUDE_FORGE_GUI_ID, CrudeForgeScreen::new);
-	}
-
-	public <C extends Container, S extends Screen & IHasContainer<C>>
-	void registerScreen(ResourceLocation containerName, ScreenManager.IScreenFactory<C, S> factory)
-	{
-		ContainerType<C> type = (ContainerType<C>) GuiHandler.getContainerType(containerName);
-		ScreenManager.registerFactory(type, factory);
 	}
 
 	@Override

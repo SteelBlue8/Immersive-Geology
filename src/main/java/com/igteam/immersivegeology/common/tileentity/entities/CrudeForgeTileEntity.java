@@ -1,28 +1,18 @@
 package com.igteam.immersivegeology.common.tileentity.entities;
 
-import blusunrize.immersiveengineering.api.IEEnums;
-import blusunrize.immersiveengineering.api.energy.immersiveflux.FluxStorage;
 import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
+import blusunrize.immersiveengineering.common.blocks.IEBaseTileEntity;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
-import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.inventory.IIEInventory;
-import com.igteam.immersivegeology.api.materials.MaterialUseType;
-import com.igteam.immersivegeology.api.materials.ToolUseType;
-import com.igteam.immersivegeology.common.IGContent;
-import com.igteam.immersivegeology.common.items.IGMaterialItem;
-import com.igteam.immersivegeology.common.tileentity.IGRegisterTileEntityTypes;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IClearable;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
@@ -30,28 +20,32 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 
-public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileEntity, IEBlockInterfaces.IStateBasedDirectional, IEBlockInterfaces.IBlockBounds, IEBlockInterfaces.IHasDummyBlocks,
-        IIEInventory, IEBlockInterfaces.IInteractionObjectIE, IOBJModelCallback<BlockState> {
+public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInterfaces.IActiveState, IEBlockInterfaces.IInteractionObjectIE, IEBlockInterfaces.IProcessTile, IEBlockInterfaces.IBlockBounds, IIEInventory {
     //THIS IS REQUIRED FOR IT TO REGISTER,
     public static TileEntityType<CrudeForgeTileEntity> TYPE;
+
+    private NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
 
     public CrudeForgeData guiData = new CrudeForgeData();
 
     public static final int SLOT_FUEL = 0;
     public static final int SLOT_INPUT = 1;
 
-    public final FluidTank tank = new FluidTank(4000)
+    public final FluidTank oreTank = new FluidTank(6000)
     {
         @Override
         protected void onContentsChanged()
         {
-            CrudeForgeTileEntity.this.sendSyncPacket(2);
+
         }
 
         @Override
@@ -60,13 +54,26 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
             return true;
         }
     };
+
+    public final FluidTank wasteTank = new FluidTank(2000)
+    {
+        @Override
+        protected void onContentsChanged()
+        {
+
+        }
+
+        @Override
+        public boolean isFluidValid(FluidStack fluid)
+        {
+            return true;
+        }
+    };
+
     public CrudeForgeTileEntity() {
         super(TYPE);
-    }
-
-    @Override
-    public void tick() {
-
+        wasteTank.fill(new FluidStack(Fluids.WATER, 2000), IFluidHandler.FluidAction.EXECUTE);
+        oreTank.fill(new FluidStack(Fluids.LAVA, 6000), IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
@@ -80,51 +87,30 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
     }
 
     @Override
-    public EnumProperty<Direction> getFacingProperty() {
-        return null;
-    }
-
-    @Override
-    public PlacementLimitation getFacingLimitation() {
-        return null;
-    }
-
-    @Override
     public VoxelShape getBlockBounds(@Nullable ISelectionContext iSelectionContext) {
-        return null;
-    }
-
-    @Override
-    public void placeDummies(BlockItemUseContext blockItemUseContext, BlockState blockState) {
-
-    }
-
-    @Override
-    public void breakDummies(BlockPos blockPos, BlockState blockState) {
-
-    }
-
-    @Nullable
-    @Override
-    public IEBlockInterfaces.IGeneralMultiblock master() {
         return null;
     }
 
     @Nullable
     @Override
     public IEBlockInterfaces.IInteractionObjectIE getGuiMaster() {
-        return null;
+        return this;
     }
 
     @Override
     public boolean canUseGui(PlayerEntity playerEntity) {
-        return false;
+        return true;
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new StringTextComponent("crude_forge");
     }
 
     @Nullable
     @Override
     public NonNullList<ItemStack> getInventory() {
-        return null;
+        return inventory;
     }
 
     @Override
@@ -134,7 +120,7 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
 
     @Override
     public int getSlotLimit(int i) {
-        return 0;
+        return 2;
     }
 
     @Override
@@ -142,8 +128,14 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
 
     }
 
-    protected void sendSyncPacket(int type) {
+    @Override
+    public int[] getCurrentProcessesStep() {
+        return new int[0];
+    }
 
+    @Override
+    public int[] getCurrentProcessesMax() {
+        return new int[0];
     }
 
     public class CrudeForgeData implements IIntArray
@@ -161,7 +153,7 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
                 case BURN_TIME:
                     return 0;//process;
                 default:
-                    throw new IllegalArgumentException("Unknown index "+index);
+                    return 0;
             }
         }
 
@@ -177,14 +169,14 @@ public class CrudeForgeTileEntity extends IGTileEntity implements ITickableTileE
                    // process = value;
                     break;
                 default:
-                    throw new IllegalArgumentException("Unknown index "+index);
+                    break;
             }
         }
 
         @Override
         public int size()
         {
-            return 2;
+            return 4;
         }
     }
 }

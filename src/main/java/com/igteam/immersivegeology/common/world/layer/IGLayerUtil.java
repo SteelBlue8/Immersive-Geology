@@ -103,19 +103,20 @@ public class IGLayerUtil
 		}
 
 		// Oceans and Continents => Elevation Mapping
-		mainLayer = ElevationLayer.INSTANCE.apply(contextFactory.apply(1009L), mainLayer);
+		mainLayer = ElevationLayer.INSTANCE.apply(contextFactory.apply(1008L), mainLayer);
 
-		mainLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1010L), mainLayer);
+		mainLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1009L), mainLayer);
 
 		// Elevation Mapping => Rivers
-		riverLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1011L), mainLayer);
+		riverLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1010L), mainLayer);
 
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 7; i++)
 		{
-			riverLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1012L+i), riverLayer);
+			riverLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1011L+i), riverLayer);
 		}
 
 		riverLayer = RiverLayer.INSTANCE.apply(contextFactory.apply(1018L), riverLayer);
+		riverLayer = RiverLayerThicness.INSTANCE.apply(contextFactory.apply(1018L), riverLayer);
 
 		riverLayer = ZoomLayer.FUZZY.apply(contextFactory.apply(1019L), riverLayer);
 
@@ -166,7 +167,7 @@ public class IGLayerUtil
 		IAreaFactory<LazyArea> areaFactoryActual = ZoomLayer.NORMAL.apply(contextFactory.apply(1029L),
 				mainLayer);
 
-		return Arrays.asList(mainLayer, mainLayer);
+		return Arrays.asList(mainLayer, areaFactoryActual);
 	}
 	
 	public static <A extends IArea, C extends IExtendedNoiseRandom<A>> IAreaFactory<A> repeat(
@@ -232,9 +233,8 @@ public class IGLayerUtil
 		return value==MOUNTAINS||value==FLOODED_MOUNTAINS||value==MOUNTAINS_EDGE||value==OLD_MOUNTAINS||value==LUSH_MOUNTAINS;
 	}
 
-	//Rivers don't really work well with high terrains, so we don't add them to any high terrain options
 	public static boolean isRiverCompatible(int value){
-		return value==PLAINS||value==HILLS||value==DESERT||value==SHORE||value==STONE_SHORE||value==LOWLANDS||value==LAKE;
+		return true;
 	}
 
 	public static boolean isLow(int value)

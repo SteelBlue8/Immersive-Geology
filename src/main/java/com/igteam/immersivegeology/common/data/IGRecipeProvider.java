@@ -6,12 +6,15 @@ import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
 import com.igteam.immersivegeology.common.IGContent;
 import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
 import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
+import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
 import com.igteam.immersivegeology.common.items.IGMaterialResourceItem;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
@@ -117,6 +120,14 @@ public class IGRecipeProvider extends RecipeProvider
 								.addIngredient(ItemTags.getCollection().get(new ResourceLocation("forge", "storage_blocks/" + resourceBlock.getMaterial().getName())))
 								.addCriterion("block", InventoryChangeTrigger.Instance.forItems(resourceBlock)) //recipe unlock criterion
 								.build(consumer, new ResourceLocation(ImmersiveGeology.MODID, "uncraft_" + resourceBlock.name));
+					}
+				}
+				if(block instanceof IGLogBlock){
+					IGLogBlock logBlock = (IGLogBlock)block;
+					if(logBlock.subtype.equals(MaterialUseType.LOG) || logBlock.subtype.equals(MaterialUseType.LOG)){
+						IGLogger.info("Creating Log Recipes");
+						Item item = IGRegistryGrabber.grabBlock(MaterialUseType.PLANKS, logBlock.getMaterial()).itemBlock.getItem();
+						ShapelessRecipeBuilder.shapelessRecipe(item, 4).addIngredient(Ingredient.fromStacks(new ItemStack(logBlock.getItemBlock().getItem()))).build(consumer, new ResourceLocation(ImmersiveGeology.MODID, "uncraft_" + logBlock.name));
 					}
 				}
 			} catch(Exception e)

@@ -7,6 +7,6 @@ import static com.igteam.immersivegeology.ImmersiveGeology.MODID;
 public class GuiLib {
 
     //gui id's for tiles
-    public static final ResourceLocation CRUDE_FORGE_GUI_ID = new ResourceLocation(MODID, "crudeforge");
+    public static final ResourceLocation CRUDE_FORGE_GUI_ID = new ResourceLocation(MODID, "crude_forge");
 
 }

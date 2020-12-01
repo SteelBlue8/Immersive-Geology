@@ -96,6 +96,6 @@ public final class WorldGenRegistryEvents
 				*/
 				new NetherMantle().setRegistryName("mantle")
 		);
-	}///only oceans at moment look into later
+	}
 
 }

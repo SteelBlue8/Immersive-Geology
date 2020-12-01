@@ -34,7 +34,7 @@ public class RavineCarver extends CanyonWorldCarver {
     public void carve(IChunk chunkIn, Random rand, int seaLevel, int chunkX, int chunkZ, int originChunkX, int originChunkZ, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, BitSet airCarvingMask, BitSet liquidCarvingMask) {
         int i = (this.func_222704_c() * 2 - 1) * 16;
         double startX = chunkX * 16 + rand.nextInt(16);
-        double startY = rand.nextInt(rand.nextInt(40) + 8) + 75;
+        double startY = rand.nextInt(rand.nextInt(70) + 8) + 50;
         double startZ = chunkZ * 16 + rand.nextInt(16);
 
         float yaw = rand.nextFloat() * ((float)Math.PI * 2F);

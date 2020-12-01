@@ -8,6 +8,8 @@
     "#minecraft:jungle_logs",
     "#minecraft:spruce_logs",
     "immersivegeology:block_log_ebony",
-    "immersivegeology:block_stripped_log_ebony"
+    "immersivegeology:block_stripped_log_ebony",
+    "immersivegeology:block_log_beech",
+    "immersivegeology:block_stripped_log_beech"
   ]
 }

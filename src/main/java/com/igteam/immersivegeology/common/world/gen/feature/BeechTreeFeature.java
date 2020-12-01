@@ -19,13 +19,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
-public class EbonyTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
+public class BeechTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
 
     private static final BlockState LOG;
     private static final BlockState LEAF;
     private final boolean useExtraRandomHeight;
 
-    public EbonyTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean p_i4, boolean random_height){
+    public BeechTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean p_i4, boolean random_height){
         super(config, p_i4);
         this.useExtraRandomHeight = random_height;
     }
@@ -107,7 +107,7 @@ public class EbonyTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
     }
 
     static {
-        LOG = IGRegistryGrabber.grabBlock(MaterialUseType.LOG, EnumMaterials.Ebony.material).getDefaultState();
+        LOG = IGRegistryGrabber.grabBlock(MaterialUseType.LOG, EnumMaterials.Beech.material).getDefaultState();
         LEAF = Blocks.BIRCH_LEAVES.getDefaultState();
     }
 }

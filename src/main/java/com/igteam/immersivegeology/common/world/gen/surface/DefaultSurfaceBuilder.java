@@ -144,7 +144,13 @@ public class DefaultSurfaceBuilder implements ISurfaceBuilder
 				else if(surfaceFlag > 0)
 				{
 					surfaceFlag--;
-					chunkIn.setBlockState(pos, stateUnder, false);
+					Block found = chunkIn.getBlockState(pos).getBlock();
+					if(found instanceof IGMaterialBlock && stateUnder.getBlock() instanceof IGMaterialBlock){
+						Material igMat = ((IGMaterialBlock) found).getMaterial();
+						chunkIn.setBlockState(pos, IGRegistryGrabber.grabBlock(((IGMaterialBlock)stateUnder.getBlock()).getUseType(), igMat).getDefaultState(), false);
+					} else {
+						chunkIn.setBlockState(pos, stateUnder, false);
+					}
 				}
 			}
 		}

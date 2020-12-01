@@ -88,13 +88,10 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 	@Override
 	public void carve(IChunk chunkIn, GenerationStage.Carving stage)
 	{
+		this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
 		if(stage==GenerationStage.Carving.AIR)
 		{
 			// First, run worley cave carver
-			
-			this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
-			
-			
 			for(BiomeLayerData biomeData : data.worldLayerData)
 			{
 				int totalLayers = biomeData.getLayerCount();
@@ -212,7 +209,7 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 				// Create river valleys - carve cliffs around river biomes, and smooth out the
 				// edges
 				double actualHeight = totalHeight;
-				if (riverWeight > 0.6 && riverBiomeAt != null)
+				if (riverWeight > 0.8 && riverBiomeAt != null)
 				{
 					// River bottom / shore
 					double aboveWaterDelta = actualHeight - riverHeight / riverWeight;
@@ -222,14 +219,14 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 						{
 							aboveWaterDelta = 20;
 						}
-						double adjustedAboveWaterDelta = 0.02 * aboveWaterDelta * (40 - aboveWaterDelta) - 0.48;
+						double adjustedAboveWaterDelta = 0.04 * aboveWaterDelta * (30 - aboveWaterDelta) - 0.38;
 						actualHeight = riverHeight / riverWeight + adjustedAboveWaterDelta;
 					}
 					biomeAt = riverBiomeAt; // Use river surface for the bottom of the river + small shore beneath cliffs
 				}
 				else if (riverWeight > 0 && normalBiomeAt != null)
 				{
-					double adjustedRiverWeight = 0.6 * riverWeight;
+					double adjustedRiverWeight = 0.8 * riverWeight;
 					actualHeight = (totalHeight - riverHeight) * ((1 - adjustedRiverWeight) / (1 - riverWeight)) + riverHeight * (adjustedRiverWeight / riverWeight);
 
 					biomeAt = normalBiomeAt;
