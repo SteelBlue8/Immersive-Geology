@@ -2,12 +2,13 @@ package com.igteam.immersivegeology.common.world.gen.carver.builder;
 
 import com.igteam.immersivegeology.common.world.gen.carver.VanillaCaveCarver;
 
+import com.igteam.immersivegeology.common.world.layer.BiomeLayerData;
 import net.minecraft.block.BlockState;
 
 public class VanillaCaveCarverBuilder {
 	private int bottomY = 1, topY = 1, density = 0, priority = 0, liquidAltitude = 10;
 	private BlockState debugBlock;
-	private boolean isDebugVisualizerEnabled, isReplaceGravel, isFloodedUndergroundEnabled;
+	private boolean isDebugVisualizerEnabled, isReplaceGravel, isFloodedUndergroundEnabled, oreCaver;
 
 	public VanillaCaveCarver build() {
 		return new VanillaCaveCarver(this);
@@ -54,6 +55,11 @@ public class VanillaCaveCarverBuilder {
 	 */
 	public VanillaCaveCarverBuilder debugVisualizerBlock(BlockState debugBlock) {
 		this.debugBlock = debugBlock;
+		return this;
+	}
+
+	public VanillaCaveCarverBuilder setOreCarver(boolean b) {
+		this.oreCaver = b;
 		return this;
 	}
 
@@ -118,5 +124,9 @@ public class VanillaCaveCarverBuilder {
 
 	public boolean isFloodedUndergroundEnabled() {
 		return isFloodedUndergroundEnabled;
+	}
+
+	public boolean isOreCarver(){
+		return oreCaver;
 	}
 }

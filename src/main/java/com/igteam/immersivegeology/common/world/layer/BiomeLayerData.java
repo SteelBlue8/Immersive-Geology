@@ -101,13 +101,14 @@ public class BiomeLayerData
 		private float coverage;
 		private EnumMaterials ore;
 		private int setLayer;
-
+		private int oreSeedOffset;
 
 		public LayerOre(float coverage, EnumMaterials ore, int layer)
 		{
 			this.coverage = coverage;
 			this.ore = ore;
 			this.setSetLayer(layer);
+			this.oreSeedOffset = ore.ordinal();
 		}
 
 		public EnumMaterials getOre()
@@ -141,6 +142,9 @@ public class BiomeLayerData
 		}
 
 
+		public int getOreOffset() {
+			return oreSeedOffset;
+		}
 	}
 
 	public int getLayerCount()
@@ -170,7 +174,7 @@ public class BiomeLayerData
 	
 	/**
 	 * @apiNote Only use after layer has been added!
-	 * @param layerID The lowest ID is 1, it relates to the lowest layer in the world
+	 * @param layerIDs The lowest ID is 1, it relates to the lowest layer in the world
 	 * @param objects - input the EnumMaterial type before you input the float rarity
 	 */
 	public BiomeLayerData addLayerOreData(int[] layerIDs, Object...objects) {

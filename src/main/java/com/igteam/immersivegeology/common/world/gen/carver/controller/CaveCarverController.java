@@ -5,6 +5,14 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
+import com.igteam.immersivegeology.ImmersiveGeology;
+import com.igteam.immersivegeology.api.materials.Material;
+import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
+import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
+import com.igteam.immersivegeology.common.blocks.property.IGProperties;
+import com.igteam.immersivegeology.common.materials.EnumMaterials;
+import com.igteam.immersivegeology.common.util.IGLogger;
 import com.igteam.immersivegeology.common.world.IGLib;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.gen.carver.CarverNoiseRange;
@@ -15,12 +23,15 @@ import com.igteam.immersivegeology.common.world.gen.carver.builder.CaveCarverBui
 import com.igteam.immersivegeology.common.world.gen.carver.builder.VanillaCaveCarverBuilder;
 import com.igteam.immersivegeology.common.world.gen.carver.util.CaveType;
 import com.igteam.immersivegeology.common.world.gen.carver.util.ColPos;
+import com.igteam.immersivegeology.common.world.layer.BiomeLayerData;
+import com.igteam.immersivegeology.common.world.layer.wld.WorldLayerData;
 import com.igteam.immersivegeology.common.world.noise.FastNoise;
 import com.igteam.immersivegeology.common.world.noise.ybc.NoiseColumn;
 
 import static com.igteam.immersivegeology.common.world.gen.carver.util.CarverUtils.isPosInWorld;
 
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +48,9 @@ public class CaveCarverController {
     private boolean isOverrideSurfaceDetectionEnabled;
     private boolean isSurfaceCavesEnabled;
     private boolean isFloodedUndergroundEnabled;
-	
+
+    public static WorldLayerData data = WorldLayerData.instance;
+
 	public CaveCarverController(IWorld worldIn, int topY) {
         this.world = worldIn;
         this.isOverrideSurfaceDetectionEnabled = false;
@@ -210,6 +223,26 @@ public class CaveCarverController {
                 carver.generate(world, chunkX, chunkZ, chunk, true, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask);
             }
         }
+
+        for(BiomeLayerData biomeData : data.worldLayerData) {
+            int totalLayers = biomeData.getLayerCount();
+            for (int layer = totalLayers; layer > 0; layer--) {
+                if (biomeData.getLayerOre(layer) != null) {
+                    if (biomeData.getLbiome() == chunk.getBiome(chunk.getPos().asBlockPos())) {
+                        ArrayList<BiomeLayerData.LayerOre> oreArrayData = biomeData.getLayerOre(layer);
+                        // run this through a full loop, for each ore, returns out if ore is not set in the biomes layer data!
+                        Material baseMaterial = ((IGMaterialBlock) biomeData.getLayerBlock((layer))).getMaterial();
+
+                        for (BiomeLayerData.LayerOre oreData : oreArrayData) {
+                            EnumMaterials oreMaterial = oreData.getOre();
+                            BlockState oreType = IGRegistryGrabber.grabBlock(MaterialUseType.ORE_BEARING, baseMaterial, oreMaterial.material).getDefaultState().with(IGProperties.NATURAL, true);
+                            VanillaCaveCarver.ORE_INSTANCE.generateOreVein(world, chunkX, chunkZ, chunk, true, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask, oreType, oreData.getOreOffset(), biomeData, layer);
+                        }
+                    }
+                }
+            }
+        }
+
         // Generate surface caves if enabled
         if (isSurfaceCavesEnabled) {
             surfaceCaveCarver.generate(world, chunkX, chunkZ, chunk, false, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);

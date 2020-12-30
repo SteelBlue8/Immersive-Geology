@@ -22,7 +22,6 @@ public class IGFluid extends Fluid {
     public IGFluid(MaterialUseType type, Material mat){
         this.name = "molten_"+mat.getName();
         setRegistryName(ImmersiveGeology.MODID, this.name);
-
     }
 
     public String getName(){

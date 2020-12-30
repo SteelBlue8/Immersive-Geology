@@ -1,11 +1,20 @@
 package com.igteam.immersivegeology.common.world.gen.carver;
 
+import com.igteam.immersivegeology.api.materials.Material;
+import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
+import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
+import com.igteam.immersivegeology.common.blocks.property.IGProperties;
+import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.gen.carver.controller.CaveCarverController;
 import com.igteam.immersivegeology.common.world.gen.carver.controller.RavineController;
 import com.igteam.immersivegeology.common.world.gen.carver.controller.WaterRegionController;
 import com.igteam.immersivegeology.common.world.gen.carver.util.ColPos;
+import com.igteam.immersivegeology.common.world.layer.BiomeLayerData;
+import com.igteam.immersivegeology.common.world.layer.wld.WorldLayerData;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -13,10 +22,7 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.Heightmap;
 
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /*
  * This carver is a modified version of YungsBetterCaves BetterCavesCarver.java
@@ -32,7 +38,7 @@ public class ImmersiveCarver {
     private WaterRegionController waterCarver;
     private WorleyCaveCarver worleyCaveCarver;
     private RavineController ravineController;
-    
+
     public void initialize(IWorld worldIn, int topY) {
     	this.world = worldIn;
     	this.seed = worldIn.getSeed();
@@ -86,7 +92,7 @@ public class ImmersiveCarver {
         worleyCaveCarver.carve(chunkIn, chunkX << 4, chunkZ << 4, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
         ravineController.carveChunk(chunkIn, chunkX, chunkZ, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);
 
-        // Set carving masks for features to use 
+                    // Set carving masks for features to use
         ((ChunkPrimer) chunkIn).setCarvingMask(GenerationStage.Carving.AIR, airCarvingMask);
         ((ChunkPrimer) chunkIn).setCarvingMask(GenerationStage.Carving.LIQUID, liquidCarvingMask);
     }

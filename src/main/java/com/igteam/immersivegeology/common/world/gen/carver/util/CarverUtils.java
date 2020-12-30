@@ -87,15 +87,21 @@ public class CarverUtils {
             		chunkIn.setBlockState(blockPos.up(), IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, matBlock.getMaterial()).getDefaultState().with(IGProperties.NATURAL, true), false);
             	}
             }
-            
-            // Replace this block with air, effectively "digging" it out
-            chunkIn.setBlockState(blockPos, airBlockState, false);
+            if((blockState.getBlock() != Blocks.AIR && blockState.getBlock() != Blocks.CAVE_AIR && blockState.getBlock() != Blocks.WATER)) {
+                // Replace this block with air (or something else), effectively "digging" it out
+                chunkIn.setBlockState(blockPos, airBlockState, false);
+            }
         }
     }
-    
+
     public static void carveBlock(IChunk chunkIn, BlockPos blockPos, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask) {
         carveBlock(chunkIn, blockPos, Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask, false);
     }
+
+    public static void carveBlock(IChunk chunkIn, BlockPos blockPos, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, BitSet carvingMask, BlockState blocktype) {
+        carveBlock(chunkIn, blockPos, blocktype, liquidBlockState, liquidAltitude, replaceGravel, carvingMask, false);
+    }
+
     public static void carveBlockRavine(IChunk chunkIn, BlockPos blockPos, BlockState liquidBlockState, int liquidAltitude, boolean replaceGravel, boolean allowSurfaceDestruction, BitSet carvingMask){
         carveBlock(chunkIn, blockPos, Blocks.CAVE_AIR.getDefaultState(), liquidBlockState, liquidAltitude, replaceGravel, carvingMask, allowSurfaceDestruction);
     }
@@ -291,5 +297,4 @@ public class CarverUtils {
 
         return 1;
     }
-    
 }

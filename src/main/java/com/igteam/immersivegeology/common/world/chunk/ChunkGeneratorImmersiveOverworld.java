@@ -9,6 +9,7 @@ import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.biome.IGBiomes;
 import com.igteam.immersivegeology.common.world.chunk.data.ChunkDataProvider;
 import com.igteam.immersivegeology.common.world.gen.carver.ImmersiveCarver;
+import com.igteam.immersivegeology.common.world.gen.carver.VanillaCaveCarver;
 import com.igteam.immersivegeology.common.world.gen.carver.WorleyOreCarver;
 import com.igteam.immersivegeology.common.world.gen.config.ImmersiveGenerationSettings;
 import com.igteam.immersivegeology.common.world.gen.population.types.WorldPopFalls;
@@ -89,22 +90,23 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 	public void carve(IChunk chunkIn, GenerationStage.Carving stage)
 	{
 		this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
-		if(stage==GenerationStage.Carving.AIR)
-		{
-			// First, run worley cave carver
-			for(BiomeLayerData biomeData : data.worldLayerData)
-			{
-				int totalLayers = biomeData.getLayerCount();
-				for(int layer = totalLayers; layer > 0; layer--)
-				{
-					if(biomeData.getLayerOre(layer)!=null)
-					{
-						WorleyOreCarver.INSTANCE.carve(chunkIn, chunkIn.getPos().x<<4, chunkIn.getPos().z<<4, biomeData, layer);
-					}
-				}
-			}
-
-		}
+//		if(stage==GenerationStage.Carving.AIR)
+//		{
+//			// First, run worley cave carver
+//			for(BiomeLayerData biomeData : data.worldLayerData)
+//			{
+//				int totalLayers = biomeData.getLayerCount();
+//				for(int layer = totalLayers; layer > 0; layer--)
+//				{
+//					if(biomeData.getLayerOre(layer)!=null)
+//					{
+//						//VanillaCaveCarver.ORE_INSTANCE.generateOreVein(chunkIn.getWorldForge(),chunkIn.getPos().x, chunkIn.getPos().z, chunkIn, true, null, );
+//						WorleyOreCarver.INSTANCE.carve(chunkIn, chunkIn.getPos().x<<4, chunkIn.getPos().z<<4, biomeData, layer);
+//					}
+//				}
+//			}
+//
+//		}
 
 		// Fire other world carvers
 		super.carve(chunkIn, stage);
