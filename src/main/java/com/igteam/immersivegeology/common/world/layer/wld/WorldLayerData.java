@@ -73,10 +73,7 @@ public class WorldLayerData
 									EnumMaterials.Uraninite, 0.15f).build(),
 
 				//Plains
-				BiomeLayerBuilder.create(IGBiomes.PLAINS).addLayerData(KAOLINITE, KAOLINITE, KAOLINITE, LIMESTONE, BASALT)
-						.addLayerOreData(5, EnumMaterials.Gold, 0.22f,
-								EnumMaterials.Hematite, 0.38f,
-								EnumMaterials.Cuprite, 0.35f)
+				BiomeLayerBuilder.create(IGBiomes.PLAINS).addLayerData(KAOLINITE, KAOLINITE, KAOLINITE,KAOLINITE,KAOLINITE, LIMESTONE, BASALT)
 						.addLayerOreData(4, EnumMaterials.Gold, 0.22f,
 								EnumMaterials.Hematite, 0.38f,
 								EnumMaterials.Cuprite, 0.35f)

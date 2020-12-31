@@ -84,9 +84,9 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 		this.immersiveCarver = new ImmersiveCarver();
 		this.immersiveCarver.initialize(world, 255);
 
-		EnumMaterials.filterByUseType(MaterialUseType.GENERATED_CHUNKS).forEach((ore) -> {
-				WorleyOreCarver.INSTANCE.setupNewLayer(seedGenerator, ore);
-		});
+//		EnumMaterials.filterByUseType(MaterialUseType.GENERATED_CHUNKS).forEach((ore) -> {
+//				WorleyOreCarver.INSTANCE.setupNewLayer(seedGenerator, ore);
+//		});
 		
 		this.chunkDataProvider = new ChunkDataProvider(world, settings, seedGenerator);
 	}
@@ -100,17 +100,17 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 			
 			this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
 
-			for(BiomeLayerData biomeData : data.worldLayerData)
-			{
-				int totalLayers = biomeData.getLayerCount();
-				for(int layer = totalLayers; layer > 0; layer--)
-				{
-					if(biomeData.getLayerOre(layer)!=null)
-					{
-						WorleyOreCarver.INSTANCE.carve(chunkIn, chunkIn.getPos().x<<4, chunkIn.getPos().z<<4, biomeData, layer);
-					}
-				}
-			}
+//			for(BiomeLayerData biomeData : data.worldLayerData)
+//			{
+//				int totalLayers = biomeData.getLayerCount();
+//				for(int layer = totalLayers; layer > 0; layer--)
+//				{
+//					if(biomeData.getLayerOre(layer)!=null)
+//					{
+//						WorleyOreCarver.INSTANCE.carve(chunkIn, chunkIn.getPos().x<<4, chunkIn.getPos().z<<4, biomeData, layer);
+//					}
+//				}
+//			}
 
 		}
 

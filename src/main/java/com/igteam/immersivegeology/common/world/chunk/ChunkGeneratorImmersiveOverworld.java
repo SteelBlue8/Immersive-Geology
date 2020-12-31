@@ -89,9 +89,10 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 	@Override
 	public void carve(IChunk chunkIn, GenerationStage.Carving stage)
 	{
-		this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
-//		if(stage==GenerationStage.Carving.AIR)
-//		{
+
+		if(stage==GenerationStage.Carving.AIR)
+		{
+			this.immersiveCarver.carve(chunkIn, chunkIn.getPos().x, chunkIn.getPos().z);
 //			// First, run worley cave carver
 //			for(BiomeLayerData biomeData : data.worldLayerData)
 //			{
@@ -105,8 +106,7 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 //					}
 //				}
 //			}
-//
-//		}
+		}
 
 		// Fire other world carvers
 		super.carve(chunkIn, stage);

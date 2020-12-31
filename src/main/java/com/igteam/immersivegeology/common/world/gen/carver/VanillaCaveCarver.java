@@ -88,7 +88,7 @@ public class VanillaCaveCarver implements ICarver {
         }
     }
 
-    public void generateOreVein(IWorld worldIn, int chunkX, int chunkZ, IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState oreType, int seedoffset, BiomeLayerData biomeData, int currentLayer) {
+    public void generateOreVein(IWorld worldIn, int chunkX, int chunkZ, IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState oreType, int seedoffset, BiomeLayerData biomeData, BiomeLayerData.LayerOre oreData, int currentLayer) {
         int chunkRadius = this.range;
         this.world = worldIn;
         this.rand.setSeed(worldIn.getSeed() + seedoffset);
@@ -102,7 +102,7 @@ public class VanillaCaveCarver implements ICarver {
                 long j1 = (long) currChunkX * j;
                 long k1 = (long) currChunkZ * k;
                 this.rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
-                this.recursiveOreGenerate(worldIn, currChunkX, currChunkZ, chunkX, chunkZ, primer, addRooms, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, oreType, biomeData, currentLayer);
+                this.recursiveOreGenerate(worldIn, currChunkX, currChunkZ, chunkX, chunkZ, primer, addRooms, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, oreType, biomeData, oreData, currentLayer);
             }
         }
     }
@@ -156,10 +156,10 @@ public class VanillaCaveCarver implements ICarver {
         }
     }
 
-    private void recursiveOreGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalChunkX, int originalChunkZ, @Nonnull IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, int currentLayer) {
+    private void recursiveOreGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalChunkX, int originalChunkZ, @Nonnull IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, BiomeLayerData.LayerOre oreData, int currentLayer) {
         int numAttempts = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
 
-        if (this.rand.nextInt(100) > this.density) {
+        if ( (this.rand.nextFloat() + this.rand.nextFloat()) > oreData.getCoverage()) {
             numAttempts = 0;
         }
 

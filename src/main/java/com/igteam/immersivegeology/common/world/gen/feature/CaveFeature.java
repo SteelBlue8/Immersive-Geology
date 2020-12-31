@@ -5,6 +5,7 @@ import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
 import com.igteam.immersivegeology.common.blocks.IGCaveBlock;
 import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
+import com.igteam.immersivegeology.common.blocks.IGOreBearingBlock;
 import com.igteam.immersivegeology.common.blocks.property.SpikePart;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
@@ -95,9 +96,10 @@ public class CaveFeature extends Feature<NoFeatureConfig> {
     protected void replaceBlock(IWorld world, BlockPos pos, BlockState state)
     {
         Block block = world.getBlockState(pos).getBlock();
-        if (block == Blocks.CAVE_AIR || block == Blocks.AIR)
-        {
-            setBlockState(world, pos, state);
+        if(!(block instanceof IGOreBearingBlock) && (block instanceof IGMaterialBlock)) {
+            if (block == Blocks.CAVE_AIR || block == Blocks.AIR) {
+                setBlockState(world, pos, state);
+            }
         }
     }
 }

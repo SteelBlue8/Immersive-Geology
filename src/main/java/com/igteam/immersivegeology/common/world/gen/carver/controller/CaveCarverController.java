@@ -236,7 +236,7 @@ public class CaveCarverController {
                         for (BiomeLayerData.LayerOre oreData : oreArrayData) {
                             EnumMaterials oreMaterial = oreData.getOre();
                             BlockState oreType = IGRegistryGrabber.grabBlock(MaterialUseType.ORE_BEARING, baseMaterial, oreMaterial.material).getDefaultState().with(IGProperties.NATURAL, true);
-                            VanillaCaveCarver.ORE_INSTANCE.generateOreVein(world, chunkX, chunkZ, chunk, true, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask, oreType, oreData.getOreOffset(), biomeData, layer);
+                            VanillaCaveCarver.ORE_INSTANCE.generateOreVein(world, chunkX, chunkZ, chunk, true, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask, oreType, oreData.getOreOffset(), biomeData, oreData, layer);
                         }
                     }
                 }
