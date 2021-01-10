@@ -62,7 +62,6 @@ public class VanillaCaveCarver implements ICarver {
     public static VanillaCaveCarver ORE_INSTANCE = new VanillaCaveCarverBuilder()
             .bottomY(0)
             .topY(255)
-            .density(15)
             .liquidAltitude(0)
             .replaceGravel(true)
             .floodedUnderground(false)

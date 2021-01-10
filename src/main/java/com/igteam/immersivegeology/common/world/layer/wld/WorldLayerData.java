@@ -7,8 +7,11 @@ import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.biome.IGBiomes;
 import com.igteam.immersivegeology.common.world.layer.BiomeLayerData;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.layer.BiomeLayer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +19,7 @@ public class WorldLayerData
 {
 
 	public final static WorldLayerData instance = new WorldLayerData();
-	
+
 	public ArrayList<BiomeLayerData> worldLayerData = new ArrayList<>();
 
 	public IGBaseBlock LIMESTONE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Limestone.material);
@@ -27,7 +30,7 @@ public class WorldLayerData
 	public IGBaseBlock PEGMATITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Pegmatite.material);
 	public IGBaseBlock GABBROS = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Gabbros.material);
 
-	public IGBaseBlock KAOLINITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Kaolinite.material); //this is getting ore not kaolinite
+	public IGBaseBlock KAOLINITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Kaolinite.material); //this is a mineral
 
 	public IGBaseBlock NETHERRACK = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Netherrack.material);
 
@@ -35,7 +38,7 @@ public class WorldLayerData
 	{
 		initialize();
 	}
-	
+
 	public void initialize() {
 		buildMountainData();
 		buildOceanData();
@@ -50,6 +53,7 @@ public class WorldLayerData
 						.addLayerOreData(1,   EnumMaterials.Gold,0.2f, EnumMaterials.Pyrolusite,0.2f)
 						.build()
 		));
+
 	}
 
 	private void buildMediumBiomeData() {
@@ -64,7 +68,6 @@ public class WorldLayerData
 
 	private void buildLowBiomeData() {
 		worldLayerData.addAll(Arrays.asList(
-
 				//Desert
 				BiomeLayerBuilder.create(IGBiomes.DESERT).addLayerData(GRANITE, PEGMATITE, GRANITE, RHYOLITE, BASALT)
 				.addLayerOreData(1, EnumMaterials.Gold, 0.32f,
@@ -85,7 +88,34 @@ public class WorldLayerData
 								EnumMaterials.Cuprite, 0.35f)
 						.addLayerOreData(1, EnumMaterials.Gold, 0.22f,
 								EnumMaterials.Hematite, 0.38f,
-								EnumMaterials.Cuprite, 0.35f).build()));
+								EnumMaterials.Cuprite, 0.35f).build(),
+
+				BiomeLayerBuilder.create(IGBiomes.LOW_CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GRANITE,BASALT)
+						.addLayerOreData(5,
+								EnumMaterials.Bitumen,0.2,
+								EnumMaterials.Lignite,0.3
+						)
+						.addLayerOreData(4,
+								EnumMaterials.Bitumen,0.2,
+								EnumMaterials.Lignite,0.3
+						)
+						.addLayerOreData(3,
+								EnumMaterials.Bitumen,0.2,
+								EnumMaterials.Lignite,0.3
+						)
+						.addLayerOreData(2,
+								EnumMaterials.Bitumen,0.2,
+								EnumMaterials.Lignite,0.3
+						)
+						.addLayerOreData(1,
+								EnumMaterials.Bitumen,0.2,
+								EnumMaterials.Lignite,0.3,
+								EnumMaterials.Chromite,0.2
+						).build()
+		));
+
+
+
 	}
 
 	private void buildOceanData() {
@@ -224,5 +254,5 @@ public class WorldLayerData
 								EnumMaterials.Uraninite, 0.25f)
 						.build()));
 	}
-	
+
 }

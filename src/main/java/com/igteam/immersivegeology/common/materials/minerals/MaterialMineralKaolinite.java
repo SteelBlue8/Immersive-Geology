@@ -38,15 +38,15 @@ public class MaterialMineralKaolinite extends MaterialMineralBase {
 		));
 	}
 
-	@Override
-	public boolean hasUsetype(MaterialUseType useType)
-	{
-		if(useType==MaterialUseType.GENERATED_ORE)
-			return false; //Has no ore
-		if(useType==MaterialUseType.ROCK)
-			return true;
-		return super.hasUsetype(useType);
-	}
+//	@Override
+//	public boolean hasUsetype(MaterialUseType useType)
+//	{
+//		if(useType==MaterialUseType.ROCK)
+//			return true;
+//		if(useType==MaterialUseType.GENERATED_ORE)
+//			return false; //Has no ore
+//		return super.hasUsetype(useType);
+//	}
 
 	@Override
 	public Rarity getRarity() {
