@@ -23,10 +23,10 @@ public abstract class MaterialFluidBase extends Material
 	{
 		switch(useType)
 		{
-			case BUCKET:
-				return hasBucket();
-			case FLUIDS:
-				return hasFluidBlock();
+//			case BUCKET:			deal with this later - Muddykat
+//				return hasBucket();
+//			case FLUIDS:
+//				return hasFluidBlock();
 		}
 		return false;
 	}
@@ -58,5 +58,10 @@ public abstract class MaterialFluidBase extends Material
 	public boolean hasFluidBlock()
 	{
 		return true;
+	}
+
+	@Override
+	public String getFluidPrefix() {
+		return "fluid";
 	}
 }

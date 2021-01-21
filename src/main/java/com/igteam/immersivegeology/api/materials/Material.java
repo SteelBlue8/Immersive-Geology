@@ -276,4 +276,8 @@ public abstract class Material implements IHeadMaterial, IBindingMaterial, IHand
 	public boolean hasFluid() {
 		return false;
 	};
+
+    public String getFluidPrefix(){
+    	return "molten";
+	};
 }

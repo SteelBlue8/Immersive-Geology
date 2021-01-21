@@ -1,7 +1,9 @@
 package com.igteam.immersivegeology.api.materials;
 
+import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.api.materials.material_bases.MaterialCrystalBase;
 import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
+import com.igteam.immersivegeology.common.IGContent;
 import com.igteam.immersivegeology.common.blocks.*;
 import com.igteam.immersivegeology.common.blocks.crystal.IGGeodeBlock;
 import com.igteam.immersivegeology.common.blocks.metal.IGDustBlock;
@@ -12,10 +14,7 @@ import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGMossLayer;
 import com.igteam.immersivegeology.common.blocks.plant.IGRockMossBlock;
 import com.igteam.immersivegeology.common.fluid.IGFluid;
-import com.igteam.immersivegeology.common.items.IGBaseItem;
-import com.igteam.immersivegeology.common.items.IGMaterialItem;
-import com.igteam.immersivegeology.common.items.IGMaterialResourceItem;
-import com.igteam.immersivegeology.common.items.IGMaterialYieldItem;
+import com.igteam.immersivegeology.common.items.*;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluid;
@@ -407,11 +406,13 @@ public enum MaterialUseType implements IStringSerializable
 
 	public IGFluidBlock[] getFluidBlocks(com.igteam.immersivegeology.api.materials.Material material)
 	{
-		return new IGFluidBlock[]{new IGFluidBlock(material.getFluid(false), material, false), new IGFluidBlock(material.getFluid(true), material, true)};
+		return new IGFluidBlock[]{new IGFluidBlock(material.getFluid(false), material)};
 	}
 
 	public IGFluid[] getFluids(com.igteam.immersivegeology.api.materials.Material material){
-		return new IGFluid[]{new IGFluid.Source(this, material), new IGFluid.Flowing(this, material)};
+		IGFluid source = new IGFluid.Source(this, material);
+		IGContent.registeredIGItems.put("item_bucket_" + material.getName(), new IGStoreageItem(source, material));
+		return new IGFluid[]{source, new IGFluid.Flowing(this, material)};
 	}
 
 	/**

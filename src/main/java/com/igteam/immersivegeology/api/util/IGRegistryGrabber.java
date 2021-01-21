@@ -73,10 +73,9 @@ public class IGRegistryGrabber
 	}
 
 	@Nonnull
-	public static IGFluidBlock grabFluidBlock(@Nonnull MaterialUseType type, @Nonnull Material material, boolean isSource)
+	public static IGFluidBlock grabFluidBlock(@Nonnull MaterialUseType type, @Nonnull Material material)
 	{
-		String prefix = isSource ? "source_" : "flowing_";
-		StringBuilder builder = new StringBuilder("fluid_"+prefix+material.getName());
+		StringBuilder builder = new StringBuilder("fluid_"+material.getName());
 		return IGContent.registeredIGFluidBlocks.getOrDefault(builder.toString(), IGContent.registeredIGFluidBlocks.values().stream().findFirst().get());
 	}
 
@@ -85,4 +84,9 @@ public class IGRegistryGrabber
 		StringBuilder builder = new StringBuilder("fluid_" + prefix + material.getName());
 		return IGContent.registeredIGFluids.getOrDefault(builder.toString(), IGContent.registeredIGFluids.values().stream().findFirst().get());
     }
+
+	public static Item grabItemBucket(Material matType) {
+		StringBuilder builder = new StringBuilder("item_bucket_" + matType.getName());
+		return IGContent.registeredIGItems.getOrDefault(builder.toString(), IGContent.registeredIGItems.values().stream().findFirst().get());
+	}
 }

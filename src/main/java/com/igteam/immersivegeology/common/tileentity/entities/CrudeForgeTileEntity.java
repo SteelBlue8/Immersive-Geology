@@ -3,14 +3,18 @@ package com.igteam.immersivegeology.common.tileentity.entities;
 import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
 import blusunrize.immersiveengineering.common.blocks.IEBaseTileEntity;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
+import blusunrize.immersiveengineering.common.gui.TileInventory;
 import blusunrize.immersiveengineering.common.util.inventory.IIEInventory;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
+import com.igteam.immersivegeology.common.items.IGMaterialYieldItem;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -32,11 +36,11 @@ import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
 
-public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInterfaces.IActiveState, IEBlockInterfaces.IInteractionObjectIE, IEBlockInterfaces.IProcessTile, IEBlockInterfaces.IBlockBounds, IIEInventory {
+public class CrudeForgeTileEntity extends IEBaseTileEntity implements ITickableTileEntity, IEBlockInterfaces.IActiveState, IEBlockInterfaces.IInteractionObjectIE, IEBlockInterfaces.IProcessTile, IEBlockInterfaces.IBlockBounds, IIEInventory {
     //THIS IS REQUIRED FOR IT TO REGISTER,
     public static TileEntityType<CrudeForgeTileEntity> TYPE;
 
-    private NonNullList<ItemStack> inventory = NonNullList.withSize(4, ItemStack.EMPTY);
+    public IInventory inventory = new Inventory(ItemStack.EMPTY,ItemStack.EMPTY);
 
     public CrudeForgeData guiData = new CrudeForgeData();
 
@@ -75,8 +79,6 @@ public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInt
 
     public CrudeForgeTileEntity() {
         super(TYPE);
-        wasteTank.fill(new FluidStack(Fluids.WATER, 2000), IFluidHandler.FluidAction.EXECUTE);
-        oreTank.fill(new FluidStack(IGRegistryGrabber.grabFluid(true, EnumMaterials.Vanadium.material),2000), IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
@@ -113,7 +115,7 @@ public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInt
     @Nullable
     @Override
     public NonNullList<ItemStack> getInventory() {
-        return inventory;
+        return null;
     }
 
     @Override
@@ -139,6 +141,16 @@ public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInt
     @Override
     public int[] getCurrentProcessesMax() {
         return new int[0];
+    }
+
+    @Override
+    public void tick() {
+        if(this.inventory != null) {
+            if (this.inventory.getStackInSlot(SLOT_INPUT).getItem() instanceof IGMaterialYieldItem) {
+                IGMaterialYieldItem yeild = (IGMaterialYieldItem) this.inventory.getStackInSlot(SLOT_INPUT).getItem();
+                oreTank.fill(new FluidStack(IGRegistryGrabber.grabFluid(true, yeild.getMaterial()), yeild.getMaxOreYield()), IFluidHandler.FluidAction.EXECUTE);
+            }
+        }
     }
 
     public class CrudeForgeData implements IIntArray

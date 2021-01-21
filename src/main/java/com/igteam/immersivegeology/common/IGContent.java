@@ -70,6 +70,9 @@ public class IGContent
 						case RESOURCE_ITEM:
 								Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
 							break;
+						case STORAGE_ITEM:
+								Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
+							break;
 						case RESOURCE_BLOCK:
 								Arrays.stream(materialItem.getBlocks(material)).forEach(block -> {
 									registeredIGBlocks.put(block.name, block);

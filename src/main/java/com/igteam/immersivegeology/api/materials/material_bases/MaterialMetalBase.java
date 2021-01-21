@@ -64,6 +64,7 @@ public abstract class MaterialMetalBase extends Material implements IHeadMateria
 				return hasDustBlock();
 			case FLUID_BLOCKS:
 			case FLUIDS:
+			case BUCKET:
 				return true;
 			default:
 				return false;

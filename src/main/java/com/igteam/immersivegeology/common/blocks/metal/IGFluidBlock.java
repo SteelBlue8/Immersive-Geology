@@ -38,24 +38,16 @@ public class IGFluidBlock extends FlowingFluidBlock implements IIGBlock
 {
 	public final String name;
 	public BlockItem itemBlock = null;
-	public ItemSubGroup itemSubGroup = ItemSubGroup.misc;
 
-
-	public IGFluidBlock(IGFluid fluid ,Material material, boolean isSource) {
-		this(fluid, material, ItemSubGroup.misc, isSource);
-	}
-
-	public IGFluidBlock(IGFluid fluid ,Material material, ItemSubGroup group, boolean isSource) {
+	public IGFluidBlock(IGFluid fluid ,Material material) {
 		super(fluid, Properties.create(net.minecraft.block.material.Material.LAVA).doesNotBlockMovement().tickRandomly().hardnessAndResistance(100.0F).lightValue(15).noDrops());
-		String prefix = isSource ? "source_" : "flowing_";
-		this.name = "fluid_" + prefix + material.getName();
+		this.name = "fluid_" + material.getName();
 		setRegistryName(ImmersiveGeology.MODID, this.name);
 
 		try
 		{
 			if(this.itemBlock == null) {
-				this.itemSubGroup = group;
-				this.itemBlock = new IGBlockItem(this, new Item.Properties().group(ImmersiveGeology.IG_ITEM_GROUP),group);
+				this.itemBlock = new BlockItem(this, new Item.Properties());
 				this.itemBlock.setRegistryName(this.getRegistryName());
 				IGContent.addItemBlockForBlock(name, this.itemBlock);
 			}
