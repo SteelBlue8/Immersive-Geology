@@ -4,6 +4,9 @@ import blusunrize.immersiveengineering.client.models.IOBJModelCallback;
 import blusunrize.immersiveengineering.common.blocks.IEBaseTileEntity;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.common.util.inventory.IIEInventory;
+import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
+import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -73,7 +76,7 @@ public class CrudeForgeTileEntity extends IEBaseTileEntity implements IEBlockInt
     public CrudeForgeTileEntity() {
         super(TYPE);
         wasteTank.fill(new FluidStack(Fluids.WATER, 2000), IFluidHandler.FluidAction.EXECUTE);
-        oreTank.fill(new FluidStack(Fluids.LAVA, 6000), IFluidHandler.FluidAction.EXECUTE);
+        oreTank.fill(new FluidStack(IGRegistryGrabber.grabFluid(true, EnumMaterials.Vanadium.material),2000), IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override

@@ -167,7 +167,7 @@ public class BiomeLayerData
 	public BiomeLayerData addLayerOreData(int layerID, Object...objects) {
 		for(int index = 0; index < (objects.length - 1); index+=2) {
 			addMachineOre(layerID, (float)objects[index+1], (EnumMaterials) objects[index]);
-		} 
+		}
 		
 		return this;
 	}

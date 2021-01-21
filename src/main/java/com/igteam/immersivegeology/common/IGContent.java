@@ -6,6 +6,7 @@ import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
 import com.igteam.immersivegeology.common.blocks.*;
+import com.igteam.immersivegeology.common.blocks.metal.IGFluidBlock;
 import com.igteam.immersivegeology.common.fluid.IGFluid;
 import com.igteam.immersivegeology.common.gui.GuiAccessor;
 import com.igteam.immersivegeology.common.items.IGBaseItem;
@@ -15,6 +16,7 @@ import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.tileentity.helper.TileEntityRegistryEnum;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
@@ -37,6 +39,7 @@ import static com.igteam.immersivegeology.ImmersiveGeology.MODID;
 public class IGContent
 {
 	public static Map<String, IGBaseBlock> registeredIGBlocks = new HashMap<String, IGBaseBlock>();
+	public static Map<String, IGFluidBlock> registeredIGFluidBlocks = new HashMap<String, IGFluidBlock>();
 	public static Map<String, Block> registeredIGSlabBlocks = new HashMap<String, Block>();
 	public static Map<String, Item> registeredIGItems = new HashMap<String, Item>();
 	public static List<Class<? extends TileEntity>> registeredIGTiles = new ArrayList<>();
@@ -61,16 +64,21 @@ public class IGContent
 				{
 					switch(materialItem.getCategory())
 					{
+						case FLUID:
+								Arrays.stream(materialItem.getFluids(material)).forEach(fluid -> {registeredIGFluids.put(fluid.getName(), fluid);});
+							break;
 						case RESOURCE_ITEM:
-							Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
+								Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
 							break;
 						case RESOURCE_BLOCK:
-							Arrays.stream(materialItem.getBlocks(material)).forEach(block -> {
-								registeredIGBlocks.put(block.name, block);
-							});
+								Arrays.stream(materialItem.getBlocks(material)).forEach(block -> {
+									registeredIGBlocks.put(block.name, block);
+								});
 							break;
-						case FLUID:
-							Arrays.stream(materialItem.getFluids(material)).forEach(fluid -> {registeredIGFluids.put(fluid.getName(), fluid);});
+						case FLUID_BLOCK:
+								Arrays.stream(materialItem.getFluidBlocks(material)).forEach(fluid -> {
+									registeredIGFluidBlocks.put(fluid.name, fluid);
+								});
 							break;
 						default:
 							break;
@@ -108,15 +116,27 @@ public class IGContent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
 		// checkNonNullNames(registeredIGBlocks);
-		for(Block block : IGContent.registeredIGBlocks.values())
-			if(block!=null)
+		for(Block block : IGContent.registeredIGBlocks.values()) {
+			if (block != null) {
 				event.getRegistry().register(block);
+			}
+		}
+		for(IGFluidBlock fluidBlock : IGContent.registeredIGFluidBlocks.values()) {
+			if (fluidBlock != null) {
+				event.getRegistry().register(fluidBlock);
+			}
+		}
 	}
 
 	@SubscribeEvent
 	public static void registerBlockItems(RegistryEvent.Register<Item> event)
 	{
 		for(Block b : registeredIGBlocks.values())
+			if(b instanceof IIGBlock)
+			{
+				event.getRegistry().register(((IIGBlock)b).getItemBlock());
+			}
+		for(Block b : registeredIGFluidBlocks.values())
 			if(b instanceof IIGBlock)
 			{
 				event.getRegistry().register(((IIGBlock)b).getItemBlock());
@@ -141,8 +161,9 @@ public class IGContent
 	@SubscribeEvent
 	public static void registerFluids(RegistryEvent.Register<Fluid> event)
 	{
-		for(Fluid fluid : registeredIGFluids.values())
+		for(IGFluid fluid : registeredIGFluids.values()) {
 			event.getRegistry().register(fluid);
+		}
 	}
 
 	@SubscribeEvent

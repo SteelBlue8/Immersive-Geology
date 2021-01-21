@@ -1,12 +1,19 @@
 package com.igteam.immersivegeology.common.data;
 
 import com.igteam.immersivegeology.ImmersiveGeology;
+import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.common.IGContent;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
+import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 
 /**
  * @author Pabilo8
@@ -39,7 +46,6 @@ public class IGDataGenerator
 				gen.addProvider(new IGBlockStateProvider(gen, event.getExistingFileHelper()));
 				gen.addProvider(new IGItemModelProvider(gen, event.getExistingFileHelper()));
 			}
-
 		}
 
 		public static ResourceLocation rl(String path) {

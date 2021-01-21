@@ -57,13 +57,22 @@ public class WorldLayerData
 	}
 
 	private void buildMediumBiomeData() {
-		worldLayerData.addAll(Arrays.asList(BiomeLayerBuilder.create(IGBiomes.BADLANDS).addLayerData(GRANITE, GRANITE, GABBROS, GABBROS, BASALT, BASALT)
+		worldLayerData.addAll(Arrays.asList(
+
+				BiomeLayerBuilder.create(IGBiomes.BADLANDS).addLayerData(GRANITE, GRANITE, GABBROS, GABBROS, BASALT, BASALT)
 						.addLayerOreData(4, EnumMaterials.Gold, 0.45f,EnumMaterials.Hematite, 0.45f)
 						.addLayerOreData(3, EnumMaterials.Gold, 0.5f, EnumMaterials.Hematite, 0.45f)
 						.addLayerOreData(2, EnumMaterials.Uraninite, 0.25f, EnumMaterials.Ilmenite, 0.38f, EnumMaterials.Hubnerite, 0.35f)
 						.addLayerOreData(1, EnumMaterials.Cuprite, 0.30f, EnumMaterials.Hematite, 0.45f, EnumMaterials.Gold, 0.55f)
-								.build()
-		));
+								.build())
+//
+//				BiomeLayerBuilder.create(IGBiomes.CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GRANITE,BASALT)
+//					.addLayerOreData(4,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
+//					.addLayerOreData(3,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
+//					.addLayerOreData(2,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
+//					.addLayerOreData(1,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3,EnumMaterials.Chromite,0.2)
+//						.build())
+		);
 	}
 
 	private void buildLowBiomeData() {
@@ -88,30 +97,24 @@ public class WorldLayerData
 								EnumMaterials.Cuprite, 0.35f)
 						.addLayerOreData(1, EnumMaterials.Gold, 0.22f,
 								EnumMaterials.Hematite, 0.38f,
-								EnumMaterials.Cuprite, 0.35f).build(),
-
-				BiomeLayerBuilder.create(IGBiomes.LOW_CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GRANITE,BASALT)
-						.addLayerOreData(5,
-								EnumMaterials.Bitumen,0.2,
-								EnumMaterials.Lignite,0.3
-						)
-						.addLayerOreData(4,
-								EnumMaterials.Bitumen,0.2,
-								EnumMaterials.Lignite,0.3
-						)
-						.addLayerOreData(3,
-								EnumMaterials.Bitumen,0.2,
-								EnumMaterials.Lignite,0.3
-						)
-						.addLayerOreData(2,
-								EnumMaterials.Bitumen,0.2,
-								EnumMaterials.Lignite,0.3
-						)
-						.addLayerOreData(1,
-								EnumMaterials.Bitumen,0.2,
-								EnumMaterials.Lignite,0.3,
-								EnumMaterials.Chromite,0.2
-						).build()
+								EnumMaterials.Cuprite, 0.35f).build()
+//
+//				//LOW CANYONS
+//				BiomeLayerBuilder.create(IGBiomes.LOW_CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GRANITE,BASALT)
+//						.addLayerOreData(4,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
+//						.addLayerOreData(3,
+//								EnumMaterials.Bitumen,0.2,
+//								EnumMaterials.Lignite,0.3
+//						)
+//						.addLayerOreData(2,
+//								EnumMaterials.Bitumen,0.2,
+//								EnumMaterials.Lignite,0.3
+//						)
+//						.addLayerOreData(1,
+//								EnumMaterials.Bitumen,0.2,
+//								EnumMaterials.Lignite,0.3,
+//								EnumMaterials.Chromite,0.2
+//						).build()
 		));
 
 

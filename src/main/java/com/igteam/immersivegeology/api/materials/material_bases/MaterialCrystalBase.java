@@ -14,6 +14,8 @@ public abstract class MaterialCrystalBase extends Material implements ITipMateri
 	{
 		switch(useType)
 		{
+            case GENERATED_ORE:
+            case GENERATED_CHUNKS:
 			case GEODE:
 				return true;
 			case CRYSTAL:

@@ -7,6 +7,8 @@ import com.igteam.immersivegeology.api.interfaces.ITipMaterial;
 import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialTypes;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.api.util.IGRegistryGrabber;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
 
 /**
  * Created by Pabilo8 on 25-03-2020.
@@ -14,6 +16,11 @@ import com.igteam.immersivegeology.api.materials.MaterialUseType;
 public abstract class MaterialMetalBase extends Material implements IHeadMaterial, IHandleMaterial, IBindingMaterial
 {
 	public abstract EnumMetalType getMetalType();
+
+	public MaterialMetalBase(){
+		this.source = new IGFluid.Source(MaterialUseType.FLUIDS, this);
+		this.flowing = new IGFluid.Flowing(MaterialUseType.FLUIDS, this);
+	}
 
 	@Override
 	public boolean hasUsetype(MaterialUseType useType)
@@ -55,6 +62,7 @@ public abstract class MaterialMetalBase extends Material implements IHeadMateria
 				return hasSheetmetal();
 			case DUST_BLOCK:
 				return hasDustBlock();
+			case FLUID_BLOCKS:
 			case FLUIDS:
 				return true;
 			default:
@@ -163,6 +171,11 @@ public abstract class MaterialMetalBase extends Material implements IHeadMateria
 
 	public boolean hasDustBlock()
 	{
+		return true;
+	}
+
+	@Override
+	public boolean hasFluid() {
 		return true;
 	}
 }

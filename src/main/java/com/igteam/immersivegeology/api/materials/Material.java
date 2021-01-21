@@ -6,6 +6,9 @@ import com.igteam.immersivegeology.api.interfaces.IHandleMaterial;
 import com.igteam.immersivegeology.api.interfaces.IHeadMaterial;
 import com.igteam.immersivegeology.api.interfaces.ITipMaterial;
 import com.igteam.immersivegeology.api.materials.PeriodicTableElement.ElementProportion;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
+import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Rarity;
 
 import javax.annotation.Nonnull;
@@ -22,6 +25,9 @@ import java.util.LinkedHashSet;
  */
 public abstract class Material implements IHeadMaterial, IBindingMaterial, IHandleMaterial, ITipMaterial
 {
+	protected IGFluid source;
+	protected IGFluid flowing;
+
 	/**
 	 * @return material name
 	 */
@@ -262,4 +268,12 @@ public abstract class Material implements IHeadMaterial, IBindingMaterial, IHand
 	public int getTipMiningSpeed() {
 		return 1;
 	}
+
+    public IGFluid getFluid(boolean isFlowing){
+		return isFlowing ? flowing : source;
+	};
+
+	public boolean hasFluid() {
+		return false;
+	};
 }

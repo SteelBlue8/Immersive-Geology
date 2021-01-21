@@ -5,6 +5,7 @@ import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
 import com.igteam.immersivegeology.common.blocks.*;
 import com.igteam.immersivegeology.common.blocks.crystal.IGGeodeBlock;
 import com.igteam.immersivegeology.common.blocks.metal.IGDustBlock;
+import com.igteam.immersivegeology.common.blocks.metal.IGFluidBlock;
 import com.igteam.immersivegeology.common.blocks.metal.IGSheetmetalBlock;
 import com.igteam.immersivegeology.common.blocks.metal.IGStorageBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
@@ -268,7 +269,8 @@ public enum MaterialUseType implements IStringSerializable
 	TILES(UseCategory.RESOURCE_BLOCK, Material.ROCK, ItemSubGroup.processed),
 
 	//Fluids
-	FLUIDS(UseCategory.BLOCK, Material.WATER, ItemSubGroup.misc);
+	FLUIDS(UseCategory.FLUID, Material.WATER, ItemSubGroup.misc),
+	FLUID_BLOCKS(UseCategory.FLUID_BLOCK, Material.LAVA, ItemSubGroup.misc);
 
 	/**
 	 * MaterialUseType is mark a use case for a material, i.e. an Iron Ingot is a use case for Iron
@@ -403,9 +405,13 @@ public enum MaterialUseType implements IStringSerializable
 		return new IGMaterialBlock[]{new IGMaterialBlock(this, material)};
 	}
 
-	public IGFluid[] getFluids(com.igteam.immersivegeology.api.materials.Material material){
+	public IGFluidBlock[] getFluidBlocks(com.igteam.immersivegeology.api.materials.Material material)
+	{
+		return new IGFluidBlock[]{new IGFluidBlock(material.getFluid(false), material, false), new IGFluidBlock(material.getFluid(true), material, true)};
+	}
 
-		return new IGFluid[]{new IGFluid(this, material)};
+	public IGFluid[] getFluids(com.igteam.immersivegeology.api.materials.Material material){
+		return new IGFluid[]{new IGFluid.Source(this, material), new IGFluid.Flowing(this, material)};
 	}
 
 	/**
@@ -428,6 +434,7 @@ public enum MaterialUseType implements IStringSerializable
 		//Will be used for non material blocks
 		BLOCK,
 		//Used for creating a fluid
-		FLUID
+		FLUID,
+		FLUID_BLOCK
 	}
 }

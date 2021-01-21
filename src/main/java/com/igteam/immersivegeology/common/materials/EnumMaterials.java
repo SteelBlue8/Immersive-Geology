@@ -81,14 +81,10 @@ public enum EnumMaterials
 	Wolframite(new MaterialMineralWolframite()),
 	Vanadinite(new MaterialMineralVanadinite()),
 
+	//this needs to be it's own category, it's not really a crystal, and it needs to use the ore chunk stuff as it can be in many types of blocks
 	Lignite(new MaterialCrystalLignite()),
 	Anthracite(new MaterialCrystalAnthracite()),
 	Bitumen(new MaterialCrystalBituminous()),
-
-
-	//Minerals that spawn in such a large quantity that we don't need an 'orebearing' variant, this is where most clay types will end up!
-	Kaolinite(new MaterialMineralKaolinite()),
-
 
 	//Fluids
 	Water(new MaterialFluidWater()),
@@ -97,6 +93,7 @@ public enum EnumMaterials
 
 	//Stones
 	//TODO: add chemical formulas for the stones
+	Kaolinite(new MaterialStoneKaolinite()), //May need to make this into a 'Clay' Type variant
 	Rhyolite(new MaterialStoneRhyolite()),
 	Diorite(new MaterialStoneDiorite()),
 	Andesite(new MaterialStoneAndesite()),

@@ -2,9 +2,13 @@ package com.igteam.immersivegeology.api.util;
 
 import com.igteam.immersivegeology.api.materials.Material;
 import com.igteam.immersivegeology.api.materials.MaterialUseType;
+import com.igteam.immersivegeology.api.materials.material_bases.MaterialFluidBase;
 import com.igteam.immersivegeology.common.IGContent;
 import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
+import com.igteam.immersivegeology.common.blocks.metal.IGFluidBlock;
+import com.igteam.immersivegeology.common.fluid.IGFluid;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nonnull;
@@ -68,4 +72,17 @@ public class IGRegistryGrabber
 		return IGContent.registeredIGBlocks.getOrDefault(builder.toString(), IGContent.registeredIGBlocks.values().stream().findFirst().get());
 	}
 
+	@Nonnull
+	public static IGFluidBlock grabFluidBlock(@Nonnull MaterialUseType type, @Nonnull Material material, boolean isSource)
+	{
+		String prefix = isSource ? "source_" : "flowing_";
+		StringBuilder builder = new StringBuilder("fluid_"+prefix+material.getName());
+		return IGContent.registeredIGFluidBlocks.getOrDefault(builder.toString(), IGContent.registeredIGFluidBlocks.values().stream().findFirst().get());
+	}
+
+    public static IGFluid grabFluid(boolean isSource, @Nonnull Material material) {
+		String prefix = isSource ? "source_" : "flowing_";
+		StringBuilder builder = new StringBuilder("fluid_" + prefix + material.getName());
+		return IGContent.registeredIGFluids.getOrDefault(builder.toString(), IGContent.registeredIGFluids.values().stream().findFirst().get());
+    }
 }
