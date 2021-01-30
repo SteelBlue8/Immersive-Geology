@@ -14,7 +14,7 @@ issueTrackerURL="https://github.com/Immersive-Geology-Team/Immersive-Geology/iss
 # The modid of the mod
 modId="immersivegeology" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="${file.jarVersion}" #mandatory
+version="0.356" #mandatory
  # A display name for the mod
 displayName="Immersive Geology" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
@@ -24,12 +24,17 @@ displayURL="https://github.com/Immersive-Geology-Team/Immersive-Geology" #option
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="logo.png" #optional
 # A text field displayed in the mod UI
-credits="Devs, committers and all the people who helped Immersive Geology and Engineering" #optional
+credits="Programming: Muddykat, Kuruma and Pabilo8 and YungNickYoung (Yung's Caves Author, Awesome guy, helped Muddykat with Cavegen), Art and Models: JStocke, Bootstrap22 and Lipton" #optional
 # A text field displayed in the mod UI
-authors="Muddykat, JStocke, Kuruma, Pabilo8" #optional
+authors="Muddykat, JStocke, Kuruma, Pabilo8, Bootstrap22, Lipton" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Adds realistic worldgen, materials and progression to Immersive Engineering.
+Immersive Geology is an addon for Immersive Engineering, this mod has it's own world generation type called Immersive.
+An Immersive World is generated with a more Realistic approach in mind, ore generates in veins, caves are larger and more interconnected.
+New Minerals and Metals - Please note, we've added the periodic table of elements in, now, we think we've covered the our bases with metals, metalloids and such
+But we haven't added All of them, just a LOT.
+
+IG Also adds more Rocks and Dirtier Dirt.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.immersivegeology]] #optional

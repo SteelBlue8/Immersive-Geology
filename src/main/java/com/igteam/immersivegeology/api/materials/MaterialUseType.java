@@ -40,9 +40,9 @@ public enum MaterialUseType implements IStringSerializable
 		}
 
 		@Nonnull
-		public String getModelPath()
-		{
-			return "crystal/";
+		@Override
+		public String getModelPath(boolean onlyPath, com.igteam.immersivegeology.api.materials.Material... materials) {
+			return "crystal/" + (onlyPath ? "" : getName());
 		}
 	},
 	ROCK(UseCategory.RESOURCE_BLOCK, Material.ROCK, ItemSubGroup.raw),
@@ -136,6 +136,7 @@ public enum MaterialUseType implements IStringSerializable
 	DUST(UseCategory.RESOURCE_ITEM, ItemSubGroup.processed),
 	TINY_DUST(UseCategory.RESOURCE_ITEM, ItemSubGroup.processed),
 	RAW_CRYSTAL(UseCategory.RESOURCE_ITEM, ItemSubGroup.raw) {
+		@Nonnull
 		@Override
 		public String getModelPath(boolean onlyPath, com.igteam.immersivegeology.api.materials.Material... materials) {
 			if (materials.length > 0) {
@@ -159,6 +160,7 @@ public enum MaterialUseType implements IStringSerializable
 	//Organic stuff
 	STICK(UseCategory.RESOURCE_ITEM, ItemSubGroup.processed),
 	PLANK(UseCategory.RESOURCE_ITEM, ItemSubGroup.processed) {
+		@Nonnull
 		@Override
 		public String getTagName() {
 			return "plank";
@@ -190,6 +192,7 @@ public enum MaterialUseType implements IStringSerializable
 					return new IGLayerBase[]{moss};
 				}
 
+				@Nonnull
 				@Override
 				public String getModelPath(boolean onlyPath, com.igteam.immersivegeology.api.materials.Material... materials) {
 					return "layer/" + (onlyPath ? "" : getName());
@@ -205,7 +208,6 @@ public enum MaterialUseType implements IStringSerializable
 	BROADSWORD_BLADE(UseCategory.TOOLPART_ITEM),
 	HANDLE(UseCategory.TOOLPART_ITEM),
 	BINDING(UseCategory.TOOLPART_ITEM),
-
 	BUCKET(UseCategory.STORAGE_ITEM),
 
 	//Blocks
@@ -411,7 +413,7 @@ public enum MaterialUseType implements IStringSerializable
 
 	public IGFluid[] getFluids(com.igteam.immersivegeology.api.materials.Material material){
 		IGFluid source = new IGFluid.Source(this, material);
-		IGContent.registeredIGItems.put("item_bucket_" + material.getName(), new IGStoreageItem(source, material));
+		IGContent.registeredIGItems.put("item_bucket_" + material.getName(), new IGStoreageItem(source, material, BUCKET));
 		return new IGFluid[]{source, new IGFluid.Flowing(this, material)};
 	}
 

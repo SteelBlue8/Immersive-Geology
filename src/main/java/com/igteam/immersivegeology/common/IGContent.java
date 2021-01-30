@@ -47,6 +47,7 @@ public class IGContent
 	public static Map<Block, SlabBlock> toSlab = new IdentityHashMap<>();
 
 	public static IGBaseItem itemPickaxe = new IGToolPickaxe().setSubGroup(ItemSubGroup.tools);
+
 	public static IGBaseItem itemGuidebook = new IGBaseItem("ig_guidebook").setSubGroup(ItemSubGroup.misc);
 	
 	public static void modConstruction()
@@ -68,10 +69,8 @@ public class IGContent
 								Arrays.stream(materialItem.getFluids(material)).forEach(fluid -> {registeredIGFluids.put(fluid.getName(), fluid);});
 							break;
 						case RESOURCE_ITEM:
-								Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
-							break;
 						case STORAGE_ITEM:
-								Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
+							Arrays.stream(materialItem.getItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
 							break;
 						case RESOURCE_BLOCK:
 								Arrays.stream(materialItem.getBlocks(material)).forEach(block -> {

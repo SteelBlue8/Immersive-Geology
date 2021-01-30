@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "immersivegeology:block_log_ebony"
+    }
+  ],
+  "result": {
+    "item": "immersivegeology:block_planks_ebony",
+    "count": 4
+  }
+}

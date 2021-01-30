@@ -6,6 +6,15 @@
   "immersivegeology.config.title": "",
   "generator.immersive": "Immersive",
 
+  "item.immersivegeology.ig_guidebook": "Geology Field Guide",
+
+  "item.immersivegeology.hammer.name": "%s Hammer",
+  "item.immersivegeology.pickaxe.name": "%s Pickaxe",
+
+  "fluid.immersivegeology.base_fluid.name": "Liquid %s",
+
+  "item.immersivegeology.bucket.name": "Bucket of %s",
+  "item.immersivegeology.tool.name": "%s %t",
   "item.immersivegeology.ingot.name": "%s Ingot",
   "item.immersivegeology.plate.name": "%s Plate",
   "item.immersivegeology.rough_ingot.name": "Rough %s Ingot",
@@ -30,6 +39,10 @@
   "item.immersivegeology.stick.name": "%s Stick",
   "item.immersivegeology.plank.name": "%s Plank",
 
+  "block.immersivegeology.planks.name": "%s Planks",
+  "block.immersivegeology.spike.name": "%s Spike Piece",
+  "block.immersivegeology.layer.name": "%s Layers",
+  "block.immersivegeology.geode.name": "%s Geode",
   "block.immersivegeology.stripped_log.name": "Stripped %s Log",
   "block.immersivegeology.storage_block.name": "%s Block",
   "block.immersivegeology.rock.name": "%s Stone",
@@ -72,7 +85,16 @@
   "material.immersivegeology.andesite.name": "Andesite",
   "material.immersivegeology.endstone.name": "Endstone",
   "material.immersivegeology.netherrack.name": "Netherrack",
+  "material.immersivegeology.moss.name": "Moss",
+  "material.immersivegeology.missingno.name": "Null",
 
+  "material.immersivegeology.wolframite.name": "Wolframite",
+  "material.immersivegeology.phlebotinum.name": "Phlebotinum",
+  "material.immersivegeology.lignite.name": "Lignite",
+  "material.immersivegeology.graphite.name": "Graphite",
+  "material.immersivegeology.diamond.name": "Diamond",
+  "material.immersivegeology.anthracite.name": "Anthracite",
+  "material.immersivegeology.bituminous.name": "Bituminous",
   "material.immersivegeology.gold.name": "Gold",
   "material.immersivegeology.iron.name": "Iron",
   "material.immersivegeology.quartz.name": "Quartz",

@@ -20,6 +20,7 @@ import com.igteam.immersivegeology.common.world.layer.wld.WorldLayerData;
 import com.igteam.immersivegeology.common.world.noise.INoise2D;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.SharedSeedRandom;
@@ -28,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.*;
@@ -289,7 +291,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 		}
 
 		// Build Rough Terrain
-		IGBaseBlock replaceBlock = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Rhyolite.material);
+		Block replaceBlock = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Rhyolite.material);
 
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 		BlockPos.MutableBlockPos posSky = new BlockPos.MutableBlockPos();
@@ -385,7 +387,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 							if((y <= (totHeight*l)/lc)
 									&&(y >= (((totHeight*l)/lc)-((totHeight*l)/lc)/l)))
 							{
-								replaceBlock = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Netherrack.material);
+								replaceBlock = Blocks.NETHERRACK;//IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Netherrack.material);
 								for(int randomLevel = 0; randomLevel < 3; randomLevel++)
 								{
 

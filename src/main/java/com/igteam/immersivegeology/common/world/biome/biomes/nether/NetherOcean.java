@@ -78,6 +78,6 @@ public class NetherOcean extends IGBiome
 	@Override
 	public BlockState returnBlockType(SurfaceBlockType part, float chunkTemp, float chunkRain)
 	{
-		return IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Netherrack.material).getDefaultState();
+		return Blocks.NETHERRACK.getDefaultState();
 	}
 }

@@ -45,7 +45,6 @@ public class CrudeForgeContainer extends Container {
         for(int i = 0; i < 9; i++)
             addSlot(new Slot(inventoryPlayer, i, 8+i*18, 142));
 
-
         slotCount = 2;
 
         data = tile.guiData;

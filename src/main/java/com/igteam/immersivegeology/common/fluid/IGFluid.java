@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.fluid.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -21,6 +22,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,25 +30,29 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidAttributes;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class IGFluid extends FlowingFluid {
 
     protected String name;
     protected Material matType;
-    private FluidAttributes attributes;
-    private FluidAttributes.Builder builder;
+    private IGFluidAttributes attributes;
+    private IGFluidAttributes.IGBuilder builder;
 
     public IGFluid(MaterialUseType type, Material mat) {
         super();
-        builder = FluidAttributes.builder(new ResourceLocation(ImmersiveGeology.MODID, type.getName() + "/" + mat.getFluidPrefix() + "_still"), new ResourceLocation(ImmersiveGeology.MODID, type.getName() + "/"+mat.getFluidPrefix()+"_flowing"));
+        builder = IGFluidAttributes.builder(new ResourceLocation(ImmersiveGeology.MODID, type.getName() + "/" + mat.getFluidPrefix() + "_still"), new ResourceLocation(ImmersiveGeology.MODID, type.getName() + "/"+mat.getFluidPrefix()+"_flowing"));
         builder.color(mat.getColor(mat.getMeltingPoint()));
         builder.density(1000);
         builder.rarity(mat.getRarity());
         builder.temperature(mat.getMeltingPoint());
         builder.viscosity(1000);
-
+        builder.translationKey("fluid." + mat.getModID() + "." + "base_fluid" + ".name");
+        builder.sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA);
+        builder.overlay(new ResourceLocation(ImmersiveGeology.MODID, type.getName() + "/" + mat.getFluidPrefix() + "_still"));
         attributes = builder.build(this);
+
         this.matType = mat;
     }
 

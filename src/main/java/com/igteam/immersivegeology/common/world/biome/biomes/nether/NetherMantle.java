@@ -78,7 +78,7 @@ public class NetherMantle extends IGBiome
 		final INoise2D ridgeNoise = new SimplexNoise2D(seed).octaves(4).ridged().spread(0.04f)
 				.map(x -> 1.3f*-(x > 0?(float)Math.pow(x, 3.2f): 0.5f*x)).scaled(-1f, 0.3f, -1f, 1f)
 				.terraces(16).scaled(-20, 0);
-		return new SimplexNoise2D(seed).octaves(6).spread(0.08f).scaled(90, 115).add(ridgeNoise);
+		return new SimplexNoise2D(seed).octaves(6).spread(0.08f).scaled(90, 145).add(ridgeNoise);
 	}
 
 	@Override

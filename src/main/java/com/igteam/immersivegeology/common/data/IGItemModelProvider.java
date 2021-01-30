@@ -2,17 +2,22 @@ package com.igteam.immersivegeology.common.data;
 
 import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.api.materials.Material;
+import com.igteam.immersivegeology.api.materials.material_bases.MaterialCrystalBase;
 import com.igteam.immersivegeology.common.IGContent;
 import com.igteam.immersivegeology.common.blocks.IGBlockMaterialItem;
 import com.igteam.immersivegeology.common.blocks.IGLayerBase;
 import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
+import com.igteam.immersivegeology.common.blocks.crystal.IGGeodeBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
 import com.igteam.immersivegeology.common.items.IGMaterialItem;
+import com.igteam.immersivegeology.common.items.IGStoreageItem;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 
 /**
@@ -39,6 +44,26 @@ public class IGItemModelProvider extends ItemModelProvider
 		{
 			try
 			{
+				if(item instanceof IGBlockMaterialItem&&((IGBlockMaterialItem)item).getBlock() instanceof IGGeodeBlock)
+				{
+					IGBlockMaterialItem i = (IGBlockMaterialItem)item;
+					IGGeodeBlock block = (IGGeodeBlock)i.getBlock();
+					StringBuilder specialName = new StringBuilder();
+					String structure = "";
+					for(Material material : block.materials)
+					{
+						if(material.getSpecialSubtypeModelName(block.subtype)!=null)
+							specialName.append('_').append(material.getSpecialSubtypeModelName(block.subtype));
+
+						structure = ((MaterialCrystalBase) material).getLatticeStructure().toString();
+					}
+					String builder_name = new ResourceLocation(ImmersiveGeology.MODID, "item/"+block.name).getPath();
+
+					withExistingParent(builder_name,
+							new ResourceLocation(ImmersiveGeology.MODID, "block/base/crystal/"+((IGMaterialBlock)block).subtype.getName()+specialName.toString()))
+							.texture("base","block/greyscale/crystal/" + structure);
+
+				} else
 				if(item instanceof IGBlockMaterialItem&&((IGBlockMaterialItem)item).getBlock() instanceof IGLayerBase)
 				{
 					IGBlockMaterialItem i = (IGBlockMaterialItem)item;
@@ -87,6 +112,14 @@ public class IGItemModelProvider extends ItemModelProvider
 							specialName.append('_').append(material.getSpecialSubtypeModelName(i.subtype));
 					}
 					withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "item/" + i.itemName).getPath(), new ResourceLocation(ImmersiveGeology.MODID, "item/base/" + i.subtype.getModelPath(false, i.materials) + specialName.toString()));
+				} else if (item instanceof IGStoreageItem) {
+					IGStoreageItem i = (IGStoreageItem) item;
+					StringBuilder specialName = new StringBuilder();
+
+					if (i.material.getSpecialSubtypeModelName(i.subtype) != null)
+					specialName.append('_').append(i.material.getSpecialSubtypeModelName(i.subtype));
+
+					withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "item/" + i.itemName).getPath(), new ResourceLocation(ImmersiveGeology.MODID, "item/base/" + i.subtype.getModelPath(false, i.material) + specialName.toString()));
 				}
 			} catch(Exception e)
 			{

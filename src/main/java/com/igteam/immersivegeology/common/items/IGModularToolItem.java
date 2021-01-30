@@ -10,10 +10,12 @@ import com.igteam.immersivegeology.api.interfaces.IHandleMaterial;
 import com.igteam.immersivegeology.api.interfaces.IHeadMaterial;
 import com.igteam.immersivegeology.api.interfaces.ITipMaterial;
 import com.igteam.immersivegeology.api.materials.Material;
+import com.igteam.immersivegeology.api.materials.MaterialUseType;
 import com.igteam.immersivegeology.api.toolsystem.Tooltypes;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.materials.MaterialEmpty;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,11 +25,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static com.igteam.immersivegeology.common.items.IGMaterialResourceItem.hasShiftDown;
@@ -43,9 +48,12 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 	protected static String[] StrMaterials = {"head_material", "binding_material", "handle_material", "tip_material"};
 	protected static String[] StrColors = {"head_color", "binding_color", "handle_color", "tip_color"};
 
+	protected String tool_type;
+
 	public IGModularToolItem(String name)
 	{
 		super(name);
+		this.tool_type = name;
 	}
 
 	@Override
@@ -89,8 +97,6 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 	{
 		return EnumMaterials.filterByName(ItemNBTHelper.getString(stack, StrMaterials[part])).material;
 	}
-
-
 
 	@Override
 	public boolean onBlockDestroyed(ItemStack p_179218_1_, World p_179218_2_, BlockState p_179218_3_, BlockPos p_179218_4_, LivingEntity p_179218_5_) {
@@ -182,6 +188,16 @@ public abstract class IGModularToolItem extends IGBaseItem implements ITool, ICo
 			text.appendText("Hold Sneak for Info");
 		}
 		list.add(text);
+	}
+
+	@Override
+	public ITextComponent getDisplayName(ItemStack stack)
+	{
+		ArrayList<String> localizedNames = new ArrayList<>();
+		Material head_mat = getToolMaterial(stack, 0);
+			localizedNames.add(I18n.format("material."+head_mat.getModID()+"."+head_mat.getName()+".name"));
+		TranslationTextComponent name = new TranslationTextComponent("item."+ImmersiveGeology.MODID+"."+ this.tool_type +".name", localizedNames.toArray(new Object[localizedNames.size()]));
+		return name;
 	}
 
 	@Override

@@ -33,6 +33,11 @@ public class IGLogBlock extends IGMaterialBlock
 	}
 
 	@Override
+	public int getHarvestLevel(BlockState state) {
+		return 0;
+	}
+
+	@Override
 	public void onPlayerDestroy(IWorld world, BlockPos pos, BlockState state) {
 		super.onPlayerDestroy(world, pos, state);
 		//world.addEntity(new ItemEntity(world.getWorld(), pos.getX(), pos.getY(), pos.getZ(), new ItemStack(this.itemBlock.getItem())));
