@@ -1,10 +1,6 @@
 package com.igteam.immersivegeology.common.fluid;
 
-import com.igteam.immersivegeology.ImmersiveGeology;
-import com.igteam.immersivegeology.common.blocks.property.IGVanillaMaterials;
-import com.sun.org.apache.bcel.internal.generic.FADD;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;

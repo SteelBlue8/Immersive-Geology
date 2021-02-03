@@ -1,22 +1,46 @@
 {
-  "page": {
-    "name": "Welcome To Immersive Geology",
+    "name": "immersivegeology.page.welcome.title",
     "id": 0,
-    "tooltip": "Welcome",
-    "page_type": "graphical"
-  },
-  "page_details" : {
-    "text": "This is a guide to help you progress in Immersive Geology or IG for short! [link_1], [link_2]",
-    "graphical": "immersive_geology:textures/gui/book/welcome_icon",
-    "link": {
-        "link_1": {
-            "name": "Click Here to go somewhere!",
-            "page_id": 1
-         },
-         "link_2": {
-            "name": "Click Here to go somewhere else!",
-            "page_id": 2
-          }
-     }
-  }
+    "tooltip": "immersivegeology.page.welcome.tooltip",
+    "page_type": "graphical",
+    "is_subpage": false,
+    "text": "immersivegeology.page.welcome.text",
+    "text_yOffset": 55,
+    "graphic_location": "textures/gui/book/welcome_icon.png",
+    "graphic_data": {
+    	"xpos": 33,
+    	"ypos": 10,
+    	"width": 80,
+    	"height": 42
+  	},
+  	"page_buttons": [
+  		{
+  			"button_name": "next_page",
+  			"button_link": {
+  				"name": "next_page",
+  				"page_id": 1
+  			},
+  			"button_image": "textures/gui/guide_page.png",
+  			"x_position": 118,
+  			"y_position": 178,
+  			"tex_x": 0,
+  			"tex_y": 226,
+  			"width": 16,
+  			"height": 10
+  		},
+  		{
+  			"button_name": "biomes_link",
+  			"button_link": {
+  				"name": "biomes_link",
+  				"page_id": 2
+  			},
+  			"button_image": "textures/gui/book/welcome_icon.png",
+  			"x_position": 18,
+  			"y_position": 82,
+  			"tex_x": 0,
+  			"tex_y": 43,
+  			"width": 110,
+  			"height": 45
+  		}
+  	]
 }

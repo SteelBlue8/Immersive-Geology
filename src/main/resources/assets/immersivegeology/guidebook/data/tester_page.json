@@ -1,0 +1,23 @@
+{
+    "name": "immersivegeology.page.tester.title",
+    "id": 2,
+    "tooltip": "immersivegeology.page.tester.tooltip",
+    "page_type": "text",
+    "is_subpage": false,
+    "text": "immersivegeology.page.tester.text",
+    "text_yOffset": 50,
+  	"page_buttons": [
+  		{
+  			"button_name": "test_link",
+  			"button_link": {
+  				"name": "test_link",
+  				"page_id": 0
+  			},
+  			"button_image": "textures/gui/book/welcome_link.png",
+  			"x_position": 20,
+  			"y_position": 50,
+  			"width": 16,
+  			"height": 16
+  		}
+  	]
+}

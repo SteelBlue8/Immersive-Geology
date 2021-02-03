@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
+import com.igteam.immersivegeology.common.blocks.IGOreBearingBlock;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
 import com.igteam.immersivegeology.common.world.gen.carver.builder.VanillaCaveCarverBuilder;
 import com.igteam.immersivegeology.common.world.gen.carver.util.CarverUtils;
@@ -93,6 +94,7 @@ public class VanillaCaveCarver implements ICarver {
         this.rand.setSeed(worldIn.getSeed() + seedoffset);
         long j = this.rand.nextLong();
         long k = this.rand.nextLong();
+        int density = this.rand.nextInt(3);
         boolean[][] validPositions = new boolean[16][16];
         for (boolean[] row : validPositions)
             Arrays.fill(row, true);
@@ -101,7 +103,7 @@ public class VanillaCaveCarver implements ICarver {
                 long j1 = (long) currChunkX * j;
                 long k1 = (long) currChunkZ * k;
                 this.rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
-                this.recursiveOreGenerate(worldIn, currChunkX, currChunkZ, chunkX, chunkZ, primer, addRooms, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, oreType, biomeData, oreData, currentLayer);
+                this.recursiveOreGenerate(worldIn, currChunkX, currChunkZ, chunkX, chunkZ, primer, addRooms, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, oreType, biomeData, oreData, currentLayer, density);
             }
         }
     }
@@ -155,7 +157,7 @@ public class VanillaCaveCarver implements ICarver {
         }
     }
 
-    private void recursiveOreGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalChunkX, int originalChunkZ, @Nonnull IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, BiomeLayerData.LayerOre oreData, int currentLayer) {
+    private void recursiveOreGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalChunkX, int originalChunkZ, @Nonnull IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, BiomeLayerData.LayerOre oreData, int currentLayer, int density) {
         int numAttempts = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
 
         if ( (this.rand.nextFloat() + this.rand.nextFloat()) > oreData.getCoverage()) {
@@ -193,7 +195,7 @@ public class VanillaCaveCarver implements ICarver {
                         width *= this.rand.nextFloat() * this.rand.nextFloat() * 3.0F + 1.0F;
                     }
 
-                    this.addTunnel(worldIn, this.rand.nextLong(), originalChunkX, originalChunkZ, primer, caveStartX, caveStartY, caveStartZ, width, yaw, pitch, 0, 0, 1.0D, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, blockType, biomeData, currentLayer);
+                    this.addTunnel(worldIn, this.rand.nextLong(), originalChunkX, originalChunkZ, primer, caveStartX, caveStartY, caveStartZ, width, yaw, pitch, 0, 0, 1.0D, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, blockType, biomeData, currentLayer, density);
                 }
             }
         }
@@ -214,10 +216,10 @@ public class VanillaCaveCarver implements ICarver {
     }
 
     protected void addTunnel(IWorld worldIn, long seed, int originChunkX, int originChunkZ, IChunk chunk, double caveStartX, double caveStartY, double caveStartZ, float width, float yaw, float pitch, int startCounter, int endCounter, double heightModifier, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType) {
-        addTunnel(worldIn, seed, originChunkX, originChunkZ, chunk, caveStartX, caveStartY, caveStartZ, width, yaw, pitch, startCounter, endCounter, heightModifier, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, blockType, null, 0);
+        addTunnel(worldIn, seed, originChunkX, originChunkZ, chunk, caveStartX, caveStartY, caveStartZ, width, yaw, pitch, startCounter, endCounter, heightModifier, liquidBlocks, biomeMap, validPositions, airCarvingMask, liquidCarvingMask, blockType, null, 0, 0);
     }
 
-   protected void addTunnel(IWorld worldIn, long seed, int originChunkX, int originChunkZ, IChunk chunk, double caveStartX, double caveStartY, double caveStartZ, float width, float yaw, float pitch, int startCounter, int endCounter, double heightModifier, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, int currentLayer) {
+   protected void addTunnel(IWorld worldIn, long seed, int originChunkX, int originChunkZ, IChunk chunk, double caveStartX, double caveStartY, double caveStartZ, float width, float yaw, float pitch, int startCounter, int endCounter, double heightModifier, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, int currentLayer, int density) {
         BlockState liquidBlock;
         Random random = new Random(seed);
 
@@ -366,9 +368,9 @@ public class VanillaCaveCarver implements ICarver {
                                            int totalLayerCount = biomeData.getLayerCount();
                                            int topOfLayer = (totHeight*currentLayer)/totalLayerCount;
                                            int bottomOfLayer = (((totHeight*currentLayer)/totalLayerCount)-((totHeight*currentLayer)/totalLayerCount)/currentLayer);
-
+                                           
                                            if((currY <= topOfLayer) && (currY >= bottomOfLayer)){
-                                               digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType);
+                                               digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType.with(IGOreBearingBlock.ORE_RICHNESS, density));
                                            }
                                        } else {
                                            digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType);

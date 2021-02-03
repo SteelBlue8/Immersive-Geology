@@ -10,6 +10,7 @@ import com.igteam.immersivegeology.common.blocks.metal.IGFluidBlock;
 import com.igteam.immersivegeology.common.fluid.IGFluid;
 import com.igteam.immersivegeology.common.gui.GuiAccessor;
 import com.igteam.immersivegeology.common.items.IGBaseItem;
+import com.igteam.immersivegeology.common.items.IGGuideBookItem;
 import com.igteam.immersivegeology.common.items.tools.IGToolHammer;
 import com.igteam.immersivegeology.common.items.tools.IGToolPickaxe;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
@@ -48,7 +49,7 @@ public class IGContent
 
 	public static IGBaseItem itemPickaxe = new IGToolPickaxe().setSubGroup(ItemSubGroup.tools);
 
-	public static IGBaseItem itemGuidebook = new IGBaseItem("ig_guidebook").setSubGroup(ItemSubGroup.misc);
+	public static IGBaseItem itemGuidebook = new IGGuideBookItem("ig_guidebook").setSubGroup(ItemSubGroup.misc);
 	
 	public static void modConstruction()
 	{

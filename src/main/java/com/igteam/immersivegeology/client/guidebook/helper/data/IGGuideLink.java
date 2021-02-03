@@ -1,4 +1,4 @@
-package com.igteam.immersivegeology.client.guidebook.helper;
+package com.igteam.immersivegeology.client.guidebook.helper.data;
 
 public class IGGuideLink {
 	private String name;

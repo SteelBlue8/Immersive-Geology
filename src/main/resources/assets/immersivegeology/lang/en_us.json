@@ -6,7 +6,7 @@
   "immersivegeology.config.title": "",
   "generator.immersive": "Immersive",
 
-  "item.immersivegeology.ig_guidebook": "Geology Field Guide",
+  "item.immersivegeology.ig_guidebook": "Geologists Study Guide",
 
   "item.immersivegeology.hammer.name": "%s Hammer",
   "item.immersivegeology.pickaxe.name": "%s Pickaxe",
@@ -144,5 +144,9 @@
   "material.immersivegeology.kaolinite.name": "Kaolinite",
   "material.immersivegeology.sphalerite.name": "Sphalerite",
   "material.immersivegeology.ullmannite.name": "Ullmannite",
-  "material.immersivegeology.vanadinite.name": "Vanadinite"
+  "material.immersivegeology.vanadinite.name": "Vanadinite",
+
+  "immersivegeology.page.welcome.title": "",
+  "immersivegeology.page.welcome.tooltip": "Home Page",
+  "immersivegeology.page.welcome.text": "An index of information you may need!"
 }
