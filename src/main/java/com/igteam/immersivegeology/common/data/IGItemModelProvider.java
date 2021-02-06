@@ -11,6 +11,7 @@ import com.igteam.immersivegeology.common.blocks.crystal.IGGeodeBlock;
 import com.igteam.immersivegeology.common.blocks.plant.IGLogBlock;
 import com.igteam.immersivegeology.common.items.IGMaterialItem;
 import com.igteam.immersivegeology.common.items.IGStoreageItem;
+import com.igteam.immersivegeology.common.items.IGToolPartItem;
 import com.igteam.immersivegeology.common.util.IGLogger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
@@ -44,7 +45,16 @@ public class IGItemModelProvider extends ItemModelProvider
 		{
 			try
 			{
-				if(item instanceof IGBlockMaterialItem&&((IGBlockMaterialItem)item).getBlock() instanceof IGGeodeBlock)
+				if (item instanceof IGToolPartItem) {
+					IGToolPartItem i = (IGToolPartItem) item;
+					StringBuilder specialName = new StringBuilder();
+
+					if (i.getMaterial().getSpecialSubtypeModelName(i.subtype) != null)
+						specialName.append('_').append(i.getMaterial().getSpecialSubtypeModelName(i.subtype));
+
+					withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "item/" + i.itemName).getPath(), new ResourceLocation(ImmersiveGeology.MODID, "item/base/tool_parts/" + i.subtype.getModelPath(false, i.getMaterial()) + specialName.toString()));
+				}
+				else if(item instanceof IGBlockMaterialItem&&((IGBlockMaterialItem)item).getBlock() instanceof IGGeodeBlock)
 				{
 					IGBlockMaterialItem i = (IGBlockMaterialItem)item;
 					IGGeodeBlock block = (IGGeodeBlock)i.getBlock();

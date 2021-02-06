@@ -82,7 +82,7 @@ public class ImmersiveFortressStructure extends Structure<NoFeatureConfig> {
             }
 
             this.recalculateStructureSize();
-            this.func_214626_a(this.rand, 90, 125);
+            this.func_214626_a(this.rand, 95, 145);
         }
     }
 }

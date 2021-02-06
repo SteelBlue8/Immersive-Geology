@@ -6,7 +6,8 @@
   "immersivegeology.config.title": "",
   "generator.immersive": "Immersive",
 
-  "item.immersivegeology.ig_guidebook": "Geologists Study Guide",
+  "item.immersivegeology.ig_guidebook": "Geologists Field Guide",
+  "item.immersivegeology.ig_guidebook_advanced": "Metallurgists Study Guide",
 
   "item.immersivegeology.hammer.name": "%s Hammer",
   "item.immersivegeology.pickaxe.name": "%s Pickaxe",
@@ -148,5 +149,8 @@
 
   "immersivegeology.page.welcome.title": "",
   "immersivegeology.page.welcome.tooltip": "Home Page",
-  "immersivegeology.page.welcome.text": "An index of information you may need!"
+  "immersivegeology.page.welcome.text": "An index of information you may need!",
+  "immersivegeology.page.welcome_2.title": "",
+  "immersivegeology.page.welcome_2.tooltip": "Home Page",
+  "immersivegeology.page.welcome_2.text": "An index of information you may need!"
 }

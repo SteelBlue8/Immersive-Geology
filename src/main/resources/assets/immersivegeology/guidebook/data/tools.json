@@ -1,10 +1,10 @@
 {
-    "name": "immersivegeology.page.tester.title",
-    "id": 2,
-    "tooltip": "immersivegeology.page.tester.tooltip",
+    "name": "immersivegeology.page.tools.title",
+    "id": 101,
+    "tooltip": "immersivegeology.page.tools.tooltip",
     "page_type": "text",
     "is_subpage": false,
-    "text": "immersivegeology.page.tester.text",
+    "text": "immersivegeology.page.tools.text",
     "text_yOffset": 50,
   	"page_buttons": [
   		{

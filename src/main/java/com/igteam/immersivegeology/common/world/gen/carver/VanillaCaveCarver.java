@@ -160,7 +160,7 @@ public class VanillaCaveCarver implements ICarver {
     private void recursiveOreGenerate(IWorld worldIn, int chunkX, int chunkZ, int originalChunkX, int originalChunkZ, @Nonnull IChunk primer, boolean addRooms, BlockState[][] liquidBlocks, Map<Long, IGBiome> biomeMap, boolean[][] validPositions, BitSet airCarvingMask, BitSet liquidCarvingMask, BlockState blockType, BiomeLayerData biomeData, BiomeLayerData.LayerOre oreData, int currentLayer, int density) {
         int numAttempts = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
 
-        if ( (this.rand.nextFloat() + this.rand.nextFloat()) > oreData.getCoverage()) {
+        if ( (this.rand.nextFloat() + this.rand.nextFloat() + (this.rand.nextFloat() / 5)) > oreData.getCoverage()) {
             numAttempts = 0;
         }
 
@@ -351,30 +351,45 @@ public class VanillaCaveCarver implements ICarver {
 
                             // Only operate on points within ellipse on XZ axis. Avoids unnecessary computation along y axis
                             if (xAxisDist * xAxisDist + zAxisDist * zAxisDist < 1.0D) {
+                                int totHeight = 256;
+                                if(biomeData == null) {
+                                    break;
+                                }
+                                int totalLayerCount = biomeData.getLayerCount();
+                                int topOfLayer = (totHeight*currentLayer)/totalLayerCount;
+                                int bottomOfLayer = (((totHeight*currentLayer)/totalLayerCount)-((totHeight*currentLayer)/totalLayerCount)/currentLayer);
+
                                 for (int currY = maxY; currY > minY; --currY) {
-                                    // Distance along the y-axis from the center (caveStart) of this ellipsoid.
-                                    // You can think of this value as (y/c), where c is the length of the ellipsoid's semi-axis in the y direction.
-                                    double yAxisDist = ((double) (currY - 1) + 0.5D - caveStartY) / yOffset;
+                                    if((currY <= topOfLayer) && (currY >= bottomOfLayer)){
+                                        // Distance along the y-axis from the center (caveStart) of this ellipsoid.
+                                        // You can think of this value as (y/c), where c is the length of the ellipsoid's semi-axis in the y direction.
+                                        double yAxisDist = ((double) (currY - 1) + 0.5D - caveStartY) / yOffset;
 
-                                    // Only operate on points within the ellipsoid.
-                                    // This conditional is validating the current coordinate against the equation of the ellipsoid, that is,
-                                    // (x/a)^2 + (z/b)^2 + (y/c)^2 <= 1.
-                                    if (yAxisDist > -0.7D && xAxisDist * xAxisDist + yAxisDist * yAxisDist + zAxisDist * zAxisDist < 1.0D) {
-                                        liquidBlock = liquidBlocks[CarverUtils.getLocal(currX)][CarverUtils.getLocal(currZ)];
+                                        // Only operate on points within the ellipsoid.
+                                        // This conditional is validating the current coordinate against the equation of the ellipsoid, that is,
+                                        // (x/a)^2 + (z/b)^2 + (y/c)^2 <= 1.
+                                        if (yAxisDist > -0.7D && xAxisDist * xAxisDist + yAxisDist * yAxisDist + zAxisDist * zAxisDist < 1.0D) {
+                                            liquidBlock = liquidBlocks[CarverUtils.getLocal(currX)][CarverUtils.getLocal(currZ)];
 
-                                        boolean isOreCarver = this.oreCarver;
-                                       if(isOreCarver && biomeData != null){
-                                           int totHeight = 256;
-                                           int totalLayerCount = biomeData.getLayerCount();
-                                           int topOfLayer = (totHeight*currentLayer)/totalLayerCount;
-                                           int bottomOfLayer = (((totHeight*currentLayer)/totalLayerCount)-((totHeight*currentLayer)/totalLayerCount)/currentLayer);
-                                           
-                                           if((currY <= topOfLayer) && (currY >= bottomOfLayer)){
-                                               digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType.with(IGOreBearingBlock.ORE_RICHNESS, density));
-                                           }
-                                       } else {
-                                           digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType);
-                                       }
+                                            boolean isOreCarver = this.oreCarver;
+                                            if (isOreCarver && biomeData != null) {
+
+                                                int calcDense = (int) Math.sqrt(Math.pow((caveStartY - yAxisDist), 2) + Math.pow((caveStartZ - zAxisDist), 2) + Math.pow((caveStartX - xAxisDist), 2));
+
+                                                // if current pos is above the values listed below, the density is set to their namesake
+                                                int poorDistance = 10;
+                                                int normalDistance = 8;
+                                                int richDistance = 6;
+
+                                                int calcDensity = calcDense > poorDistance ? 0 : (calcDense > normalDistance ? 1 : (calcDense > richDistance ? 2 : 3));
+
+
+                                                digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType.with(IGOreBearingBlock.ORE_RICHNESS, calcDensity));
+
+                                            } else {
+                                                digBlock(worldIn, chunk, originChunkX, originChunkZ, currX, currY, currZ, liquidBlock, biomeMap, airCarvingMask, liquidCarvingMask, blockType);
+                                            }
+                                        }
                                    }
                                 }
                             }

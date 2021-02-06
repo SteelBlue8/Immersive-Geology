@@ -1,0 +1,32 @@
+{
+    "name": "immersivegeology.page.welcome_2.title",
+    "id": 1,
+    "tooltip": "immersivegeology.page.welcome_2.tooltip",
+    "page_type": "graphical",
+    "is_subpage": false,
+    "text": "immersivegeology.page.welcome_2.text",
+    "text_yOffset": 55,
+    "graphic_location": "textures/gui/book/welcome_icon.png",
+    "graphic_data": {
+    	"xpos": 33,
+    	"ypos": 10,
+    	"width": 80,
+    	"height": 42
+  	},
+  	"page_buttons": [
+  		{
+  			"button_name": "previous_page",
+  			"button_link": {
+  				"name": "previous_page",
+  				"page_id": 0
+  			},
+  			"button_image": "textures/gui/guide_page.png",
+  			"x_position": 12,
+  			"y_position": 178,
+  			"tex_x": 0,
+  			"tex_y": 216,
+  			"width": 16,
+  			"height": 10
+  		}
+  	]
+}

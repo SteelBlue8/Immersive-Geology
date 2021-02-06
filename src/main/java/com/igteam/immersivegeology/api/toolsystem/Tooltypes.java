@@ -54,4 +54,18 @@ public class Tooltypes
 	{
 		return ToolType.get(ImmersiveGeology.MODID+"_"+name);
 	}
+
+	public enum EnumToolPart {
+		PICKAXE_HEAD,
+		HAMMER_HEAD,
+		SHOVEL_HEAD,
+		AXE_HEAD,
+		HOE_HEAD,
+		SWORD_HEAD,
+		SCYTHE_HEAD,
+		BROADSWORD_BLADE,
+		BINDING,
+		HANDLE
+	}
 }
+

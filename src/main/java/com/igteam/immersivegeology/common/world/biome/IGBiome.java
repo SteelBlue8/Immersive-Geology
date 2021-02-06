@@ -53,7 +53,6 @@ public abstract class IGBiome extends Biome
 		btemp = temperature;
 		brain = downfall;
 		IGDefaultBiomeFeatures.addCaveFeatures(this);
-
 	}
 
 	protected IGBiome(Builder builder, float temperature, float downfall)

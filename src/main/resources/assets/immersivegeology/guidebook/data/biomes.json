@@ -1,6 +1,6 @@
 {
     "name": "immersivegeology.page.test.title",
-    "id": 1,
+    "id": 2,
     "tooltip": "immersivegeology.page.test.tooltip",
     "page_type": "text",
     "is_subpage": false,

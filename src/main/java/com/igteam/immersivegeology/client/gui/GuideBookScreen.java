@@ -10,20 +10,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import javax.annotation.Nonnull;
 
 public class GuideBookScreen extends Screen {
 
+    private int homepage_id;
     private IGGuideBookDataHolder INSTANCE = IGGuideBookDataHolder.INSTANCE;
-    private IGGuideBookPageData CURRENT_PAGE = INSTANCE.guide_book_data.get(0);
+    private IGGuideBookPageData CURRENT_PAGE;
+
     int left = (int) Math.floor((this.width - 198) / 1.75);
     int top = (this.height - 148) / 5;
 
-    public GuideBookScreen(ITextComponent p_i51108_1_) {
+    public GuideBookScreen(ITextComponent p_i51108_1_, int id) {
         super(p_i51108_1_);
         this.minecraft = Minecraft.getInstance();
+        homepage_id = id;
+        this.CURRENT_PAGE = INSTANCE.guide_book_data.get(homepage_id);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class GuideBookScreen extends Screen {
         if(CURRENT_PAGE.getText() != null)
         {
             String text = new TranslationTextComponent(CURRENT_PAGE.getText()).getFormattedText();
-            this.font.drawSplitString(text, left + 12, top + CURRENT_PAGE.getText_yOffset(),115, 0);
+            this.font.drawSplitString(text, left + 12, top + CURRENT_PAGE.getText_yOffset(),120, 0);
         }
 
         for(PageButton b : CURRENT_PAGE.getPage_buttons()){
@@ -56,7 +58,7 @@ public class GuideBookScreen extends Screen {
         for(PageButton b : CURRENT_PAGE.getPage_buttons()){
            if(mx > (left + b.getX()) && my > (top + b.getY())){
                if(mx < ((left + b.getX()) + b.getWidth()) && my < ((top + b.getY()) + b.getHeight())){
-                   CURRENT_PAGE = INSTANCE.guide_book_data.get(b.getButton_link().getPage_id());
+                   this.CURRENT_PAGE = INSTANCE.guide_book_data.get(b.getButton_link().getPage_id());
                }
            }
         }
@@ -68,7 +70,7 @@ public class GuideBookScreen extends Screen {
     public void renderBackground(int p_renderBackground_1_) {
         super.renderBackground(p_renderBackground_1_);
         GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-        ClientUtils.bindTexture(ImmersiveGeology.MODID + ":textures/gui/guide_page.png");
+        ClientUtils.bindTexture(ImmersiveGeology.MODID + ":textures/gui/guide_page" + (homepage_id > 99 ? "_adv" : "") + ".png");
         this.drawTexturedRect(left, top, 0, 0, 148, 198);
 
     }

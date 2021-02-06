@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "immersivegeology:item/greyscale/metal/hammer_head"
+  }
+}

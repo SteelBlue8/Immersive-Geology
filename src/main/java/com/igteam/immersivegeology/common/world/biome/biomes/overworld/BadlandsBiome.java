@@ -32,6 +32,7 @@ public class BadlandsBiome extends IGBiome
 		this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, MineshaftStructure.Type.MESA));
 		this.addStructure(Feature.STRONGHOLD, IFeatureConfig.NO_FEATURE_CONFIG);
 
+
 		IGDefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.func_222308_M(this);
 		DefaultBiomeFeatures.addStructures(this);

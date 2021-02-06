@@ -2,6 +2,7 @@ package com.igteam.immersivegeology.api.materials;
 
 import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.api.materials.material_bases.MaterialCrystalBase;
+import com.igteam.immersivegeology.api.toolsystem.Tooltypes;
 import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
 import com.igteam.immersivegeology.common.IGContent;
 import com.igteam.immersivegeology.common.blocks.*;
@@ -19,6 +20,7 @@ import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.IStringSerializable;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -200,16 +202,16 @@ public enum MaterialUseType implements IStringSerializable
 			},
 
 	//Tool System, Experimental / Not sure
-	HAMMER_HEAD(UseCategory.TOOLPART_ITEM),
-	PICKAXE_HEAD(UseCategory.TOOLPART_ITEM),
-	SHOVEL_HEAD(UseCategory.TOOLPART_ITEM),
-	HOE_HEAD(UseCategory.TOOLPART_ITEM),
-	AXE_HEAD(UseCategory.TOOLPART_ITEM),
-	BROADSWORD_BLADE(UseCategory.TOOLPART_ITEM),
-	HANDLE(UseCategory.TOOLPART_ITEM),
-	BINDING(UseCategory.TOOLPART_ITEM),
-	BUCKET(UseCategory.STORAGE_ITEM),
+	HAMMER_HEAD(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.HAMMER_HEAD), //annoying that we need to add a 'repeat' value but it's needed for the tool forge.
+	PICKAXE_HEAD(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.PICKAXE_HEAD),
+	SHOVEL_HEAD(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.SHOVEL_HEAD),
+	HOE_HEAD(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.HOE_HEAD),
+	AXE_HEAD(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.AXE_HEAD),
+	BROADSWORD_BLADE(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.BROADSWORD_BLADE),
+	HANDLE(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.HANDLE),
+	BINDING(UseCategory.TOOLPART_ITEM, Tooltypes.EnumToolPart.BINDING),
 
+	BUCKET(UseCategory.STORAGE_ITEM),
 	//Blocks
 
 	//Metals
@@ -283,6 +285,7 @@ public enum MaterialUseType implements IStringSerializable
 	private UseCategory category;
 	private int stoneYeild;
 	private int oreYield;
+	private Tooltypes.EnumToolPart toolPart;
 
 	/**
 	 * Constructors, default is resource item in "raw" creative subtab
@@ -322,6 +325,13 @@ public enum MaterialUseType implements IStringSerializable
 		this.category = category;
 		this.subGroup = sub;
 		this.blockMaterial = mat;
+	}
+
+	MaterialUseType(UseCategory category, Tooltypes.EnumToolPart part) {
+		this.category = category;
+		this.blockMaterial = Material.ROCK;
+		this.toolPart = part;
+		this.subGroup = ItemSubGroup.tools;
 	}
 
 	public int getStoneYield()
@@ -417,7 +427,11 @@ public enum MaterialUseType implements IStringSerializable
 		return new IGFluid[]{source, new IGFluid.Flowing(this, material)};
 	}
 
-	/**
+    public IGToolPartItem[] getToolItems(com.igteam.immersivegeology.api.materials.Material material) {
+		return new IGToolPartItem[]{new IGToolPartItem(toolPart, this, material)};
+    }
+
+    /**
 	 * Defines use category, don't add new unless really needed
 	 */
 	public enum UseCategory

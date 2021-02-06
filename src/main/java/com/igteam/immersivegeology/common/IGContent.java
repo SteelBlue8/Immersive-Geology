@@ -49,8 +49,9 @@ public class IGContent
 
 	public static IGBaseItem itemPickaxe = new IGToolPickaxe().setSubGroup(ItemSubGroup.tools);
 
-	public static IGBaseItem itemGuidebook = new IGGuideBookItem("ig_guidebook").setSubGroup(ItemSubGroup.misc);
-	
+	public static IGBaseItem itemGuidebook = new IGGuideBookItem("ig_guidebook",0).setSubGroup(ItemSubGroup.misc);
+	public static IGBaseItem itemGuidebookAdvanced = new IGGuideBookItem("ig_guidebook_advanced",100).setSubGroup(ItemSubGroup.misc);
+
 	public static void modConstruction()
 	{
 		// Item, blocks here
@@ -68,6 +69,10 @@ public class IGContent
 					{
 						case FLUID:
 								Arrays.stream(materialItem.getFluids(material)).forEach(fluid -> {registeredIGFluids.put(fluid.getName(), fluid);});
+							break;
+
+						case TOOLPART_ITEM:
+							Arrays.stream(materialItem.getToolItems(material)).forEach(item -> registeredIGItems.put(item.itemName, item));
 							break;
 						case RESOURCE_ITEM:
 						case STORAGE_ITEM:
@@ -99,6 +104,7 @@ public class IGContent
 		}
 
 		addItem(itemGuidebook);
+		addItem(itemGuidebookAdvanced);
 		addItem(itemPickaxe);
 		addItem(new IGToolHammer().setSubGroup(ItemSubGroup.tools));
 	}

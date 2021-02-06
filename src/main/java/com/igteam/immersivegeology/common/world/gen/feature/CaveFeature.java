@@ -7,6 +7,7 @@ import com.igteam.immersivegeology.common.blocks.IGCaveBlock;
 import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
 import com.igteam.immersivegeology.common.blocks.IGOreBearingBlock;
 import com.igteam.immersivegeology.common.blocks.property.SpikePart;
+import com.igteam.immersivegeology.common.util.IGLogger;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,8 +34,8 @@ public class CaveFeature extends Feature<NoFeatureConfig> {
     @Override
     public boolean place(IWorld iWorld, ChunkGenerator<? extends GenerationSettings> chunkGenerator, Random rand, BlockPos pos, NoFeatureConfig noFeatureConfig) {
         BlockState stateAt = iWorld.getBlockState(pos);
-        if(pos.getY() <= 90) {
-            if (stateAt.getBlock() == Blocks.CAVE_AIR || (iWorld.getDimension().getType() == DimensionType.THE_NETHER && (stateAt.getBlock() == Blocks.CAVE_AIR || stateAt.getBlock() == Blocks.AIR))) {
+        if(pos.getY() < 90) {
+            if (stateAt.getBlock() == Blocks.CAVE_AIR) {
                 Direction dir = rand.nextBoolean() ? Direction.UP : Direction.DOWN;
                 BlockState wall = iWorld.getBlockState(pos.offset(dir.getOpposite()));
                 if (wall.getBlock() instanceof IGMaterialBlock) {
@@ -96,10 +97,8 @@ public class CaveFeature extends Feature<NoFeatureConfig> {
     protected void replaceBlock(IWorld world, BlockPos pos, BlockState state)
     {
         Block block = world.getBlockState(pos).getBlock();
-        if(!(block instanceof IGOreBearingBlock) && (block instanceof IGMaterialBlock)) {
-            if (block == Blocks.CAVE_AIR || block == Blocks.AIR) {
-                setBlockState(world, pos, state);
-            }
+        if (block == Blocks.CAVE_AIR || block == Blocks.AIR) {
+            setBlockState(world, pos, state);
         }
     }
 }

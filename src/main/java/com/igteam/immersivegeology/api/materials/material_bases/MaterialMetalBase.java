@@ -62,6 +62,13 @@ public abstract class MaterialMetalBase extends Material implements IHeadMateria
 				return hasSheetmetal();
 			case DUST_BLOCK:
 				return hasDustBlock();
+			case HAMMER_HEAD:
+			case PICKAXE_HEAD:
+			case SHOVEL_HEAD:
+			case AXE_HEAD:
+			case HANDLE:
+			case HOE_HEAD:
+			case BROADSWORD_BLADE:
 			case FLUID_BLOCKS:
 			case FLUIDS:
 			case BUCKET:
