@@ -81,6 +81,7 @@ public enum EnumMaterials
 	Wolframite(new MaterialMineralWolframite()),
 	Vanadinite(new MaterialMineralVanadinite()),
 
+
 	//this needs to be it's own category, it's not really a crystal, and it needs to use the ore chunk stuff as it can be in many types of blocks
 	Lignite(new MaterialCrystalLignite()),
 	Anthracite(new MaterialCrystalAnthracite()),
@@ -93,6 +94,7 @@ public enum EnumMaterials
 
 	//Stones
 	//TODO: add chemical formulas for the stones
+	Dolomite(new MaterialStoneDolomite()),
 	Kaolinite(new MaterialStoneKaolinite()), //May need to make this into a 'Clay' Type variant
 	Rhyolite(new MaterialStoneRhyolite()),
 	Diorite(new MaterialStoneDiorite()),

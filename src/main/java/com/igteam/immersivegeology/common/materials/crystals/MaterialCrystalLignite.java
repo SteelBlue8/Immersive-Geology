@@ -36,7 +36,6 @@ public class MaterialCrystalLignite extends MaterialCrystalBase
 				new ElementProportion(PeriodicTableElement.NITROGEN),
 				new ElementProportion(PeriodicTableElement.SULFUR)
 		));
-
 	}
 
 	@Nonnull

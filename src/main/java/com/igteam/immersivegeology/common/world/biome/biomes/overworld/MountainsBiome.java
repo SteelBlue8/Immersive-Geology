@@ -69,20 +69,26 @@ public class MountainsBiome extends IGBiome
 	{
 		switch(mountainType)
 		{
+			case VOLCANIC:
+				switch (part){
+					case grass:
+						return IGRegistryGrabber.grabBlock(MaterialUseType.GRAVEL, EnumMaterials.Basalt.material).getDefaultState();
+					case dirt:
+						return IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Basalt.material).getDefaultState();
+				}
 		case FROZEN:
 			switch(part) {
-			case grass:
-				return Blocks.PACKED_ICE.getDefaultState();
-			case dirt:
-				return Blocks.BLUE_ICE.getDefaultState();
-			default:
+				case grass:
+					return Blocks.PACKED_ICE.getDefaultState();
+				case dirt:
+					return Blocks.BLUE_ICE.getDefaultState();
+				default:
 				return Blocks.ICE.getDefaultState();
 			}
 		case DESERT:
 			switch(part)
 			{
 				case grass:
-					return Blocks.SAND.getDefaultState();
 				case dirt:
 					return Blocks.SAND.getDefaultState();
 				default:

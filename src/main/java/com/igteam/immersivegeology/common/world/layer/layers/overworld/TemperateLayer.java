@@ -26,7 +26,7 @@ public enum TemperateLayer implements ICastleTransformer, IBishopTransformer
 	public static final int[] COLD_BIOMES = new int[]{OLD_MOUNTAINS, MOUNTAINS, LOWLANDS, SNOWY_FOREST};
 	public static final int[] TEMPERATE_BIOMES = new int[]{SWEDISH_FOREST, PLAINS, ROLLING_HILLS, HILLS, FLOODED_MOUNTAINS, PLATEAU};
 	public static final int[] WARM_BIOMES = new int[]{LOW_CANYONS, BADLANDS, LUSH_MOUNTAINS};
-	public static final int[] HOT_BIOMES = new int[]{CANYONS, DESERT, BADLANDS, MOUNTAIN_DUNES};
+	public static final int[] HOT_BIOMES = new int[]{CANYONS, DESERT, BADLANDS, MOUNTAIN_DUNES, VOLCANIC_MOUNTAINS};
 
 	public static List<Integer> FROZEN = new ArrayList<Integer>(
 			Arrays.stream(TemperateLayer.FROZEN_BIOMES).boxed().collect(Collectors.toList()));

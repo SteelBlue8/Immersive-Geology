@@ -35,19 +35,24 @@ public class IGBiomes
 	public static final IGBiome SNOWY_FOREST = Helpers.getNull();
 	public static final IGBiome SWEDISH_FOREST = Helpers.getNull();
 
+	//mid height biomes
 	public static final IGBiome ROLLING_HILLS = Helpers.getNull();
 	public static final IGBiome BADLANDS = Helpers.getNull();
 	public static final IGBiome PLATEAU = Helpers.getNull();
 	public static final IGBiome OLD_MOUNTAINS = Helpers.getNull();
 
+	//high height biomes
 	public static final IGBiome MOUNTAINS = Helpers.getNull();
 	public static final IGBiome FROZEN_MOUNTAINS = Helpers.getNull();
 	public static final IGBiome LUSH_MOUNTAINS = Helpers.getNull();
 	public static final IGBiome FLOODED_MOUNTAINS = Helpers.getNull();
 	public static final IGBiome MOUNTAIN_DUNES = Helpers.getNull();
+	public static final IGBiome VOLCANIC_MOUNTAINS = Helpers.getNull();
+	public static final IGBiome VOLCANIC_CENTER = Helpers.getNull();
 	public static final IGBiome GLACIER = Helpers.getNull();
 	public static final IGBiome CANYONS = Helpers.getNull();
 
+	//Helper Biomes
 	public static final IGBiome SHORE = Helpers.getNull();
 	public static final IGBiome STONE_SHORE = Helpers.getNull();
 
@@ -61,7 +66,7 @@ public class IGBiomes
 
 	private static final LazyLoadBase<Set<IGBiome>> BIOMES = new LazyLoadBase<>(() -> {
 		Set<IGBiome> values = new HashSet<>();
-		for(IGBiome biome : Arrays.asList(NETHER_OCEAN, MANTLE,OCEAN,COLD_OCEAN,WARM_OCEAN, OCEAN_EDGE, DEEP_OCEAN,FROZEN_DEEP_OCEAN, DEEP_OCEAN_VOLCANIC, PLAINS, SWEDISH_FOREST, SNOWY_FOREST, DESERT, FROZEN_MOUNTAINS, GLACIER, MOUNTAIN_DUNES, ARCTIC_DESERT, HILLS, LOWLANDS, LOW_CANYONS, ROLLING_HILLS, BADLANDS, PLATEAU, OLD_MOUNTAINS, MOUNTAINS, FLOODED_MOUNTAINS, LUSH_MOUNTAINS, CANYONS, SHORE, STONE_SHORE, MOUNTAINS_EDGE, LAKE, OASIS, RIVER))
+		for(IGBiome biome : Arrays.asList(VOLCANIC_MOUNTAINS, VOLCANIC_CENTER, NETHER_OCEAN, MANTLE,OCEAN,COLD_OCEAN,WARM_OCEAN, OCEAN_EDGE, DEEP_OCEAN,FROZEN_DEEP_OCEAN, DEEP_OCEAN_VOLCANIC, PLAINS, SWEDISH_FOREST, SNOWY_FOREST, DESERT, FROZEN_MOUNTAINS, GLACIER, MOUNTAIN_DUNES, ARCTIC_DESERT, HILLS, LOWLANDS, LOW_CANYONS, ROLLING_HILLS, BADLANDS, PLATEAU, OLD_MOUNTAINS, MOUNTAINS, FLOODED_MOUNTAINS, LUSH_MOUNTAINS, CANYONS, SHORE, STONE_SHORE, MOUNTAINS_EDGE, LAKE, OASIS, RIVER))
 		{
 			if(biome==null)
 			{

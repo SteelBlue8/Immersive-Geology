@@ -64,6 +64,8 @@ public final class WorldGenRegistryEvents
 				new HillsBiome(16).setRegistryName("hills"),
 				new CanyonsBiome(-5, 14).setRegistryName("low_canyons"),
 
+				new MountainsBiome(52, 64, MountainType.VOLCANIC).setRegistryName("volcanic_mountains"),
+
 				new ForestBiome(ForestType.SNOWY,3,6).setRegistryName("snowy_forest"),
 				new ForestBiome(ForestType.SWEDISH,1,14).setRegistryName("swedish_forest"),
 				
@@ -87,6 +89,7 @@ public final class WorldGenRegistryEvents
 				new ShoreBiome(true).setRegistryName("stone_shore"),
 
 				new MountainsBiome(36, 34, MountainType.NORMAL).setRegistryName("mountains_edge"),
+				new LakeBiome().setRegistryName("volcanic_center"),
 				new LakeBiome().setRegistryName("lake"),
 				new OasisBiome().setRegistryName("oasis"),
 				new RiverBiome().setRegistryName("river"),

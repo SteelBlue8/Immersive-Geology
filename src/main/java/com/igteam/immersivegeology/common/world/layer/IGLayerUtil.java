@@ -62,7 +62,9 @@ public class IGLayerUtil
 	public static final int LUSH_MOUNTAINS = getId(IGBiomes.LUSH_MOUNTAINS);
 	public static final int CANYONS = getId(IGBiomes.CANYONS);
 	public static final int MOUNTAIN_DUNES = getId(IGBiomes.MOUNTAIN_DUNES);
-	
+	public static final int VOLCANIC_MOUNTAINS = getId(IGBiomes.VOLCANIC_MOUNTAINS);
+
+	public static final int VOLCANIC_CENTER = getId(IGBiomes.VOLCANIC_CENTER);
 	public static final int SHORE = getId(IGBiomes.SHORE);
 	public static final int STONE_SHORE = getId(IGBiomes.STONE_SHORE);
 	public static final int MOUNTAINS_EDGE = getId(IGBiomes.MOUNTAINS_EDGE);
@@ -142,6 +144,8 @@ public class IGLayerUtil
 
 		mainLayer = AddLakeLayer.INSTANCE.apply(contextFactory.apply(1017L), mainLayer);
 
+		mainLayer = AddVolcanoLayer.INSTANCE.apply(contextFactory.apply(1017L), mainLayer);
+
 		mainLayer = AddOasisLayer.INSTANCE.apply(contextFactory.apply(1018L), mainLayer);
 
 		for(int i = 0; i < settings.getBiomeZoomLevel(); i++)
@@ -206,6 +210,10 @@ public class IGLayerUtil
 	public static boolean isLakeCompatible(int value)
 	{
 		return isLow(value)||value==CANYONS||value==ROLLING_HILLS;
+	}
+
+	public static boolean canPlaceVolcano(int value){
+		return value==VOLCANIC_MOUNTAINS;
 	}
 
 	public static boolean isOasisCompatible(int value)

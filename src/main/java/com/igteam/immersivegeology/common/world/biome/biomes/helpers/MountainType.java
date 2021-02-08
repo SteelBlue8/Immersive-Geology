@@ -5,5 +5,6 @@ public enum MountainType {
     NORMAL,
     LUSH,
     DESERT,
-    FLOODED
+    FLOODED,
+    VOLCANIC
 }

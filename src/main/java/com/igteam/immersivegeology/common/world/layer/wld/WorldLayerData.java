@@ -30,7 +30,8 @@ public class WorldLayerData
 	public IGBaseBlock PEGMATITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Pegmatite.material);
 	public IGBaseBlock GABBROS = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Gabbros.material);
 
-	public IGBaseBlock KAOLINITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Kaolinite.material); //this is a mineral
+	public IGBaseBlock KAOLINITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Kaolinite.material);
+	public IGBaseBlock DOLOMITE = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Dolomite.material);
 
 	public IGBaseBlock NETHERRACK = IGRegistryGrabber.grabBlock(MaterialUseType.ROCK, EnumMaterials.Netherrack.material);
 
@@ -64,28 +65,50 @@ public class WorldLayerData
 						.addLayerOreData(3, EnumMaterials.Gold, 0.5f, EnumMaterials.Hematite, 0.45f)
 						.addLayerOreData(2, EnumMaterials.Uraninite, 0.25f, EnumMaterials.Ilmenite, 0.38f, EnumMaterials.Hubnerite, 0.35f)
 						.addLayerOreData(1, EnumMaterials.Cuprite, 0.30f, EnumMaterials.Hematite, 0.45f, EnumMaterials.Gold, 0.55f)
-								.build())
-//
-//				BiomeLayerBuilder.create(IGBiomes.CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GRANITE,BASALT)
-//					.addLayerOreData(4,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
-//					.addLayerOreData(3,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
-//					.addLayerOreData(2,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3)
-//					.addLayerOreData(1,EnumMaterials.Bitumen,0.2,EnumMaterials.Lignite,0.3,EnumMaterials.Chromite,0.2)
-//						.build())
-		);
+								.build(),
+
+				BiomeLayerBuilder.create(IGBiomes.PLATEAU).addLayerData(KAOLINITE, LIMESTONE, DOLOMITE, GRANITE, GABBROS, BASALT)
+						.addLayerOreData(1, EnumMaterials.Magnetite, 0.13f, EnumMaterials.Hematite, 0.13f)
+						.addLayerOreData(2, EnumMaterials.Vanadinite, 0.23f)
+						.addLayerOreData(3, EnumMaterials.Vanadinite, 0.23f)
+						.addLayerOreData(4, EnumMaterials.Vanadinite, 0.23f)
+						.addLayerOreData(5, EnumMaterials.Vanadinite, 0.23f)
+						.addLayerOreData(6, EnumMaterials.Vanadinite, 0.23f)
+				.build(),
+
+				BiomeLayerBuilder.create(IGBiomes.CANYONS).addLayerData(LIMESTONE,LIMESTONE,GRANITE,GABBROS,BASALT)
+					.addLayerOreData(4,EnumMaterials.Magnetite,0.2f,EnumMaterials.Cuprite,0.3f)
+					.addLayerOreData(3,EnumMaterials.Magnetite,0.2f,EnumMaterials.Cuprite,0.3f)
+					.addLayerOreData(2,EnumMaterials.Magnetite,0.2f,EnumMaterials.Cuprite,0.3f)
+					.addLayerOreData(1,EnumMaterials.Magnetite,0.2f,EnumMaterials.Cuprite,0.3f,EnumMaterials.Chromite,0.2f)
+						.build()
+		));
 	}
 
 	private void buildLowBiomeData() {
 		worldLayerData.addAll(Arrays.asList(
 				//Desert
 				BiomeLayerBuilder.create(IGBiomes.DESERT).addLayerData(GRANITE, PEGMATITE, GRANITE, RHYOLITE, BASALT)
+						.addLayerOreData(5, EnumMaterials.Hematite, 0.38f,
+								EnumMaterials.Cuprite, 0.35f)
+						.addLayerOreData(4, EnumMaterials.Hematite, 0.38f,
+								EnumMaterials.Cuprite, 0.35f,
+								EnumMaterials.Uraninite, 0.15f)
+						.addLayerOreData(3, EnumMaterials.Gold, 0.32f,
+								EnumMaterials.Hematite, 0.38f,
+								EnumMaterials.Cuprite, 0.35f,
+								EnumMaterials.Uraninite, 0.15f)
+						.addLayerOreData(2, EnumMaterials.Gold, 0.32f,
+								EnumMaterials.Hematite, 0.38f,
+								EnumMaterials.Cuprite, 0.35f,
+								EnumMaterials.Uraninite, 0.15f)
 				.addLayerOreData(1, EnumMaterials.Gold, 0.32f,
 									EnumMaterials.Hematite, 0.38f,
 									EnumMaterials.Cuprite, 0.35f,
 									EnumMaterials.Uraninite, 0.15f).build(),
 
 				//Plains
-				BiomeLayerBuilder.create(IGBiomes.PLAINS).addLayerData(KAOLINITE, KAOLINITE, KAOLINITE,KAOLINITE,KAOLINITE, LIMESTONE, BASALT)
+				BiomeLayerBuilder.create(IGBiomes.PLAINS).addLayerData(KAOLINITE, KAOLINITE, KAOLINITE, KAOLINITE, KAOLINITE, KAOLINITE, KAOLINITE,KAOLINITE, KAOLINITE, LIMESTONE,DOLOMITE, GRANITE, GABBROS, BASALT)
 						.addLayerOreData(4, EnumMaterials.Gold, 0.22f,
 								EnumMaterials.Hematite, 0.38f,
 								EnumMaterials.Cuprite, 0.35f)

@@ -127,15 +127,15 @@ public class WorldEventHandler
 				ChunkDataProvider chunkDataProvider = ChunkDataProvider.get(mc.world);
 				if(chunkDataProvider!=null)
 				{
-					//mc.fontRenderer.drawStringWithShadow(
-					//		"Regional Temp: " + String.valueOf(chunkDataProvider.get(cpos).getRegionalTemp()),
-					//		w / 2 + 30, h / 2 + 10, 0xFFAA00);
-//					mc.fontRenderer.drawStringWithShadow(
-//							"Average Temp: " + String.valueOf(chunkDataProvider.get(cpos).getAvgTemp()), w / 2 + 30,
-//							h / 2 + 20, 0xFFAA00);
-//					mc.fontRenderer.drawStringWithShadow(
-//							"Regional Rainfall: " + String.valueOf(chunkDataProvider.get(cpos).getRainfall()),
-//							w / 2 + 30, h / 2 + 30, 0xFFAA00);
+					mc.fontRenderer.drawStringWithShadow(
+							"Regional Temp: " + String.valueOf(chunkDataProvider.get(cpos).getRegionalTemp()),
+							w / 2 + 30, h / 2 + 10, 0xFFAA00);
+					mc.fontRenderer.drawStringWithShadow(
+							"Average Temp: " + String.valueOf(chunkDataProvider.get(cpos).getAvgTemp()), w / 2 + 30,
+							h / 2 + 20, 0xFFAA00);
+					mc.fontRenderer.drawStringWithShadow(
+							"Regional Rainfall: " + String.valueOf(chunkDataProvider.get(cpos).getRainfall()),
+							w / 2 + 30, h / 2 + 30, 0xFFAA00);
 				}
 				profiler.endSection();
 			}

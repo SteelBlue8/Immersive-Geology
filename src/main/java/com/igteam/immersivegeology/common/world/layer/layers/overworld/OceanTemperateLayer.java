@@ -184,8 +184,8 @@ public enum OceanTemperateLayer implements ICastleTransformer, IBishopTransforme
 	@Override
 	public int func_215728_a(IExtendedNoiseRandom<?> context, IArea area, int x, int z)
 	{
+		//using a ternary operation causes a crash when compiled?
 		//return this == CASTLE ? ICastleTransformer.super.func_215728_a(context, area, x, z) : IBishopTransformer.super.func_215728_a(context,  area, x, z);
-		
 		if(this == CASTLE) {
 			return this.apply(context, area.getValue(this.func_215721_a(x + 1), this.func_215722_b(z + 0)), area.getValue(this.func_215721_a(x + 2), this.func_215722_b(z + 1)), area.getValue(this.func_215721_a(x + 1), this.func_215722_b(z + 2)), area.getValue(this.func_215721_a(x + 0), this.func_215722_b(z + 1)), area.getValue(this.func_215721_a(x + 1), this.func_215722_b(z + 1)));
 		}
