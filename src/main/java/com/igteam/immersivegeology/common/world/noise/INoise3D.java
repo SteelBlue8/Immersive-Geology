@@ -1,5 +1,7 @@
 package com.igteam.immersivegeology.common.world.noise;
 
+import com.igteam.immersivegeology.api.materials.Material;
+
 @FunctionalInterface
 public interface INoise3D
 {

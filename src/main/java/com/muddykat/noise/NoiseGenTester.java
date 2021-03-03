@@ -18,16 +18,12 @@ import com.igteam.immersivegeology.common.world.layer.layers.overworld.RiverLaye
 import com.igteam.immersivegeology.common.world.layer.layers.overworld.ShoreLayer;
 import com.igteam.immersivegeology.common.world.layer.layers.overworld.TemperateLayer;
 
-import com.igteam.immersivegeology.common.world.noise.INoise2D;
-import com.igteam.immersivegeology.common.world.noise.SimplexNoise2D;
 import net.minecraft.world.gen.LazyAreaLayerContext;
 import net.minecraft.world.gen.area.IAreaFactory;
 import net.minecraft.world.gen.area.LazyArea;
 import net.minecraft.world.gen.layer.SmoothLayer;
 import net.minecraft.world.gen.layer.VoroniZoomLayer;
 import net.minecraft.world.gen.layer.ZoomLayer;
-
-import static com.igteam.immersivegeology.common.world.gen.config.ImmersiveGenerationSettings.SEA_LEVEL;
 
 public class NoiseGenTester {
 
@@ -41,22 +37,33 @@ public class NoiseGenTester {
 
 		IAreaFactory<LazyArea> mainLayer;
 
-		final INoise2D ridgeNoise = new SimplexNoise2D(seed).octaves(4).ridged().spread(0.04f)
-				.map(x -> 1.3f*-(x > 0?(float)Math.pow(x, 3.2f): 0.5f*x)).scaled(-1f, 0.3f, -1f, 1f)
-				.terraces(16).scaled(SEA_LEVEL, SEA_LEVEL+60);
 
-		final INoise2D spots = new SimplexNoise2D(seed).terraces(2).scaled(SEA_LEVEL+4, SEA_LEVEL+62).spread(0.08f);
-		INoise2D noise = new SimplexNoise2D(seed).octaves(6).terraces(4).spread(0.08f).scaled(SEA_LEVEL+4, SEA_LEVEL+62).warped(ridgeNoise,spots);
-
-		double[][] data = new double[1000][1000];
-
-		for(int x = 0; x < 1000; x++){
-			for(int y = 0; y < 1000; y++){
-				data[x][y] = noise.noise(x,y);
-			}
-		}
-
-		ImageUtil.greyWriteImage(data);
+//
+//		INoiseOre finalNoise = new OpenSimplexNoise(seed);
+//
+//		int FEATURE_SIZE = 16;
+//		for(EnumMaterials ore : EnumMaterials.values()) {
+//			if(ore.material.getMaterialType().equals(MaterialTypes.MINERAL)) {
+//				OpenSimplexNoise oreNoiseWorley = new OpenSimplexNoise(seed + ore.ordinal());
+//				OpenSimplexNoise oreNoiseWorleySub = new OpenSimplexNoise(seed - ore.ordinal());
+//				//this is to make ore veins less common (without this it's way too common)
+//				INoiseOre oreNoiseSub = (x, y, z) -> oreNoiseWorleySub.flattened(0.4f, 1f).octaves(1, 0.75f).noise(x / (FEATURE_SIZE * 5), y / (FEATURE_SIZE * 5), z / (FEATURE_SIZE * 5));
+//				INoiseOre oreNoise = (x, y, z) -> oreNoiseWorley.flattened(0f, 1f).octaves(3, 0.8f).noise(x / FEATURE_SIZE, y / FEATURE_SIZE, z / FEATURE_SIZE);
+//				INoiseOre compNoise = oreNoise.sub(oreNoiseSub).applyIdentity(ore.ordinal());
+//
+//				finalNoise = finalNoise.compoundIdentity(finalNoise, compNoise);
+//			}
+//		}
+//
+//		OreNoise[][] data = new OreNoise[100][100];
+//		for(int z = 0; z < 10; z++) {
+//			for (int x = 0; x < 100; x++) {
+//				for (int y = 0; y < 100; y++) {
+//					data[x][y] = finalNoise.noise(x, z, y);
+//				}
+//			}
+//			ImageUtil.greyWriteImage(data);
+//		}
 	}
 
 	public static final ImageUtil<IAreaFactory<LazyArea>> IMAGES = ImageUtil.noise(lazyAreaIAreaFactory -> {

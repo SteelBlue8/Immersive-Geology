@@ -137,9 +137,14 @@ public class IGBlockStateProvider extends BlockStateProvider
 						if (material.getSpecialSubtypeModelName(b.subtype) != null)
 							specialName.append('_').append(material.getSpecialSubtypeModelName(b.subtype));
 					}
-					BlockModelBuilder baseModel = withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "block/" + block.name).getPath(),
-							new ResourceLocation(ImmersiveGeology.MODID, "block/base/" + ((IGMaterialBlock) block).subtype.getModelPath(false) + specialName.toString()));
-
+					BlockModelBuilder baseModel;
+					if(b instanceof IGVanillaOreBlock){
+						baseModel  = withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "block/" + block.name).getPath(),
+								new ResourceLocation(ImmersiveGeology.MODID, "block/base/vanilla_ore"));
+					} else {
+						baseModel  = withExistingParent(new ResourceLocation(ImmersiveGeology.MODID, "block/" + block.name).getPath(),
+								new ResourceLocation(ImmersiveGeology.MODID, "block/base/" + ((IGMaterialBlock) block).subtype.getModelPath(false) + specialName.toString()));
+					}
 
 					if (b.hasMultipartModel()) {
 						//An advanced model, with each property having an attached model

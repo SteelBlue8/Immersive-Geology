@@ -108,6 +108,7 @@ public enum EnumMaterials
 	Limestone(new MaterialStoneLimestone()),
 	Pegmatite(new MaterialStonePegmatite()),
 	Regolith(new MaterialStoneRegolith()),
+	Vanilla(new MaterialStoneVanillia()),
 
 	//Wood
 	// TODO: 22.08.2020 add more types

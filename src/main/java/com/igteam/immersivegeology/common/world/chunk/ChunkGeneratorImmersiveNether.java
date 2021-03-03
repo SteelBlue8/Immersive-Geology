@@ -305,7 +305,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 				for(int y = 253; y > (int)skyHeight; y--) {
 					int trueY = y;
-					for (BiomeLayerData b : data.worldLayerData) {
+					for (BiomeLayerData b : data.worldLayerData.values()) {
 						posSky.setPos(chunkX + x, trueY, chunkZ + z);
 						Biome biome = chunk.getBiome(new BlockPos(x, trueY, z));
 						if (b.getLbiome() == biome) {
@@ -337,7 +337,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 				for(int y = 0; y <= (int)totalHeight; y++)
 				{
-					for(BiomeLayerData b : data.worldLayerData)
+					for(BiomeLayerData b : data.worldLayerData.values())
 					{
 
 						pos.setPos(chunkX+x, y, chunkZ+z);

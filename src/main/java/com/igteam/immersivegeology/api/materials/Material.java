@@ -186,7 +186,6 @@ public abstract class Material implements IHeadMaterial, IBindingMaterial, IHand
 	 *
 	 * @return the tool tier / material, look at {@link net.minecraft.item.ItemTier}
 	 */
-	//TODO: Add material tools
 	//@Nullable
 	//public abstract IItemTier getToolTier();
 	@Override

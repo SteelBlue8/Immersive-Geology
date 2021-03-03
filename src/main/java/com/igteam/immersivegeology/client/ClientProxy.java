@@ -2,27 +2,17 @@ package com.igteam.immersivegeology.client;
 
 import blusunrize.immersiveengineering.client.IEDefaultColourHandlers;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
-import blusunrize.immersiveengineering.common.gui.GuiHandler;
 import blusunrize.immersiveengineering.common.items.IEItemInterfaces;
-import com.igteam.immersivegeology.client.gui.CrudeForgeScreen;
 import com.igteam.immersivegeology.common.CommonProxy;
 import com.igteam.immersivegeology.common.IGContent;
-import com.igteam.immersivegeology.common.gui.GuiAccessor;
-import com.igteam.immersivegeology.common.gui.GuiLib;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.registries.ObjectHolder;
 
 import static com.igteam.immersivegeology.ImmersiveGeology.MODID;
 

@@ -201,7 +201,6 @@ public class OpenSimplexNoise implements INoise3D
 	//3D OpenSimplex Noise.
 	public float eval(double x, double y, double z)
 	{
-
 		// Place input coordinates on simplectic honeycomb.
 		double stretchOffset = (x+y+z)*STRETCH_CONSTANT_3D;
 		double xs = x+stretchOffset;
@@ -2586,6 +2585,6 @@ public class OpenSimplexNoise implements INoise3D
 	@Override
 	public float noise(float x, float y, float z)
 	{
-		return eval(x, y, z);
+		return eval(x,y,z);
 	}
 }

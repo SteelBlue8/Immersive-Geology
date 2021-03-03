@@ -17,6 +17,7 @@ import com.igteam.immersivegeology.common.blocks.plant.IGRockMossBlock;
 import com.igteam.immersivegeology.common.fluid.IGFluid;
 import com.igteam.immersivegeology.common.items.*;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
+import com.igteam.immersivegeology.common.materials.stones.MaterialStoneVanillia;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.IStringSerializable;
@@ -61,7 +62,7 @@ public enum MaterialUseType implements IStringSerializable
 			return "spike/" + (onlyPath ? "" : getName());
 		}
 	},
-	GENERATED_ORE(UseCategory.DUMMY), //This one is for ore blocks
+	GENERATED_ORE(UseCategory.DUMMY), //This one is for ore blocks, used in the material, if marked, allows it to create an ore type (uses ore_bearing type for registration)
 	GENERATED_CHUNKS(UseCategory.DUMMY), //This one is for chunks
 	ORE_BEARING(UseCategory.RESOURCE_BLOCK, Material.ROCK, ItemSubGroup.raw)
 			{
@@ -70,7 +71,11 @@ public enum MaterialUseType implements IStringSerializable
 				{
 					List<IGBaseBlock> list = new ArrayList<>();
 					//Filter materials for World Generation acceptable ores and iterate, add to the list new ore blocks with stone mat + mineral mat
-					EnumMaterials.filterByUseType(GENERATED_ORE).forEach(enumMaterials -> list.add(new IGOreBearingBlock(material, this, enumMaterials.material)));
+					if(material instanceof MaterialStoneVanillia){
+						EnumMaterials.filterByUseType(GENERATED_ORE).forEach(enumMaterials -> list.add(new IGVanillaOreBlock(material, this, enumMaterials.material)));
+					} else {
+						EnumMaterials.filterByUseType(GENERATED_ORE).forEach(enumMaterials -> list.add(new IGOreBearingBlock(material, this, enumMaterials.material)));
+					}
 					return list.toArray(new IGBaseBlock[]{});
 				}
 

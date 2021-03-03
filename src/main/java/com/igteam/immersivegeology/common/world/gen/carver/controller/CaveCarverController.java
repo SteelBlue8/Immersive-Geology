@@ -224,6 +224,7 @@ public class CaveCarverController {
             }
         }
 
+        /*
         for(BiomeLayerData biomeData : data.worldLayerData) {
             int totalLayers = biomeData.getLayerCount();
             for (int layer = totalLayers; layer > 0; layer--) {
@@ -242,7 +243,7 @@ public class CaveCarverController {
                 }
             }
         }
-
+        */
         // Generate surface caves if enabled
         if (isSurfaceCavesEnabled) {
             surfaceCaveCarver.generate(world, chunkX, chunkZ, chunk, false, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);

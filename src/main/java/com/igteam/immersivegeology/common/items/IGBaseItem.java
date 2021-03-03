@@ -5,7 +5,6 @@ import blusunrize.immersiveengineering.common.items.IEItemInterfaces;
 import com.igteam.immersivegeology.ImmersiveGeology;
 import com.igteam.immersivegeology.client.menu.helper.IIGSubGroupContained;
 import com.igteam.immersivegeology.client.menu.helper.ItemSubGroup;
-import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

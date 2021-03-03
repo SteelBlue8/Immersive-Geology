@@ -71,7 +71,8 @@ public abstract class MaterialStoneBase extends Material implements IHeadMateria
 		IGNEOUS_INTRUSIVE,
 		IGNEOUS_EXTRUSIVE,
 		METAMORPHIC,
-		SEDIMENTARY;
+		SEDIMENTARY,
+		VANILLA;
 
 		public String getName()
 		{

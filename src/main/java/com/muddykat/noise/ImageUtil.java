@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 import javax.imageio.ImageIO;
 
-import com.igteam.immersivegeology.common.world.gen.config.ImmersiveGenerationSettings;
+import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue.Consumer;
 import net.minecraft.util.math.MathHelper;
 
@@ -23,9 +23,10 @@ import net.minecraft.util.math.MathHelper;
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue", "UnusedReturnValue"})
 public abstract class ImageUtil<T>
 {
-	
-	 public static void greyWriteImage(double[][] data){
+	private static int runs = 0;
+	 public static void greyWriteImage(float[][] data){
 	        //this takes an array of doubles between 0 and 1 and generates a grey scale image from them
+
 	        BufferedImage image = new BufferedImage(data.length,data[0].length, BufferedImage.TYPE_INT_ARGB_PRE);
 
 	        for (int y = 0; y < data[0].length; y++)
@@ -39,27 +40,17 @@ public abstract class ImageUtil<T>
 	                data[x][y]=0;
 	            }
 
-	            double preData = data[x][y];
-	            data[x][y] = preData / 255;
-
-	            float THRESHOLD = ImmersiveGenerationSettings.SEA_LEVEL / 255;
-	            Color col;
-
-                  if(data[x][y] > THRESHOLD) {
-                      col = new Color((float) data[x][y], (float) data[x][y], (float) data[x][y]);
-                  } else {
-                      col = new Color(0, 0, 255);
-                  }
-
-                  image.setRGB(x, y, col.getRGB());
+	            float THRESHOLD = 0.4f;
+	            Color col = new Color(data[x][y],data[x][y],data[x][y]);
+	            image.setRGB(x, y, col.getRGB());
               }
 	        }
 
 	        try {
 	            // retrieve image
-	            File outputfile = new File("saved.png");
+	            File outputfile = new File("saved_"+runs+".png");
 	            outputfile.createNewFile();
-
+                runs++;
 	            ImageIO.write(image, "png", outputfile);
 
 	        } catch (IOException e) {
