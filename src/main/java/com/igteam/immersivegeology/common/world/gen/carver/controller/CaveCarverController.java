@@ -49,9 +49,10 @@ public class CaveCarverController {
     private boolean isSurfaceCavesEnabled;
     private boolean isFloodedUndergroundEnabled;
 
-    public static WorldLayerData data = WorldLayerData.instance;
+    public static WorldLayerData data = new WorldLayerData();
 
 	public CaveCarverController(IWorld worldIn, int topY) {
+        data.initialize();
         this.world = worldIn;
         this.isOverrideSurfaceDetectionEnabled = false;
         this.isSurfaceCavesEnabled = true;
@@ -224,8 +225,8 @@ public class CaveCarverController {
             }
         }
 
-        /*
-        for(BiomeLayerData biomeData : data.worldLayerData) {
+
+        for(BiomeLayerData biomeData : data.instance.getData()) {
             int totalLayers = biomeData.getLayerCount();
             for (int layer = totalLayers; layer > 0; layer--) {
                 if (biomeData.getLayerOre(layer) != null) {
@@ -243,7 +244,7 @@ public class CaveCarverController {
                 }
             }
         }
-        */
+
         // Generate surface caves if enabled
         if (isSurfaceCavesEnabled) {
             surfaceCaveCarver.generate(world, chunkX, chunkZ, chunk, false, liquidBlocks, biomeMap, airCarvingMask, liquidCarvingMask);

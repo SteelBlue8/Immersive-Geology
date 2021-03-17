@@ -4,7 +4,6 @@ import com.igteam.immersivegeology.common.blocks.IGBaseBlock;
 import com.igteam.immersivegeology.common.blocks.IGMaterialBlock;
 import com.igteam.immersivegeology.common.materials.EnumMaterials;
 import com.igteam.immersivegeology.common.world.biome.IGBiome;
-import net.minecraft.world.biome.Biome;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,13 +13,14 @@ public class BiomeLayerData
 {
 
 	private ArrayList<IGMaterialBlock> layerMap = new ArrayList<IGMaterialBlock>();
-	private HashMap<Integer, ArrayList<LayerOre>> layerOreMap = new HashMap<Integer, ArrayList<LayerOre>>();
+	private final HashMap<Integer, ArrayList<LayerOre>> layerOreMap;
 
 	private final IGBiome lbiome;
 	private float baseHardnessMod;
 	
 	public BiomeLayerData(IGBiome biome, float baseHardnessMod)
 	{
+		layerOreMap = new HashMap<Integer, ArrayList<LayerOre>>();
 		this.lbiome = biome;
 		this.baseHardnessMod = baseHardnessMod;
 	}
@@ -96,7 +96,11 @@ public class BiomeLayerData
 		Collections.reverse(layerMap);
 	}
 
-	public class LayerOre
+    public HashMap<Integer, ArrayList<LayerOre>> getLayerOreValues() {
+		return layerOreMap;
+    }
+
+    public class LayerOre
 	{
 
 		private float coverage;
@@ -191,5 +195,21 @@ public class BiomeLayerData
 	public BiomeLayerData build() {
 		settleLayers();
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder a = new StringBuilder("");
+		for(ArrayList<LayerOre> e : layerOreMap.values()){
+			for(LayerOre ee : e){
+				a.append(ee.getOre().name() + "|" + ee.getSetLayer() + " \n");
+			}
+		}
+		return "BiomeLayerData{" +
+				"layerMap=" + layerMap +
+				",layerOreMap=" + a.toString() +
+				", lbiome=" + lbiome +
+				", baseHardnessMod=" + baseHardnessMod +
+				'}';
 	}
 }

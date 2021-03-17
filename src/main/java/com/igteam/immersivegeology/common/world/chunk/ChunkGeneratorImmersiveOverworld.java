@@ -41,7 +41,7 @@ import java.util.Random;
 public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGenerationSettings>
 {
 
-	public static WorldLayerData data = WorldLayerData.instance;
+	public static WorldLayerData data;
 
 	private static final double[] PARABOLIC_FIELD = Util.make(new double[9*9], array -> {
 		for(int x = 0; x < 9; x++)
@@ -62,7 +62,9 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 	public ChunkGeneratorImmersiveOverworld(IWorld world, BiomeProvider provider,
 											ImmersiveGenerationSettings settings)
 	{
-		super(world, provider, settings); 
+		super(world, provider, settings);
+		data = new WorldLayerData();
+		data.initialize();
 		boolean usePerlin = true;
 		Random seedGenerator = new Random(world.getSeed());
 		this.surfaceDepthNoise = usePerlin?new PerlinNoiseGenerator(seedGenerator, 4)
@@ -96,6 +98,8 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 			// First, run worley cave carver
 			//this updates the thread run ore carvers
 			worleyOreCarver.carve(chunkIn, chunkIn.getPos().x << 4, chunkIn.getPos().z << 4);
+			//It's just bad no matter what I do to it...
+			//it'd be better to just run the vanilla cave version.
 
 		}
 
@@ -277,7 +281,7 @@ public class ChunkGeneratorImmersiveOverworld extends ChunkGenerator<ImmersiveGe
 				boolean noGen = true;
 				for(int y = 0; y <= (int)totalHeight; y++)
 				{
-					for(BiomeLayerData b : data.worldLayerData.values())
+					for(BiomeLayerData b : data.instance.getData())
 					{
 						pos.setPos(chunkX+x, y, chunkZ+z);
 						Biome biome = chunk.getBiome(new BlockPos(x, y, z));

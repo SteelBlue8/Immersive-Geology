@@ -48,7 +48,7 @@ import java.util.Random;
 public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNetherGenSettings>
 {
 
-	public static WorldLayerData data = WorldLayerData.instance;
+	public static WorldLayerData data;
 
 	private static final double[] PARABOLIC_FIELD = Util.make(new double[9*9], array -> {
 		for(int x = 0; x < 9; x++)
@@ -75,10 +75,11 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 		this.surfaceDepthNoise = usePerlin?new PerlinNoiseGenerator(seedGenerator, 4)
 				: new OctavesNoiseGenerator(seedGenerator, 4);
 		final long biomeNoiseSeed = seedGenerator.nextLong();
+		data = new WorldLayerData();
+		data.initialize();
 
 		this.biomeNoiseMap = new HashMap<>();
 		IGBiomes.getBiomes().forEach(biome -> biomeNoiseMap.put(biome, biome.createNoiseLayer(biomeNoiseSeed)));
-
 		IGBiomes.getBiomes().forEach(biome -> skyNoiseMap.put(biome, biome.createNoiseLayer(biomeNoiseSeed-1)));
 
 		this.biomeProvider = (ImmersiveNetherBiomeProvider)provider;
@@ -305,7 +306,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 				for(int y = 253; y > (int)skyHeight; y--) {
 					int trueY = y;
-					for (BiomeLayerData b : data.worldLayerData.values()) {
+					for (BiomeLayerData b : data.instance.getData()) {
 						posSky.setPos(chunkX + x, trueY, chunkZ + z);
 						Biome biome = chunk.getBiome(new BlockPos(x, trueY, z));
 						if (b.getLbiome() == biome) {
@@ -337,7 +338,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 				for(int y = 0; y <= (int)totalHeight; y++)
 				{
-					for(BiomeLayerData b : data.worldLayerData.values())
+					for(BiomeLayerData b : data.instance.getData())
 					{
 
 						pos.setPos(chunkX+x, y, chunkZ+z);
@@ -379,7 +380,7 @@ public class ChunkGeneratorImmersiveNether extends ChunkGenerator<ImmersiveNethe
 
 					if(noGen)
 					{
-						BiomeLayerData b = data.worldLayerData.get(0);
+						BiomeLayerData b = data.instance.getData().get(0);
 						int lc = b.getLayerCount();
 						for(int l = lc; l > 0; l--)
 						{
