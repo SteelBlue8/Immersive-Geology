@@ -25,14 +25,16 @@ public class SeparatorRecipe extends MultiblockRecipe
     public final Ingredient input;
     public final ItemStack output;
     public final Ingredient waste;
+    public final int processingTime;
 
     public final List<StackWithChance> secondaryOutputs = new ArrayList<>();
 
-    public SeparatorRecipe(ResourceLocation id, ItemStack output, Ingredient waste, Ingredient input) {
+    public SeparatorRecipe(ResourceLocation id, ItemStack output, Ingredient waste, Ingredient input, int time) {
         super(output, TYPE, id);
         this.output = output;
         this.waste = waste;
         this.input = input;
+        this.processingTime = time;
 
         setInputList(Lists.newArrayList(this.input));
         this.outputList = NonNullList.from(ItemStack.EMPTY, this.output);
@@ -66,7 +68,7 @@ public class SeparatorRecipe extends MultiblockRecipe
     
     @Override
     public int getTotalProcessTime() {
-        return 20 * 12; //20 ticks times 6, approx six seconds in game time
+        return processingTime;
     }
 
     @Override

@@ -24,10 +24,11 @@ public class SeparatorRecipeSerializer extends IERecipeSerializer<SeparatorRecip
     @Override
     public SeparatorRecipe readFromJson(ResourceLocation recipeId, JsonObject json) {
         ItemStack output = readOutput(json.get("result"));
+        int time = JSONUtils.getInt(json, "time");
         Ingredient input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
         Ingredient waste = Ingredient.deserialize(JSONUtils.getJsonObject(json, "waste"));
         JsonArray array = json.getAsJsonArray("secondaries");
-        SeparatorRecipe recipe = new SeparatorRecipe(recipeId, output, waste, input);
+        SeparatorRecipe recipe = new SeparatorRecipe(recipeId, output, waste, input, time);
         for(int i = 0; i < array.size(); i++)
         {
             JsonObject element = array.get(i).getAsJsonObject();
@@ -44,10 +45,11 @@ public class SeparatorRecipeSerializer extends IERecipeSerializer<SeparatorRecip
     @Override
     public SeparatorRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
         ItemStack output = buffer.readItemStack();
+        int time = buffer.readInt();
         Ingredient input = Ingredient.read(buffer);
         Ingredient waste = Ingredient.read(buffer);
         int secondaryCount = buffer.readInt();
-        SeparatorRecipe recipe = new SeparatorRecipe(recipeId, output, waste, input);
+        SeparatorRecipe recipe = new SeparatorRecipe(recipeId, output, waste, input, time);
         for(int i = 0; i < secondaryCount; i++)
             recipe.addToSecondaryOutput(StackWithChance.read(buffer));
         return recipe;
@@ -56,6 +58,7 @@ public class SeparatorRecipeSerializer extends IERecipeSerializer<SeparatorRecip
     @Override
     public void write(PacketBuffer buffer, SeparatorRecipe recipe) {
         buffer.writeItemStack(recipe.output);
+        buffer.writeInt(recipe.getTotalProcessTime());
         recipe.input.write(buffer);
         recipe.waste.write(buffer);
         buffer.writeInt(recipe.secondaryOutputs.size());

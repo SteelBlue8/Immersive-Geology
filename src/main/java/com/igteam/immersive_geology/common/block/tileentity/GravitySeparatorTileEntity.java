@@ -1,5 +1,6 @@
 package com.igteam.immersive_geology.common.block.tileentity;
 
+import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
 import blusunrize.immersiveengineering.api.fluid.FluidUtils;
 import blusunrize.immersiveengineering.api.utils.CapabilityReference;
 import blusunrize.immersiveengineering.api.utils.DirectionalBlockPos;
@@ -8,10 +9,12 @@ import blusunrize.immersiveengineering.client.utils.TextUtils;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces.IBlockBounds;
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
-import blusunrize.immersiveengineering.common.blocks.metal.SheetmetalTankTileEntity;
 import blusunrize.immersiveengineering.common.util.Utils;
 import com.google.common.collect.ImmutableSet;
 import com.igteam.immersive_geology.api.crafting.recipes.recipe.SeparatorRecipe;
+import com.igteam.immersive_geology.api.multiblock.IGMachineInfo;
+import com.igteam.immersive_geology.api.multiblock.IGProcessingQueue;
+import com.igteam.immersive_geology.common.block.helpers.IIGMultiblockProcess;
 import com.igteam.immersive_geology.common.multiblocks.GravitySeparatorMultiblock;
 import com.igteam.immersive_geology.core.registration.IGTileTypes;
 import net.minecraft.block.BlockState;
@@ -20,7 +23,6 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -50,7 +52,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 //Sorry to IE for using their internal classes, we should have used an API, and we'll maybe fix it later.
-public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<GravitySeparatorTileEntity, SeparatorRecipe> implements IEBlockInterfaces.IBlockOverlayText, IEBlockInterfaces.IPlayerInteraction, IBlockBounds {
+public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<GravitySeparatorTileEntity, SeparatorRecipe> implements IEBlockInterfaces.IBlockOverlayText, IEBlockInterfaces.IPlayerInteraction, IBlockBounds, IIGMultiblockProcess {
 
     public static final Set<BlockPos> Redstone_IN = ImmutableSet.of(new BlockPos(1, 6, 2));
 
@@ -60,10 +62,13 @@ public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<Grav
     public final FluidTank tank = new FluidTank(16 * FluidAttributes.BUCKET_VOLUME);
     private final List<CapabilityReference<IFluidHandler>> fluidNeighbors;
 
+    public IGProcessingQueue masterQueue = new IGProcessingQueue();
+
     public GravitySeparatorTileEntity() {
         super(GravitySeparatorMultiblock.INSTANCE, 0, false, IGTileTypes.GRAVITY.get());
         this.fluidNeighbors = new ArrayList();
         this.fluidNeighbors.add(CapabilityReference.forNeighbor(this, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP));
+        this.masterQueue.setMachineInfo(new IGMachineInfo(this));
     }
 
     @Override
@@ -75,7 +80,9 @@ public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<Grav
     public void tick() {
         super.tick();
         GravitySeparatorTileEntity master = this.master();
-        if(!master.processQueue.isEmpty()){
+        assert master != null;
+        if(master.masterQueue.hasElements()){
+            master.masterQueue.doProcessingStep();
             if(!master.tank.isEmpty()){
                 master.tank.drain(1, IFluidHandler.FluidAction.EXECUTE);
             }
@@ -121,32 +128,33 @@ public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<Grav
                 if (recipe == null) {
                     return;
                 }
-                ItemStack displayStack = recipe.getDisplayStack(stack);
-                MultiblockProcessInWorld<SeparatorRecipe> process = new MultiblockProcessInWorld<SeparatorRecipe>(recipe, .5f, Utils.createNonNullItemStackListFromItemStack(displayStack));
-                if (master.addProcessToQueue(process, true, true)) {
-                    master.addProcessToQueue(process, false, true);
-                    stack.shrink(displayStack.getCount());
-                    if (stack.getCount() <= 0)
+                ItemStack recipeInput = recipe.getDisplayStack(stack);
+
+                if(master.masterQueue.addProcessToQueue(recipe)) {
+                    stack.shrink(recipeInput.getCount());
+                    if (stack.isEmpty()) {
                         entity.remove();
+                    }
                 }
+
+//                MultiblockProcessInWorld<SeparatorRecipe> process = new MultiblockProcessInWorld<SeparatorRecipe>(recipe, .5f, Utils.createNonNullItemStackListFromItemStack(displayStack));
+//                if (master.addProcessToQueue(process, true, true)) {
+//                    master.addProcessToQueue(process, false, true);
+//                    stack.shrink(displayStack.getCount());
+//                    if (stack.getCount() <= 0)
+//                        entity.remove();
+//                }
             }
         }
     }
 
     @Override
     protected boolean shouldRenderAsActiveImpl() {
-        return !processQueue.isEmpty();
+        return master().masterQueue.hasElements();
     }
-
-    private CapabilityReference<IItemHandler> output = CapabilityReference.forTileEntityAt(this,
-            () -> new DirectionalBlockPos(getPos().add(0, 0, 0).offset(getFacing(), -2), getFacing()),
-            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
 
     @Override
     public void doProcessOutput(ItemStack output) {
-        output = Utils.insertStackIntoInventory(this.output, output, false);
-        if(!output.isEmpty())
-            Utils.dropStackAtPos(world, getPos().add(0, 0, 0).offset(getFacing(), -2), output, getFacing().getOpposite());
     }
 
     LazyOptional<IItemHandler> insertionHandler = registerConstantCap(
@@ -364,5 +372,22 @@ public class GravitySeparatorTileEntity extends PoweredMultiblockTileEntity<Grav
         }
         return Arrays.asList(new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0));
 
+    }
+
+    @Override
+    public boolean canProcessOutput() {
+        return !tank.isEmpty();
+    }
+
+    private CapabilityReference<IItemHandler> output = CapabilityReference.forTileEntityAt(this,
+            () -> new DirectionalBlockPos(getPos().add(0, 0, 0).offset(getFacing(), -2), getFacing()),
+            CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+
+    @Override
+    public void doOutputFor(MultiblockRecipe recipe, IGMachineInfo info) {
+        ItemStack output = recipe.getRecipeOutput().copy();
+        output = Utils.insertStackIntoInventory(this.output, output, false);
+        if(!output.isEmpty())
+            Utils.dropStackAtPos(world, getPos().add(0, 0, 0).offset(getFacing(), -2), output, getFacing().getOpposite());
     }
 }

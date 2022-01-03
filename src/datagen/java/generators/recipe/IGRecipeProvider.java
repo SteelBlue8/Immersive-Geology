@@ -374,7 +374,7 @@ public class IGRecipeProvider extends RecipeProvider {
     private void addSeparationMethod(IGProcessingMethod method, Consumer<IFinishedRecipe> consumer) {
         IGSeparationProcessingMethod m = (IGSeparationProcessingMethod) method;
         SeparatorRecipeBuilder builder = SeparatorRecipeBuilder.builder(m.getOutputItem());
-        builder.addWaste(m.getWasteItem()).addInput(m.getInputItem()).build(consumer, toRL("gravityseparator/wash_" + m.getOutputItem().getItem().getRegistryName().getPath().toLowerCase()));
+        builder.setTime(m.getProcessingTime()).addWaste(m.getWasteItem()).addInput(m.getInputItem()).build(consumer, toRL("gravityseparator/wash_" + m.getOutputItem().getItem().getRegistryName().getPath().toLowerCase()));
         log.info("Registering Washing Recipe");
     }
 

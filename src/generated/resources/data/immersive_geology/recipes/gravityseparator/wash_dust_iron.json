@@ -4,6 +4,7 @@
   "result": {
     "item": "immersive_geology:dust_iron"
   },
+  "time": 120,
   "waste": {
     "item": "immersive_geology:metal_oxide_tungsten"
   },
