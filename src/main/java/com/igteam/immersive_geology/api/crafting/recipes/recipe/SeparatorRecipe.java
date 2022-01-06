@@ -5,6 +5,7 @@ import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
 import blusunrize.immersiveengineering.api.crafting.StackWithChance;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.igteam.immersive_geology.api.crafting.IGMultiblockRecipe;
 import com.igteam.immersive_geology.common.crafting.Serializers;
 import com.igteam.immersive_geology.core.lib.IGLib;
 import net.minecraft.item.ItemStack;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SeparatorRecipe extends MultiblockRecipe
+public class SeparatorRecipe extends IGMultiblockRecipe
 {
     public static IRecipeType<SeparatorRecipe> TYPE = IRecipeType.register(IGLib.MODID + ":gravityseparator");
     public static Map<ResourceLocation, SeparatorRecipe> recipes = new HashMap<>();
@@ -38,6 +39,14 @@ public class SeparatorRecipe extends MultiblockRecipe
 
         setInputList(Lists.newArrayList(this.input));
         this.outputList = NonNullList.from(ItemStack.EMPTY, this.output);
+    }
+
+    public SeparatorRecipe(){
+        super(null, TYPE, null);
+        input = null;
+        output = null;
+        waste = null;
+        processingTime = 0;
     }
 
     public static SeparatorRecipe findRecipe(ItemStack input){
@@ -65,7 +74,12 @@ public class SeparatorRecipe extends MultiblockRecipe
     public int getMultipleProcessTicks() {
         return 1;
     }
-    
+
+    @Override
+    public Map<ResourceLocation, ? extends IGMultiblockRecipe> getRecipes() {
+        return recipes;
+    }
+
     @Override
     public int getTotalProcessTime() {
         return processingTime;

@@ -12,6 +12,8 @@ import blusunrize.immersiveengineering.common.blocks.generic.MultiblockPartTileE
 import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
 import blusunrize.immersiveengineering.common.util.Utils;
 import com.google.common.collect.ImmutableSet;
+import com.igteam.immersive_geology.ImmersiveGeology;
+import com.igteam.immersive_geology.api.crafting.IGMultiblockRecipe;
 import com.igteam.immersive_geology.api.crafting.recipes.recipe.SeparatorRecipe;
 import com.igteam.immersive_geology.api.multiblock.Dual;
 import com.igteam.immersive_geology.api.multiblock.IGMachineInfo;
@@ -51,6 +53,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -65,13 +68,13 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
 
     public final FluidTank tank = new FluidTank(16 * FluidAttributes.BUCKET_VOLUME);
     private final List<CapabilityReference<IFluidHandler>> fluidNeighbors;
-    public final IGProcessingQueue masterQueue;
+    public final IGProcessingQueue<SeparatorRecipe> masterQueue;
 
     public GravitySeparatorTileEntity() {
         super(GravitySeparatorMultiblock.INSTANCE, IGTileTypes.GRAVITY.get(),false);
         this.fluidNeighbors = new ArrayList();
         this.fluidNeighbors.add(CapabilityReference.forNeighbor(this, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP));
-        this.masterQueue = new IGProcessingQueue();
+        this.masterQueue = new IGProcessingQueue<>();
         this.masterQueue.setMachineInfo(new IGMachineInfo(this));
     }
 
@@ -103,6 +106,8 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
         assert master != null;
         if(master.masterQueue.hasElements()){
             master.masterQueue.doProcessingStep();
+            master.updateContainingBlockInfo();
+
             if(!master.tank.isEmpty()){
                 master.tank.drain(2, IFluidHandler.FluidAction.EXECUTE);
             }
@@ -142,11 +147,13 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
                 }
                 ItemStack recipeInput = recipe.getDisplayStack(stack);
 
+                ImmersiveGeology.getNewLogger().log(Level.INFO, "Testing Typed: " + this.getRecipeForId(recipe.getId()).getId().getPath());
+
                 if(master.masterQueue.addProcessToQueue(recipe)) {
                     stack.shrink(recipeInput.getCount());
+                    master.updateContainingBlockInfo();
                     if (stack.isEmpty()) {
                         entity.remove();
-                        master.updateContainingBlockInfo();
                     }
                 }
             }
@@ -183,7 +190,7 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
     }
 
     protected SeparatorRecipe getRecipeForId(ResourceLocation id) {
-        return SeparatorRecipe.recipes.get(id);
+        return (SeparatorRecipe) masterQueue.getMachineInfo().getRecipeForId(id);
     }
 
     private static final Set<BlockPos> inputOffset = ImmutableSet.of(
@@ -275,5 +282,10 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
         output = Utils.insertStackIntoInventory(this.output, output, false);
         if(!output.isEmpty())
             Utils.dropStackAtPos(world, getPos().add(0, 0, 0).offset(getFacing(), -2), output, getFacing().getOpposite());
+    }
+
+    @Override
+    public Class<? extends IGMultiblockRecipe> getRecipeClass() {
+        return SeparatorRecipe.class;
     }
 }

@@ -112,4 +112,9 @@ public class ReverberationRecipe extends IGMultiblockRecipe
     public IngredientWithSize getInput() {
         return input;
     }
+
+    @Override
+    public Map<ResourceLocation, ? extends IGMultiblockRecipe> getRecipes() {
+        return recipes;
+    }
 }

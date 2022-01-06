@@ -80,4 +80,8 @@ public class CrystalRecipe extends IGMultiblockRecipe
         return this.fluidInput;
     }
 
+    @Override
+    public Map<ResourceLocation, ? extends IGMultiblockRecipe> getRecipes() {
+        return recipes;
+    }
 }

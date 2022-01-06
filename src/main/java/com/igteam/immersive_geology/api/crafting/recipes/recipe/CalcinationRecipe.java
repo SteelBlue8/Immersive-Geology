@@ -84,4 +84,9 @@ public class CalcinationRecipe extends IGMultiblockRecipe
     public IngredientWithSize getItemInput() {
         return this.itemInput;
     }
+
+    @Override
+    public Map<ResourceLocation, ? extends IGMultiblockRecipe> getRecipes() {
+        return recipes;
+    }
 }

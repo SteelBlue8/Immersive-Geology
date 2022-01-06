@@ -123,6 +123,11 @@ public class VatRecipe extends IGMultiblockRecipe
     }
 
     @Override
+    public Map<ResourceLocation, ? extends IGMultiblockRecipe> getRecipes() {
+        return recipes;
+    }
+
+    @Override
     public int getTotalProcessTime() {
         return this.totalProcessTime.get();
     }

@@ -458,7 +458,7 @@ public class ChemicalVatTileEntity extends PoweredMultiblockTileEntity<ChemicalV
 
     @Override
     protected VatRecipe getRecipeForId(ResourceLocation id) {
-        return VatRecipe.recipes.get(id);
+        return (VatRecipe) VatRecipe.recipes.get(id);
     }
 
     //Direct Copy from IP's Pumpjack, this will need to be changed.

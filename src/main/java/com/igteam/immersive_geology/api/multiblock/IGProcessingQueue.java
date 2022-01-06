@@ -2,16 +2,20 @@ package com.igteam.immersive_geology.api.multiblock;
 
 import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
 import com.igteam.immersive_geology.ImmersiveGeology;
+import com.igteam.immersive_geology.api.crafting.IGMultiblockRecipe;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import org.apache.logging.log4j.Level;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class IGProcessingQueue {
+public class IGProcessingQueue<T extends IGMultiblockRecipe> {
     protected IGMachineInfo machineInfo;
     protected List<Dual<MultiblockRecipe, Integer>> recipeQueue = new ArrayList<>();
     protected boolean isFinished = false;
@@ -48,8 +52,11 @@ public class IGProcessingQueue {
         }
 
         for (int i : dirtyList) {
-            recipeQueue.remove(i);
+            if(recipeQueue.size() > i) {
+                recipeQueue.remove(i);
+            }
         }
+        dirtyList.clear();
     }
 
     MultiblockRecipe getRecipe(int queuePos) {
@@ -91,3 +98,6 @@ public class IGProcessingQueue {
         //TODO Implement
     }
 }
+
+
+
