@@ -59,11 +59,9 @@ public class MultiblockGravitySeparatorRenderer extends TileEntityRenderer<Gravi
             }
 
             GravitySeparatorTileEntity master = te.master();
-
             float radius = 2;
             float ix, iy, iz;
-            if(master != null){
-
+            if(master != null) {
                 for (Dual<MultiblockRecipe, Integer> data : master.masterQueue.getElements()) {
                     SeparatorRecipe recipe = (SeparatorRecipe) data.getFirst();
                     ItemStack item = recipe.input.getMatchingStacks()[0];

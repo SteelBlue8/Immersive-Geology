@@ -3,6 +3,7 @@ package com.igteam.immersive_geology.api.multiblock;
 import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
 import com.igteam.immersive_geology.ImmersiveGeology;
 import jdk.nashorn.internal.ir.annotations.Immutable;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import org.apache.logging.log4j.Level;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class IGProcessingQueue {
     protected IGMachineInfo machineInfo;
-    protected NonNullList<Dual<MultiblockRecipe, Integer>> recipeQueue = NonNullList.create();
+    protected List<Dual<MultiblockRecipe, Integer>> recipeQueue = new ArrayList<>();
     protected boolean isFinished = false;
 
     public void setMachineInfo(IGMachineInfo machineInfo) {
@@ -78,7 +79,15 @@ public class IGProcessingQueue {
         return !recipeQueue.isEmpty();
     }
 
-    public NonNullList<Dual<MultiblockRecipe, Integer>> getElements(){
+    public List<Dual<MultiblockRecipe, Integer>> getElements(){
         return recipeQueue;
+    }
+
+    public void readFromNBT(CompoundNBT nbt) {
+        //TODO Implement
+    }
+
+    public void writeToNBT(CompoundNBT nbt) {
+        //TODO Implement
     }
 }
