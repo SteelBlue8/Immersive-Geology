@@ -30,9 +30,6 @@ public class MultiblockGravitySeparatorRenderer extends TileEntityRenderer<Gravi
         super(dispatcher);
     }
 
-    private Logger log = ImmersiveGeology.getNewLogger();
-
-    //Ripped from IP's Pumpjack
     @Override
     public void render(GravitySeparatorTileEntity te, float partialTicks, MatrixStack transform, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn) {
         if(te != null && !te.isDummy()) {
@@ -62,7 +59,6 @@ public class MultiblockGravitySeparatorRenderer extends TileEntityRenderer<Gravi
             float radius = 2;
             float ix, iy, iz;
             if(master != null) {
-                log.log(Level.WARN, "Size of Master Queue: " + master.masterQueue.getElements().size());
                 for (Dual<MultiblockRecipe, Integer> data : master.masterQueue.getElements()) {
                     SeparatorRecipe recipe = (SeparatorRecipe) data.getFirst();
                     ItemStack item = recipe.input.getMatchingStacks()[0];
@@ -70,7 +66,6 @@ public class MultiblockGravitySeparatorRenderer extends TileEntityRenderer<Gravi
                     int maxTicks = recipe.getTotalProcessTime();
                     float progress = (float) data.getSecond() / maxTicks;
                     float angle = (float) Math.toRadians(progress * 360F);
-                    log.log(Level.WARN, "Render Info: " + item.getDisplayName().getString() + " | " + progress);
                     ix = (float) (Math.cos(angle) * radius);
                     iz = (float) (6 - (7 * (progress * 0.0045)));
                     iy = (float) (Math.sin(angle) * radius);

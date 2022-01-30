@@ -1,16 +1,16 @@
 package com.igteam.immersive_geology.api.multiblock;
 
 import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
+import blusunrize.immersiveengineering.common.blocks.generic.PoweredMultiblockTileEntity;
+import blusunrize.immersiveengineering.common.util.Utils;
 import com.igteam.immersive_geology.ImmersiveGeology;
 import com.igteam.immersive_geology.api.crafting.IGMultiblockRecipe;
-import jdk.nashorn.internal.ir.annotations.Immutable;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Level;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -90,12 +90,54 @@ public class IGProcessingQueue<T extends IGMultiblockRecipe> {
         return recipeQueue;
     }
 
-    public void readFromNBT(CompoundNBT nbt) {
-        //TODO Implement
+    public void readFromNBT(CompoundNBT nbt, boolean descPacket) {
+        if(!descPacket) {
+            ListNBT processNBT = nbt.getList("recipeQueue", 10);
+            this.recipeQueue.clear();
+
+            for (int i = 0; i < processNBT.size(); ++i) {
+                CompoundNBT tag = processNBT.getCompound(i);
+                if (tag.contains("recipe")) {
+                    int processTick = tag.getInt("process_processTick");
+                    Dual<MultiblockRecipe, Integer> process = this.loadProcessFromNBT(tag);
+                    if (process != null) {
+                        process.setSecond(processTick);
+                        this.recipeQueue.add(process);
+                    }
+                }
+            }
+        }
     }
 
-    public void writeToNBT(CompoundNBT nbt) {
-        //TODO Implement
+    public void writeToNBT(CompoundNBT nbt, boolean descPacket) {
+        if (!descPacket) {
+            ListNBT processNBT = new ListNBT();
+            Iterator<Dual<MultiblockRecipe, Integer>> var4 = this.recipeQueue.iterator();
+
+            while (var4.hasNext()) {
+                Dual<MultiblockRecipe, Integer> process = var4.next();
+                processNBT.add(this.writeProcessToNBT(process));
+            }
+
+            nbt.put("recipeQueue", processNBT);
+        }
+    }
+
+    protected CompoundNBT writeProcessToNBT(Dual<MultiblockRecipe, Integer> process) {
+        CompoundNBT tag = new CompoundNBT();
+        tag.putString("recipe", process.getFirst().getId().toString());
+        tag.putInt("process_processTick", process.getSecond());
+        return tag;
+    }
+
+    protected Dual<MultiblockRecipe, Integer> loadProcessFromNBT(CompoundNBT tag) {
+        String id = tag.getString("recipe");
+        MultiblockRecipe recipe = this.machineInfo.getRecipeForId(new ResourceLocation(id));
+        if (recipe != null) {
+            return new Dual<MultiblockRecipe, Integer>(recipe, 0);
+        } else {
+            return null;
+        }
     }
 }
 

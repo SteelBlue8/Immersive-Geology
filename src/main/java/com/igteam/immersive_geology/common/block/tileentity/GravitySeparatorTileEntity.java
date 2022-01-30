@@ -81,15 +81,15 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
     @Override
     public void readCustomNBT(CompoundNBT nbt, boolean descPacket) {
         super.readCustomNBT(nbt, descPacket);
-        tank.readFromNBT(nbt);
-        masterQueue.readFromNBT(nbt);
+        tank.readFromNBT(nbt.getCompound("tank_input"));
+        masterQueue.readFromNBT(nbt, descPacket);
     }
 
     @Override
     public void writeCustomNBT(CompoundNBT nbt, boolean descPacket) {
         super.writeCustomNBT(nbt, descPacket);
-        tank.writeToNBT(nbt);
-        masterQueue.writeToNBT(nbt);
+        nbt.put("tank_input", tank.writeToNBT(new CompoundNBT()));
+        masterQueue.writeToNBT(nbt, descPacket);
     }
 
 
@@ -98,16 +98,14 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
         return IGTileTypes.GRAVITY.get();
     }
 
-    private boolean hasItemsFlag = false;
-    private boolean markDirty = false;
     @Override
     public void tick() {
         GravitySeparatorTileEntity master = this.master();
         assert master != null;
         if(master.masterQueue.hasElements()){
             master.masterQueue.doProcessingStep();
+            master.markChunkDirty();
             master.updateContainingBlockInfo();
-
             if(!master.tank.isEmpty()){
                 master.tank.drain(2, IFluidHandler.FluidAction.EXECUTE);
             }
