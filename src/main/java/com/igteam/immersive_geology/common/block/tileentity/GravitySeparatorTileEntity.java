@@ -46,6 +46,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -56,7 +57,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
+
+import static net.minecraftforge.fluids.capability.CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
 
 //Sorry to IE for using their internal classes, we should have used an API, and we'll maybe fix it later.
 public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<GravitySeparatorTileEntity> implements IEBlockInterfaces.IBlockOverlayText, IEBlockInterfaces.IPlayerInteraction, IBlockBounds, IIGMultiblockProcess, ITickableTileEntity {
@@ -67,15 +71,14 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
     public static final int TANK_INPUT = 0;
 
     public final FluidTank tank = new FluidTank(16 * FluidAttributes.BUCKET_VOLUME);
-    private final List<CapabilityReference<IFluidHandler>> fluidNeighbors;
     public final IGProcessingQueue<SeparatorRecipe> masterQueue;
+    LazyOptional<IFluidHandler> holder;
 
     public GravitySeparatorTileEntity() {
         super(GravitySeparatorMultiblock.INSTANCE, IGTileTypes.GRAVITY.get(),false);
-        this.fluidNeighbors = new ArrayList();
-        this.fluidNeighbors.add(CapabilityReference.forNeighbor(this, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP));
         this.masterQueue = new IGProcessingQueue<>();
         this.masterQueue.setMachineInfo(new IGMachineInfo(this));
+        this.holder = LazyOptional.of(() -> tank);
     }
 
     @Override
@@ -93,6 +96,16 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
     }
 
 
+    @Nonnull
+    @Override
+    public <C> LazyOptional<C> getCapability(@Nonnull Capability<C> capability, @Nullable Direction facing) {
+        if(inputOffset.contains(posInMultiblock) && facing == Direction.UP && capability == FLUID_HANDLER_CAPABILITY){
+            return holder.cast();
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
     @Override
     public TileEntityType<?> getType() {
         return IGTileTypes.GRAVITY.get();
@@ -104,10 +117,18 @@ public class GravitySeparatorTileEntity extends MultiblockPartTileEntity<Gravity
         assert master != null;
         if(master.masterQueue.hasElements()){
             master.masterQueue.doProcessingStep();
-            master.markChunkDirty();
-            master.updateContainingBlockInfo();
+
+            Boolean update = false;
             if(!master.tank.isEmpty()){
-                master.tank.drain(2, IFluidHandler.FluidAction.EXECUTE);
+                update |= FluidUtil.getFluidHandler(this.world, posInMultiblock, Direction.UP).map((handler) -> {
+                    handler.drain(1, IFluidHandler.FluidAction.EXECUTE);
+                    return true;
+                }).orElse(false);
+            }
+
+            if(update){
+                master.markDirty();
+                master.updateContainingBlockInfo();
             }
         }
     }

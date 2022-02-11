@@ -144,6 +144,7 @@ public class MaterialMineralAnatase extends MaterialMineralBase
 
 	@Override
 	public IGMaterialProcess getProcessingMethod() {
+
 		//Create Titanium Slurry
 		IGVatProcessingMethod titanium_slurry_method = new IGVatProcessingMethod(1000, 120);
 		titanium_slurry_method.addItemOutput(ItemStack.EMPTY);

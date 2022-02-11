@@ -99,9 +99,8 @@ public class IGProcessingQueue<T extends IGMultiblockRecipe> {
                 CompoundNBT tag = processNBT.getCompound(i);
                 if (tag.contains("recipe")) {
                     int processTick = tag.getInt("process_processTick");
-                    Dual<MultiblockRecipe, Integer> process = this.loadProcessFromNBT(tag);
+                    Dual<MultiblockRecipe, Integer> process = this.loadProcessFromNBT(tag, processTick);
                     if (process != null) {
-                        process.setSecond(processTick);
                         this.recipeQueue.add(process);
                     }
                 }
@@ -130,11 +129,11 @@ public class IGProcessingQueue<T extends IGMultiblockRecipe> {
         return tag;
     }
 
-    protected Dual<MultiblockRecipe, Integer> loadProcessFromNBT(CompoundNBT tag) {
+    protected Dual<MultiblockRecipe, Integer> loadProcessFromNBT(CompoundNBT tag, Integer tick) {
         String id = tag.getString("recipe");
         MultiblockRecipe recipe = this.machineInfo.getRecipeForId(new ResourceLocation(id));
         if (recipe != null) {
-            return new Dual<MultiblockRecipe, Integer>(recipe, 0);
+            return new Dual<MultiblockRecipe, Integer>(recipe, tick);
         } else {
             return null;
         }
