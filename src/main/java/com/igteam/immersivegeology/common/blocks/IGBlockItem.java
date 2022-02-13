@@ -48,13 +48,6 @@ public class IGBlockItem extends BlockItem implements IIGSubGroupContained
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public FontRenderer getFontRenderer(ItemStack stack)
-	{
-		return ClientProxy.itemFont;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag advanced)
 	{
 		if(getBlock() instanceof IIGBlock)

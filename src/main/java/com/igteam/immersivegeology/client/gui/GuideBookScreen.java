@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 public class GuideBookScreen extends Screen {
 
     private int homepage_id;
-    private IGGuideBookDataHolder INSTANCE = IGGuideBookDataHolder.INSTANCE;
+    private final IGGuideBookDataHolder INSTANCE = IGGuideBookDataHolder.INSTANCE;
     private IGGuideBookPageData CURRENT_PAGE;
 
     int left = (int) Math.floor((this.width - 198) / 1.75);
@@ -34,6 +34,9 @@ public class GuideBookScreen extends Screen {
         top = ((this.height - 148) / 5) + 12;
         this.renderBackground();
         //update gui positions
+        if(CURRENT_PAGE == null) return;
+        if(CURRENT_PAGE.getName() == null) return;
+
         this.font.drawString(new TranslationTextComponent(CURRENT_PAGE.getName()).getFormattedText(), left + 12, top + 12, 0);
 
         if(CURRENT_PAGE.getGraphicLocation() != null){
@@ -55,6 +58,7 @@ public class GuideBookScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mx, double my, int isPressed) {
+        if(CURRENT_PAGE != null)
         for(PageButton b : CURRENT_PAGE.getPage_buttons()){
            if(mx > (left + b.getX()) && my > (top + b.getY())){
                if(mx < ((left + b.getX()) + b.getWidth()) && my < ((top + b.getY()) + b.getHeight())){

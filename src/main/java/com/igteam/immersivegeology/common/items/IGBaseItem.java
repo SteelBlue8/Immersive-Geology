@@ -90,12 +90,6 @@ public class IGBaseItem extends Item implements IEItemInterfaces.IColouredItem, 
 		return true;
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public FontRenderer getFontRenderer(ItemStack stack)
-	{
-		return ClientProxy.itemFont;
-	}
-
 	@Override
 	public ItemSubGroup getSubGroup()
 	{

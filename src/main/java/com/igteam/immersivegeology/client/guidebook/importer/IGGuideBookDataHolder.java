@@ -22,7 +22,7 @@ public class IGGuideBookDataHolder {
 
     public static IGGuideBookDataHolder INSTANCE = new IGGuideBookDataHolder();
 
-    public static HashMap<Integer, IGGuideBookPageData> guide_book_data;
+    public HashMap<Integer, IGGuideBookPageData> guide_book_data;
 
     private IGGuideBookDataHolder() {
         guide_book_data = new HashMap<Integer, IGGuideBookPageData>();
