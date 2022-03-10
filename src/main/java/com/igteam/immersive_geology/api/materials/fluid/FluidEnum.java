@@ -17,6 +17,7 @@ public enum FluidEnum {
     HydrofluoricAcid(new MaterialFluidHydrofluoricAcid()),
     NitricAcid(new MaterialFluidNitricAcid()),
     SodiumHydroxide(new MaterialFluidSodiumHydroxide()),
+    VanadiumAnodeFluid(new MaterialFluidVanadiumAnodeFluid()),
 
     //Gas
     SulfurDioxide(new MaterialGasSulfuric()),
