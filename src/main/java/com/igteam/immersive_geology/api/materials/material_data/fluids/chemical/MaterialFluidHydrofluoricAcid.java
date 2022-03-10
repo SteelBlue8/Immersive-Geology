@@ -47,8 +47,8 @@ public class MaterialFluidHydrofluoricAcid extends MaterialFluidBase {
     @Override
     public LinkedHashSet<PeriodicTableElement.ElementProportion> getElements() {
         return new LinkedHashSet<>(Arrays.asList(
-                new PeriodicTableElement.ElementProportion(PeriodicTableElement.FLUORINE),
-                new PeriodicTableElement.ElementProportion(PeriodicTableElement.HYDROGEN, 1)
+                new PeriodicTableElement.ElementProportion(PeriodicTableElement.HYDROGEN, 2),
+                new PeriodicTableElement.ElementProportion(PeriodicTableElement.OXYGEN)
         ));
     }
 
