@@ -28,7 +28,7 @@ along with multiblocks to process them!
 [[dependencies.immersive_geology]]
     modId="forge"
     mandatory=true
-    versionRange="[36.0.27,)"
+    versionRange="[36.2.22,)"
     ordering="NONE"
     side="BOTH"
 
@@ -36,5 +36,19 @@ along with multiblocks to process them!
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.immersive_geology]]
+    modId="tconstruct"
+    mandatory=false
+    versionRange="[3.3.2.328,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.immersive_geology]]
+    modId="mantle"
+    mandatory=false
+    versionRange="[1.6.158,)"
     ordering="NONE"
     side="BOTH"
